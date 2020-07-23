@@ -2,7 +2,14 @@
    STYLE RESETS
    ========================================================================== */
 
-* { box-sizing: border-box; }
+/* font */
+@import url(https://fonts.googleapis.com/css?family=Lato);
+@import url(https://fonts.googleapis.com/css?family=Roboto:500);
+
+* {
+  box-sizing: border-box;
+  font-weight: lighter;
+}
 
 html {
   /* apply a natural box layout model to all elements */

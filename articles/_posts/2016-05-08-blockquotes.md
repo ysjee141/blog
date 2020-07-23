@@ -1,9 +1,13 @@
 ---
 title: Jekyll - Blockquotes
 key: 20160508
-tags: Jekyll
+tags: Jekyll springboot
+classes: wide
 ---
-
+ssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssd
+kjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdf
+ssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdf
+ssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdf
 > “There is nothing either good or bad, but thinking makes it so.”
 >
 > —Hamlet in *Hamlet*
@@ -18,6 +22,10 @@ tags: Jekyll
 
 ---
 
+
+
+
+ssdkjlfsdadfasdf
 > “From women’s eyes this doctrine I derive:
 >
 > They sparkle still the right Promethean fire;

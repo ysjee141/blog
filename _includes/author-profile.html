@@ -21,6 +21,7 @@
     {% else %}
       <h3 class="author__name" itemprop="name">{{ author.name }}</h3>
     {% endif %}
+    <div class="is-divider small"></div>
     {% if author.bio %}
       <div class="author__bio" itemprop="description">
         {{ author.bio | markdownify }}
@@ -246,7 +247,8 @@
         </li>
       {% endif %}
 
-      {% include author-profile-custom-links.html %}
+
     </ul>
   </div>
 </div>
+{% include author-profile-custom-links.html %}

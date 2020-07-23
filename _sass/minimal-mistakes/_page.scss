@@ -33,9 +33,11 @@ body {
 .initial-content,
 .search-content {
   flex: 1 0 auto;
+  margin-top: 80px;
 }
 
 .page {
+  word-break: break-all;
   @include breakpoint($large) {
     float: right;
     width: calc(100% - #{$right-sidebar-width-narrow});
@@ -136,13 +138,13 @@ body {
 
   dt {
     margin-top: 1em;
-    font-family: $sans-serif;
+    font-family: $kakao-1;
     font-weight: bold;
   }
 
   dd {
     margin-left: 1em;
-    font-family: $sans-serif;
+    font-family: $kakao-1;
     font-size: $type-size-6;
   }
 
@@ -281,7 +283,7 @@ body {
 .page__meta {
   margin-top: 2em;
   color: $muted-text-color;
-  font-family: $sans-serif;
+  font-family: $kakao-1;
   font-size: $type-size-6;
 
   p {
@@ -534,20 +536,44 @@ body {
   .page {
     @include breakpoint($large) {
       padding-right: 0;
+      &.no-author {
+        width: calc(100% - 200px);
+        float: inherit;
+        margin-left: auto;
+        margin-right: auto;
+      }
     }
 
     @include breakpoint($x-large) {
       padding-right: 0;
+      &.no-author {
+        width: calc(100% - 200px);
+        float: inherit;
+        margin-left: auto;
+        margin-right: auto;
+      }
     }
   }
 
   .page__related {
     @include breakpoint($large) {
       padding-right: 0;
+      &.no-author {
+        width: calc(100% - 200px);
+        float: inherit;
+        margin-left: auto;
+        margin-right: auto;
+      }
     }
 
     @include breakpoint($x-large) {
       padding-right: 0;
+      &.no-author {
+        width: calc(100% - 200px);
+        float: inherit;
+        margin-left: auto;
+        margin-right: auto;
+      }
     }
   }
 }

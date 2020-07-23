@@ -69,7 +69,7 @@ body:hover .visually-hidden button {
   position: fixed;
   z-index: 20;
   margin: 0;
-  font-family: $sans-serif;
+  font-family: $kakao-1;
   white-space: nowrap;
 }
 
@@ -193,8 +193,8 @@ body:hover .visually-hidden button {
 .icon {
   display: inline-block;
   fill: currentColor;
-  width: 1em;
-  height: 1.1em;
+  width: .9em;
+  height: 1em;
   line-height: 1;
   position: relative;
   top: -0.1em;
@@ -435,7 +435,7 @@ body:hover .visually-hidden button {
     @include clearfix();
     position: -webkit-sticky;
     position: sticky;
-    top: 2em;
+    top: 4em;
 
     > * {
       display: block;
@@ -590,4 +590,42 @@ a.reversefootnote {
   .page__footer {
     position: static;
   }
+}
+
+
+.category__sub-title {
+  font-size: $type-size-5-5;
+  font-weight: bold;
+}
+.category__list {
+  ul.category__items {
+    li {
+      ul {
+        li {
+          line-height: 1.6;
+          list-style: none;
+          text-align: left;
+          margin: 0 0 .3em;
+          padding: 6px 0;
+          border-bottom: 1px solid #d9d9d9;
+          a {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.is-divider {
+  height: 3px;
+  display: block;
+  background-color: rgba(0,0,0,0.1);
+  margin: 1em 0 1em;
+  width: 100%;
+  max-width: 30px;
+}
+
+.is-divider {
+  margin-top: .66em;
 }

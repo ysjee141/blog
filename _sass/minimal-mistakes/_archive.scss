@@ -3,18 +3,20 @@
    ========================================================================== */
 
 .archive {
-  margin-top: 1em;
+  //margin-top: 1em;
   margin-bottom: 2em;
 
   @include breakpoint($large) {
     float: right;
     width: calc(100% - #{$right-sidebar-width-narrow});
     padding-right: $right-sidebar-width-narrow;
+    border-right: 1px solid #ececec;
   }
 
   @include breakpoint($x-large) {
     width: calc(100% - #{$right-sidebar-width});
     padding-right: $right-sidebar-width;
+    border-right: 1px solid #ececec;
   }
 }
 
@@ -28,7 +30,18 @@
 
   a[rel="permalink"] {
     position: static;
+    text-decoration: none;
+    color: $text-color;
+
+    &:visited {
+      color: $text-color;
+    }
+    &:hover {
+      color: #000;
+    }
   }
+
+
 }
 
 .archive__subtitle {
@@ -47,8 +60,6 @@
   margin-bottom: 0.25em;
   font-family: $sans-serif-narrow;
   line-height: initial;
-  overflow: hidden;
-  text-overflow: ellipsis;
 
   a[rel="permalink"]::before {
     content: '';
@@ -75,6 +86,7 @@
 .archive__item-excerpt {
   margin-top: 0;
   font-size: $type-size-6;
+  color: #666;
 
   & + p {
     text-indent: 0;
@@ -127,7 +139,8 @@
 .list__item {
   .page__meta {
     margin: 0 0 4px;
-    font-size: 0.6em;
+    font-size: 0.7em;
+    color: #b5b5b5;
   }
 }
 
@@ -208,6 +221,9 @@
 
   .archive__item-excerpt {
     display: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: normal;
 
     @include breakpoint($medium) {
       display: block;

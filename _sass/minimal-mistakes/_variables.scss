@@ -14,12 +14,18 @@ $indent-var: 1.3em !default;
 
 /* system typefaces */
 $serif: Georgia, Times, serif !default;
-$sans-serif: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI",
-  "Helvetica Neue", "Lucida Grande", Arial, sans-serif !default;
+/*$sans-serif: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI",
+  "Helvetica Neue", "Lucida Grande", Arial, sans-serif !default;*/
+//$sans-serif: $kakao-1 !default;
 $monospace: Monaco, Consolas, "Lucida Console", monospace !default;
 
+$kakao: Avenir,'Lato',"애플 SD 산돌고딕 Neo","Apple SD Gothic Neo","나눔바른고딕",
+  NanumBarunGothic,"나눔고딕",NanumGothic,"맑은 고딕","Malgun Gothic","돋움",
+  dotum,AppleGothic,sans-serif !default;
+$kakao-1: $kakao;
+
 /* sans serif typefaces */
-$sans-serif-narrow: $sans-serif !default;
+$sans-serif-narrow: $kakao-1 !default;
 $helvetica: Helvetica, "Helvetica Neue", Arial, sans-serif !default;
 
 /* serif typefaces */
@@ -29,8 +35,10 @@ $bodoni: "Bodoni MT", serif !default;
 $calisto: "Calisto MT", serif !default;
 $garamond: Garamond, serif !default;
 
-$global-font-family: $sans-serif !default;
-$header-font-family: $sans-serif !default;
+
+
+$global-font-family: $kakao-1 !default;
+$header-font-family: $kakao-1 !default;
 $caption-font-family: $serif !default;
 
 /* type scale */
@@ -39,6 +47,7 @@ $type-size-2: 1.953em !default; // ~31.248px
 $type-size-3: 1.563em !default; // ~25.008px
 $type-size-4: 1.25em !default; // ~20px
 $type-size-5: 1em !default; // ~16px
+$type-size-5-5: .9em !default; // ~16px
 $type-size-6: 0.75em !default; // ~12px
 $type-size-7: 0.6875em !default; // ~11px
 $type-size-8: 0.625em !default; // ~10px
@@ -77,6 +86,7 @@ $danger-color: #ee5f5b !default;
 $info-color: #3b9cba !default;
 $focus-color: $primary-color !default;
 $active-color: mix(#fff, $primary-color, 80%) !default;
+$link-color-black: #333;
 
 /* YIQ color contrast */
 $yiq-contrasted-dark-default: $dark-gray !default;
@@ -111,7 +121,7 @@ $youtube-color: #bb0000 !default;
 $xing-color: #006567 !default;
 
 /* links */
-$link-color: mix(#000, $info-color, 20%) !default;
+$link-color: mix(#000, $link-color-black, 20%) !default;
 $link-color-hover: mix(#000, $link-color, 25%) !default;
 $link-color-visited: mix(#fff, $link-color, 15%) !default;
 $masthead-link-color: $primary-color !default;
@@ -151,9 +161,9 @@ $max-width: $x-large !default;
    Grid
    ========================================================================== */
 
-$right-sidebar-width-narrow: 200px !default;
-$right-sidebar-width: 300px !default;
-$right-sidebar-width-wide: 400px !default;
+$right-sidebar-width-narrow: 150px !default;
+$right-sidebar-width: 250px !default;
+$right-sidebar-width-wide: 350px !default;
 
 /*
    Other
