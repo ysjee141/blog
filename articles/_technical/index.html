@@ -1,0 +1,30 @@
+---
+title: Projects
+permalink: /:collection/
+show_title: false
+index: true
+---
+
+{%- assign _category = page.url | replace:"/","" -%}
+{%- assign _docs = site.collections | where:'label',_category | first -%}
+{%- assign _docs = _docs.docs | group_by:"level" -%}
+
+<div class="project-idex">
+  <ul class="toc toc--navigator">
+    {%- for _item in _docs -%}
+    <li class="toc-h1">{{ _item.name | default: "No Category" }}</li>
+
+    {%- for _subItem in _item.items -%}
+    {%- if _subItem.index != true -%}
+
+    {%- assign _nav_url = __return -%}
+    <li class="toc-h2">
+      <a href="{{ _nav_url }}">{{ _subItem.title }}</a>
+      <div>{{ _subItem.description | strip_html | strip | truncate: 350 }}</div>
+    </li>
+    {%- endif -%}
+    {%- endfor -%}
+    {%- endfor -%}
+  </ul>
+</div>
+
