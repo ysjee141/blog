@@ -592,14 +592,28 @@ a.reversefootnote {
   }
 }
 
-
 .category__sub-title {
-  font-size: $type-size-5-5;
+  font-size: $type-size-4;
   font-weight: bold;
 }
 .category__list {
   ul.category__items {
     li {
+      a {
+        font-size: 16px;
+
+        &.category__item {
+          font-size: $type-size-5-5;
+          padding: 5px;
+          &:not(:last-child) {
+            margin-right: 3px;
+          }
+          &:hover {
+            background-color: #000;
+            color: #fff;
+          }
+        }
+      }
       ul {
         li {
           line-height: 1.6;

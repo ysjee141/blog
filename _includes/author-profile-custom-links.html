@@ -5,16 +5,33 @@
     </a>
   </li>
 -->
+
+{% assign nocategory = site.posts | where:'category',nil %}
+
 <nav class="category__list">
   <ul class="category__items">
     <li>
       <span class="category__sub-title">Categories</span>
       <div class="is-divider small"></div>
       <ul>
-        {% for tag in site.tags %}
-        <li><a href="/tags/{{ tag[0] }}/">{{ tag[0] }}({{ tag[1].size }})</a></li>
+        {% for tag in site.categories %}
+        {% assign url = tag[0] | downcase | replace: " ","-" %}
+        <li><a href="/category/{{ tag[0] }}/">{{ tag[0] }}({{ tag[1].size }})</a></li>
         {% endfor %}
       </ul>
     </li>
   </ul>
 </nav>
+
+<nav class="category__list">
+  <ul class="category__items">
+    <li>
+      <span class="category__sub-title">Tags</span>
+      <div class="is-divider small"></div>
+      {% for tag in site.tags %}
+      <a class="category__item" href="/tag/{{ tag[0] }}/">#{{ tag[0] }}</a>
+      {% endfor %}
+    </li>
+  </ul>
+</nav>
+

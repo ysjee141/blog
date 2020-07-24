@@ -205,30 +205,51 @@ sass:
   sass_dir: _sass
   style: compressed # https://sass-lang.com/documentation/file.SASS_REFERENCE.html#output_style
 
-
 # Outputting
 permalink: /:categories/:title/
-paginate: 5 # amount of posts to show
-paginate_path: /page:num/
+#paginate: 5 # amount of posts to show
+#paginate_path: /page:num/
 timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
+# Pagination
+pagination:
+  enabled: true
+  per_page: 4
+  sort_reverse: true
+  title: ''
+  permalink: '/page:num/'
+  collection: 'posts'
+  category: 'posts'
+  trail:
+    before: 2
+    after: 2
+
+autopages:
+  enabled: true
+  categories:
+    title: 'Posts in category :cat'
+  tags:
+    title: 'Posts tagged with :tag'
+  collections:
+    title: 'Posts in collection :coll'
 
 # Plugins (previously gems:)
 plugins:
-  - jekyll-paginate
+  - jekyll-paginate-v2
   - jekyll-sitemap
   - jekyll-gist
   - jekyll-feed
   - jekyll-include-cache
-  - jekyll-archives
+#  - jekyll-archives
 
 # mimic GitHub Pages with --safe
 whitelist:
-  - jekyll-paginate
+  - jekyll-paginate-v2
   - jekyll-sitemap
   - jekyll-gist
   - jekyll-feed
   - jekyll-include-cache
+#  - jekyll-archives
 
 
 # Archives
@@ -248,16 +269,16 @@ tag_archive:
   type: liquid
   path: /tags/
 # https://github.com/jekyll/jekyll-archives
-jekyll-archives:
-  enabled:
-    - categories
-    - tags
-  layouts:
-    category: archive-taxonomy
-    tag: archive-taxonomy
-  permalinks:
-    category: /categories/:name/
-    tag: /tags/:name/
+#jekyll-archives:
+#  enabled:
+#    - categories
+#    - tags
+#  layouts:
+#    category: archive-taxonomy
+#    tag: archive-taxonomy
+#  permalinks:
+#    category: /categories/:name/
+#    tag: /tags/:name/
 
 
 # HTML Compression
@@ -267,14 +288,11 @@ compress_html:
   ignore:
     envs: development
 
-collections_dir: articles
-collections:
-  technical:
-    output: true
-    permalink: /:collection/:path/
-  project:
-    output: true
-    permalink: /:collection/:path/
+#collections_dir: articles
+#collections:
+#  technical:
+#    output: true
+#    permalink: /:collection/:path/
 
 # Defaults
 defaults:
@@ -284,27 +302,20 @@ defaults:
       type: posts
     values:
       layout: single
-      author_profile: true
-      read_time: true
-      comments: # true
-      share: false
-      related: true
-  - scope:
-      path: "articles/*/index.html"
-    values:
-      layout: single
-      author_profile: false
-      read_time: false
-      comments: # true
-      share: false
-      related: false
-  - scope:
-      path: "articles/*/*"
-    values:
-      layout: single
       author_profile: false
       read_time: true
       comments: # true
       share: false
       related: true
       classes: wide
+      category: "No Category"
+  - scope:
+      path: "*.html"
+      type: default
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: # true
+      share: false
+      related: true
