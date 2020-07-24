@@ -15,8 +15,8 @@
       <div class="is-divider small"></div>
       <ul>
         {% for tag in site.categories %}
-        {% assign url = tag[0] | downcase | replace: " ","-" %}
-        <li><a href="/category/{{ tag[0] }}/">{{ tag[0] }}({{ tag[1].size }})</a></li>
+        {% assign url = tag[0] | downcase %}
+        <li><a href="/category/{{ url }}/">{{ tag[0] }}({{ tag[1].size }})</a></li>
         {% endfor %}
       </ul>
     </li>
@@ -29,7 +29,8 @@
       <span class="category__sub-title">Tags</span>
       <div class="is-divider small"></div>
       {% for tag in site.tags %}
-      <a class="category__item" href="/tag/{{ tag[0] }}/">#{{ tag[0] }}</a>
+      {% assign url = tag[0] | downcase %}
+      <a class="category__item" href="/tag/{{ url }}/">#{{ tag[0] }}</a>
       {% endfor %}
     </li>
   </ul>
