@@ -14,7 +14,7 @@ on:
     branches: [ master ]
 
 jobs:
-  test:
+  provisioning:
 
     runs-on: ubuntu-latest
 
@@ -29,6 +29,11 @@ jobs:
         ruby-version: 2.6
     - name: Install dependencies
       run: bundle install
+  build:
+    
+    runs-on: ubuntu-latest
+    
+    steps:
     - name: Build Jekyll
       run: bundler exec jekyll build -d ./out
     - name: GH Pages deploy
