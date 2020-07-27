@@ -35,6 +35,6 @@ jobs:
       uses: Cecilapp/GitHub-Pages-deploy@2.0.1
       env:
         EMAIL: ysjee141@gmail.com
-        GH_TOKEN:  a5b367be70219252773e2d63d28395b7580e2539
+        GH_TOKEN:  ${{ secrets.ACCESS_TOKEN }}
         BUILD_DIR: ./out
       
