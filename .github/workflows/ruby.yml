@@ -14,7 +14,7 @@ on:
     branches: [ master ]
 
 jobs:
-  test:
+  provisioning:
 
     runs-on: ubuntu-latest
 
@@ -30,5 +30,11 @@ jobs:
     - name: Install dependencies
       run: bundle install
     - name: Build Jekyll
-      run: budle exec jekyll build -d ./out
+      run: bundler exec jekyll build -d ./out
+    - name: GH Pages deploy
+      uses: Cecilapp/GitHub-Pages-deploy@2.0.1
+      env:
+        EMAIL: ysjee141@gmail.com
+        GH_TOKEN:  ${{ secrets.GITHUBPAGE }}
+        BUILD_DIR: ./out
       
