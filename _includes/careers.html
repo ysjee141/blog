@@ -1,0 +1,24 @@
+<ul class="career-list">
+    {% for career in site.data.careers %}
+    {% assign index = forloop.index | modulo: 2 %}
+    <li>
+        <div class="career-item-icon {% if index == 0 %} right {% endif %}">
+            <i class="fa fa-plus-square"></i>
+        </div>
+        <div class="career-item {% if index == 0 %} right {% endif %}">
+            <p class="career-company">
+                <a href="{{ career.url }}">{{ career.name }}</a>
+                <span>{{ career.dept }}</span>
+            </p>
+
+            {{ career.desc }}
+        </div>
+        <div class="career-item-secondary {% if index == 0 %} right {% endif %}">
+            <p>{{ career.date.from }} ~
+                {{ career.date.to }}</p>
+            <p class="career-job">{{ career.job }}</p>
+        </div>
+    </li>
+    {% endfor %}
+
+</ul>

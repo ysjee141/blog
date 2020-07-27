@@ -1,0 +1,25 @@
+- name: Goodcen
+  url: http://www.goodcen.com
+  dept: 기술연구소
+  date:
+    from: 2012. 04
+    to: 2018. 10
+  job: 과장
+  desc: 아키텍트 / 메일 모듈 개발
+
+- name: Covision
+  url: https://www.covision.co.kr/
+  dept: 기술연구소 연구 4팀
+  date:
+    from: 2018. 11
+    to: 2019. 11
+  job: 차장 / 팀장
+  desc: 아키텍트 / 메일 모듈 개발
+
+- name: TIDESQUARE
+  url: http://www.tidesquare.com/
+  dept: 항공플랫폼실
+  date:
+    from: 2020. 02
+  job: 차장
+  desc: Back Office Product Manager

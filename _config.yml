@@ -16,7 +16,7 @@ minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt"
 
 # Site Settings
 locale                   : "ko-KR"
-title                    : "HAPPL's Doodle"
+title                    : "happl's Doodle"
 title_separator          : "-"
 subtitle                 : "심심해서 끄적거리는 낙서장" # site tagline that appears below site title in masthead
 name                     : "HAPPL"

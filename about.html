@@ -1,0 +1,38 @@
+---
+layout: default
+title: happl
+---
+
+<style>
+    .wide-title {
+        text-align: center;
+        font-size: 3.5em;
+        padding: 50px;
+        text-transform: none;
+        letter-spacing: .15em;
+    }
+    .wide-title div {
+        font-size: .3em;
+        letter-spacing: .8em;
+        margin-top: 10px;
+    }
+    .category__sub-title :not(:first-child) {
+        margin-top: 40px;
+    }
+</style>
+
+<h1 id="page-title" class="page__title wide-title">
+    {{ page.title }}
+    <div>HAPPY PEOPLE</div>
+</h1>
+
+<div id="main" role="main">
+    <div class="category__sub-title">About Me...</div>
+    <div class="is-divider small"></div>
+    {% include author.html %}
+    <div class="category__sub-title">Career</div>
+    <div class="is-divider small"></div>
+    {% include careers.html %}
+    <div class="category__sub-title">Skill Tree</div>
+    <div class="is-divider small"></div>
+</div>
