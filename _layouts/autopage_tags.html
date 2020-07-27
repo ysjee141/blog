@@ -2,14 +2,13 @@
 layout: default
 author_profile: true
 ---
-
+<h1 id="page-title" class="page__title wide-title">
+  TAG ARCHIVES: {{ page.autopages.display_name }}
+</h1>
 <div id="main" role="main">
   {% include sidebar.html %}
 
   <div class="archive">
-    {% unless page.header.overlay_color or page.header.overlay_image %}
-    <h1 id="page-title" class="page__title">{{ page.title }}</h1>
-    {% endunless %}
     {% for post in paginator.posts %}
     {% include archive-single.html %}
     {% endfor %}

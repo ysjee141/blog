@@ -597,6 +597,9 @@ a.reversefootnote {
   font-weight: bold;
 }
 .category__list {
+  &:not(:first-child) {
+    margin-top: 1.5em;
+  }
   ul.category__items {
     li {
       a {
@@ -625,6 +628,15 @@ a.reversefootnote {
           a {
             font-size: 16px;
           }
+
+          &.recent-posts {
+            font-size: 14px;
+            border: none;
+            padding: 0;
+            a {
+              font-size: 14px;
+            }
+          }
         }
       }
     }
@@ -642,4 +654,64 @@ a.reversefootnote {
 
 .is-divider {
   margin-top: .66em;
+}
+
+.wide-title {
+  background-color: #404040;
+  padding: 30px 350px;
+  color: #FFF;
+  font-weight: normal;
+  text-transform: uppercase;
+  font-size: 1.25em;
+}
+
+.page-divider {
+  display: block;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  border-top: 1px solid #ddd;
+
+  .one {
+    position: relative;
+    top: -9px;
+    display: block;
+    background: #ddd;
+    width: 18px;
+    height: 18px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50%;
+  }
+
+  .two {
+    position: relative;
+    top: -26px;
+    display: block;
+    background: #fff;
+    width: 16px;
+    height: 16px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50%;
+  }
+}
+
+ul.page-tag-list {
+  margin: 0;
+  list-style: none;
+  padding: 0;
+  margin-top: -30px;
+  margin-bottom: 50px;
+  li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    a {
+      padding: 3px 8px;
+      font-size: .8em;
+      text-decoration: none;
+    }
+  }
 }

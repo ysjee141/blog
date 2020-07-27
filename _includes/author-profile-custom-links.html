@@ -1,23 +1,38 @@
-<!--
-  <li>
-    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
-      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
-    </a>
-  </li>
--->
-
-{% assign nocategory = site.posts | where:'category',nil %}
-
 <nav class="category__list">
   <ul class="category__items">
     <li>
       <span class="category__sub-title">Categories</span>
       <div class="is-divider small"></div>
+      {% assign nocategory = site.categories["No Category"] %}
       <ul>
+        {% assign url = "/category/no category" | relative_url %}
+        <li><a href="{{ url }}">미분류({{ nocategory.size }})</a></li>
         {% for tag in site.categories %}
         {% assign url = tag[0] | downcase %}
         {% assign url = "/category/" | append: url | relative_url %}
+        {% if tag[0] != "No Category" %}
         <li><a href="{{ url }}">{{ tag[0] }}({{ tag[1].size }})</a></li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<nav class="category__list">
+  <ul class="category__items">
+    <li>
+      <span class="category__sub-title">Recent Posts</span>
+      <div class="is-divider small"></div>
+      <ul>
+        {% for post in site.posts limit: 3 %}
+          {% if post.id %}
+            {% assign title = post.title | markdownify | remove: "<p>" | remove: "</p>" %}
+          {% else %}
+            {% assign title = post.title %}
+          {% endif %}
+          {% assign url = post.url | relative_url %}
+          <li class="recent-posts">- <a href="{{ url }}">{{ title }}</a></li>
         {% endfor %}
       </ul>
     </li>
@@ -37,4 +52,3 @@
     </li>
   </ul>
 </nav>
-

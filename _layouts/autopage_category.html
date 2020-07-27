@@ -2,14 +2,25 @@
 layout: default
 author_profile: true
 ---
+<style>
 
+</style>
+<h1 id="page-title" class="page__title wide-title">
+  {% assign name = page.autopages.display_name %}
+  {% if name == "No Category" %}
+  {% assign name = "미분류" %}
+  {% endif %}
+  CATEGORY: {{ name }}
+  {% assign categorydown = page.autopages.display_name | downcase %}
+  {% assign desc = site.data.category | where: "name", categorydown | first %}
+  {% if desc %}
+  | {{ desc.description }}
+  {% endif %}
+</h1>
 <div id="main" role="main">
   {% include sidebar.html %}
 
   <div class="archive">
-    {% unless page.header.overlay_color or page.header.overlay_image %}
-    <h1 id="page-title" class="page__title">{{ page.title }}</h1>
-    {% endunless %}
     {% for post in paginator.posts %}
       {% include archive-single.html %}
     {% endfor %}
