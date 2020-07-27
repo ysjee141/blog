@@ -40,4 +40,10 @@ var store = [{
         "tags": ["Jekyll","springboot"],
         "url": "/blog/no%20category/blockquotes/",
         "teaser": "/blog/assets/img/coding.jpg"
+      },{
+        "title": "블로그 작성을 위한 테스트 페이지",
+        "excerpt":"블로그 작성을 위한 테스트 페이지 작성     후후후   ","categories": ["blog"],
+        "tags": ["blog"],
+        "url": "/blog/blog/Test-Contents/",
+        "teaser": "/blog/assets/img/coding.jpg"
       }]
