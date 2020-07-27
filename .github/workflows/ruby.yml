@@ -29,8 +29,6 @@ jobs:
         ruby-version: 2.6
     - name: Install dependencies
       run: bundle install
-    - name: Run tests
-      run: bundle exec rake
     - name: Build Jekyll
       run: budle exec jekyll build -d ./out
       
