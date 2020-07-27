@@ -31,4 +31,10 @@ jobs:
       run: bundle install
     - name: Build Jekyll
       run: bundler exec jekyll build -d ./out
+    - name: GH Pages deploy
+      uses: Cecilapp/GitHub-Pages-deploy@2.0.1
+      env:
+        EMAIL: ysjee141@gmail.com
+        GH_TOKEN:  a5b367be70219252773e2d63d28395b7580e2539
+        BUILD_DIR: ./out
       
