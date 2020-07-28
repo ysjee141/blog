@@ -1,49 +1,7 @@
 var store = [{
-        "title": "Test - Article with Long TOC",
-        "excerpt":"Article with long TOC.     TeXt Heading   TeXt Heading   TeXt Heading   TeXt Heading   TeXt Heading   TeXt Heading   TeXt Heading   Very Very Very Very Very Very Very Very Very Very Very Very Very Extremely Completely Extraordinary Long Long Long Long Title   TeXt Heading   TeXt Heading   TeXt Heading   TeXt Heading   TeXt Heading   TeXt Heading   TeXt Heading   TeXt Heading   Very Very Very Very Very Very Very Very Very Very Very Very Very Extremely Completely Extraordinary Long Long Long Long Title   TeXt Heading   TeXt Heading   TeXt Heading   TeXt Heading   TeXt Heading   TeXt Heading   TeXt Heading   TeXt Heading   TeXt Heading   Very Very Very Very Very Very Very Very Very Very Very Very Very Extremely Completely Extraordinary Long Long Long Long Title   TeXt Heading   TeXt Heading  ","categories": ["Spring"],
-        "tags": ["Test"],
-        "url": "https://ysjee141.github.io/blog/spring/article-with-long-toc/",
+        "title": "Spring Boot Application Context Event",
+        "excerpt":"[상황]     어플리케이션을 개발하다보니 다중 Data Source의 사용이 필요하다.     먼저 Data Source를 정의하고, Data Source와 연결되는 SessionFactory, SessionTemplate, TransactionManager를 각각 정의해서 개발환경을 구축하고, 개발을 진행했다.     개발을 진행하던 와중에 Data Source를 추가가 필요해서 위 작업을 동일하게 작업을 진행하였다.     Data Source 정의만으로 위의 작업을 자동화 할 수 있다면, 보다 나은 개발환경이 구축되지 않을까?    위 상황과 같이 다중 Data Source를 사용하기 위해서는 Data Source를 사용할 수 있는 SqlSession 등을  각각 정의해서 사용해야 한다. 이러한 작업은 생각보다 번거롭고 귀찮은 작업이다. 또, 이를 위해  소모되는 시간도 신경을 안쓸 수는 없을 것이다.   이를 해결하기 위해 Data Source만을 정의함으로써 MyBatis SessionFactory, SessionTemplate,  TransactionManager를 자동으로 생성해서 Bean으로 등록해보기로 했다.(이번 포스트에서는 자동화 코드는 다루지 않는다.)   이를 위해서 어플리케이션이 시작될 때 위 작업을 자동화해야 했으며, Bean 등록에 필요한  Application Context 가져올 방법을 찾던 중 Application Context에 대한 Event Listener을 알게 되었다.   어플리케이션이 실행될 때 일어나는 이벤트는 다음과 같다.     ContextRefreshedEvent: ApplicationContext를 초기화 하거나, Refresh 할 경우 발생   ContextStartedEvent: ApplicationContext를 start()하여 LifeCycle이 시작되는 시점에 발생   ContextStoppedEvent: ApplicationContext를 stop()하여 LifeCycle이 정지되는 시점에 발생   ContextClosedEvent: ApplicationContext를 close()하여 LifeCycle이 종료되는 시점에 발생   위 이벤트를 위한 EventHandler(또는 EventListener)는 아래와 같이 구현할 수 있다.  @Component public class ApplicationCtxHandler {     @EventListener     public void handle(ContextRefreshedEvent event) {         ApplicationContext context = event.getApplicationContext();     }      @EventListener     public void handle(ContextStartedEvent event) {         ApplicationContext context = event.getApplicationContext();     }      @EventListener     public void handle(ContextStoppedEvent event) {         ApplicationContext context = event.getApplicationContext();     }      @EventListener     public void handle(ContextClosedEvent event) {         ApplicationContext context = event.getApplicationContext();     } }   ContextRefreshedEvent 이벤트의 경우 ApplicationContext가 변경되는 시점에서 호출되기 때문에, 중복하여 호출될 수 있다는 것을 반드시 유의해야 한다.   [참고]     [Spring] 스프링 시작시점에서 프로그램 동작할 수 있게 하는 방법   [Spring] ApplicationEventPublisher를 통한 스프링 이벤트 처리(ApplicationEventPublisher, Spring Event Processing)     ","categories": ["Technical"],
+        "tags": ["SpringBoot"],
+        "url": "https://ysjee141.github.io/blog/technical/ContextRefreshedEvent/",
         "teaser": null
-      },{
-        "title": "Test - Article with Lots of Images",
-        "excerpt":"package com.example.dynamicmapperscanner;  import org.mybatis.spring.annotation.MapperScan; import org.springframework.boot.SpringApplication; import org.springframework.boot.autoconfigure.SpringBootApplication; import org.springframework.boot.context.properties.EnableConfigurationProperties; import org.springframework.context.annotation.ComponentScan; import org.springframework.context.annotation.ComponentScans; import org.springframework.context.annotation.Configuration;  @SpringBootApplication @Configuration @EnableConfigurationProperties @MapperScan(basePackages = \"com.example.dynamicmapperscanner*\") public class DynamicMapperScannerApplication {    public static void main(String[] args) {     SpringApplication.run(DynamicMapperScannerApplication.class, args);   }  }   ","categories": ["No Category"],
-        "tags": ["Test"],
-        "url": "https://ysjee141.github.io/blog/no%20category/article-with-lots-images/",
-        "teaser": null
-      },{
-        "title": "Test - Very Very Very Very Very Very Very Very Very Very Very Very Very Extremely Completely Extraordinary Long Long Long Long Title",
-        "excerpt":"Article With Very Long Title.  ","categories": ["No Category"],
-        "tags": ["Test"],
-        "url": "https://ysjee141.github.io/blog/no%20category/very-long-title/",
-        "teaser": null
-      },{
-        "title": "Jekyll - Horizontal Rules",
-        "excerpt":"    * * *     ***     *****     - - -     ---------------------------------------  ","categories": ["No Category"],
-        "tags": ["Jekyll"],
-        "url": "https://ysjee141.github.io/blog/no%20category/horizontal-rules/",
-        "teaser": null
-      },{
-        "title": "Jekyll - Footnote",
-        "excerpt":"Here is a footnote reference,1 and another.2     markdown:   Here is a footnote reference,[^1] and another.[^longnote]  [^1]: Here is the footnote.  [^longnote]: Here’s one with multiple blocks.      Subsequent paragraphs are indented to show that they belong to the previous footnote.                 Here is the footnote. &#8617;                  Here’s one with multiple blocks.         Subsequent paragraphs are indented to show that they belong to the previous footnote. &#8617;           ","categories": ["No Category"],
-        "tags": ["Jekyll"],
-        "url": "https://ysjee141.github.io/blog/no%20category/footnote/",
-        "teaser": null
-      },{
-        "title": "Jekyll - Definition",
-        "excerpt":"   kramdown   A Markdown-superset converter   Maruku   Another Markdown-superset converter     markdown:   kramdown : A Markdown-superset converter  Maruku :     Another Markdown-superset converter  ","categories": ["No Category"],
-        "tags": ["Jekyll"],
-        "url": "https://ysjee141.github.io/blog/no%20category/definition/",
-        "teaser": null
-      },{
-        "title": "Jekyll - Blockquotes",
-        "excerpt":"ssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssd kjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdf ssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdf ssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdf     “There is nothing either good or bad, but thinking makes it so.”     —Hamlet in Hamlet      markdown:   &gt; “There is nothing either good or bad, but thinking makes it so.” &gt; &gt; —Hamlet in *Hamlet*     ssdkjlfsdadfasdf     “From women’s eyes this doctrine I derive:     They sparkle still the right Promethean fire;     They are the books, the arts, the academes,     That show, contain, and nourish all the world.”     —Berowne in Love’s Labor’s Lost   ","categories": ["No Category"],
-        "tags": ["Jekyll","springboot"],
-        "url": "https://ysjee141.github.io/blog/no%20category/blockquotes/",
-        "teaser": null
-      },{
-        "title": "블로그 작성을 위한 테스트 페이지",
-        "excerpt":"   블로그 작성을 위한 테스트 페이지 작성     후후후   ","categories": ["blog"],
-        "tags": ["blog"],
-        "url": "https://ysjee141.github.io/blog/blog/Test-Contents/",
-        "teaser": "/blog/blog/../assets/post_img/10099861971500.png"
       }]
