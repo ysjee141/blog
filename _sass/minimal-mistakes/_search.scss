@@ -51,6 +51,23 @@
       max-width: $max-width;
     }
 
+    form.search-content__form {
+      padding: .5em 0;
+      border-bottom: 1px solid #d9d9d9;
+    }
+
+    .results {
+      .list__item {
+        border-bottom: 1px solid #ededed;
+        margin-bottom: 10px;
+        .archive__item {
+          width: 100%;
+          margin-bottom: 10px;
+        }
+      }
+
+    }
+
   }
 
   &__form {

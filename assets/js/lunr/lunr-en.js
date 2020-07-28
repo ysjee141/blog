@@ -42,6 +42,7 @@ $(document).ready(function() {
     resultdiv.prepend('<p class="results__found">'+result.length+' {{ site.data.ui-text[site.locale].results_found | default: "Result(s) found" }}</p>');
     for (var item in result) {
       var ref = result[item].ref;
+      console.log( store[ref] );
       if(store[ref].teaser){
         var searchitem =
           '<div class="list__item">'+

@@ -1,7 +1,17 @@
 {% if post.header.teaser %}
-  {% capture teaser %}{{ post.header.teaser }}{% endcapture %}
+  {% capture teaser %}{{ post.header.teaser | relative_url }}{% endcapture %}
 {% else %}
-  {% assign teaser = site.teaser %}
+  {% if post.content contains "<img" %}
+    {% assign images = post.content | split: '<img'  %}
+    {% for image in images %}
+      {% assign teaser = image | split: ' src="' | last | split:'"' | first | strip %}
+      {% if teaser contains "/post_img/" %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    {% assign teaser = site.teaser | relative_url %}
+  {% endif %}
 {% endif %}
 
 {% if post.id %}
@@ -12,9 +22,11 @@
 
 <div class="{{ include.type | default: "list" }}__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    {% if teaser %}
     <div class="archive__item-teaser">
-      <img src="{{ teaser | relative_url }}" alt="">
+      <img src="{{ teaser }}" alt="">
     </div>
+    {% endif %}
     <h3 class="archive__item-title" itemprop="headline">
       {% if post.link %}
         <a href="{{ post.link }}">{{ title }}</a> <a href="{{ post.url | relative_url }}" rel="permalink"><i class="fas fa-link" aria-hidden="true" title="permalink"></i><span class="sr-only">Permalink</span></a>

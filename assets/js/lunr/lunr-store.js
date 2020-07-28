@@ -10,9 +10,21 @@ var store = [
     {%- assign docs = c.docs | where_exp:'doc','doc.search != false' -%}
     {%- for doc in docs -%}
       {%- if doc.header.teaser -%}
-        {%- capture teaser -%}{{ doc.header.teaser }}{%- endcapture -%}
+        {%- capture teaser -%}{{ doc.header.teaser | absolute_url }}{%- endcapture -%}
       {%- else -%}
-        {%- assign teaser = site.teaser -%}
+
+        {%- if doc.content contains "<img" -%}
+          {%- assign images = doc.content | split: '<img'  -%}
+          {%- for image in images -%}
+            {%- assign teaser = image | split: ' src="' | last | split:'"' | first | strip -%}
+            {%- if teaser contains "/post_img/" -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- assign teaser = site.teaser | absolute_url -%}
+        {%- endif -%}
+
       {%- endif -%}
       {
         "title": {{ doc.title | jsonify }},
@@ -43,7 +55,7 @@ var store = [
         "categories": {{ doc.categories | jsonify }},
         "tags": {{ doc.tags | jsonify }},
         "url": {{ doc.url | absolute_url | jsonify }},
-        "teaser": {{ teaser | absolute_url | jsonify }}
+        "teaser": {{ teaser | jsonify }}
       }{%- unless forloop.last and l -%},{%- endunless -%}
     {%- endfor -%}
   {%- endfor -%}]
