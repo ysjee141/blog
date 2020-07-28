@@ -100,9 +100,9 @@
   
     <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
   
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
-  
     <script src="https://unpkg.com/turndown-plugin-gfm/dist/turndown-plugin-gfm.js"></script>
+  
+    <script src="/blog/assets/js/vendor/bluebird.js"></script>
   
 
 
@@ -140,13 +140,17 @@
           <span class="site-subtitle">심심해서 끄적거리는 낙서장</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
-              <a href="/blog/">Blog</a>
+              
+              <a data-link="Blog" href="/blog/">Blog</a>
             </li><li class="masthead__menu-item">
-              <a href="/blog/tag">Tag</a>
+              
+              <a data-link="Tag" href="/blog/tag">Tag</a>
             </li><li class="masthead__menu-item">
-              <a href="/blog/github-repos">Repos</a>
+              
+              <a data-link="Repos" href="/blog/github-repos">Repos</a>
             </li><li class="masthead__menu-item">
-              <a href="/blog/about">About</a>
+              
+              <a data-link="About" href="/blog/about">About</a>
             </li></ul>
         
         <button class="search__toggle" type="button">
@@ -166,6 +170,24 @@
   </div>
 </div>
 
+<script>
+  $(document).ready(function() {
+
+    var _url = window.location.pathname;
+
+    if( _url.indexOf("/tag") > -1 ) {
+      $("[data-link='Tag']").addClass("hover");
+    } else if( _url.indexOf("/github-repos") > -1 ) {
+      $("[data-link='Repos']").addClass("hover");
+    } else if( _url.indexOf("/about") > -1 ) {
+      $("[data-link='About']").addClass("hover");
+    } else {
+      $("[data-link='Blog']").addClass("hover");
+    }
+
+
+  })
+</script>
 
     <div class="initial-content">
       
