@@ -6,7 +6,7 @@ var store = [{
         "teaser": "https://ysjee141.github.io/blog/assets/img/coding.jpg"
       },{
         "title": "Test - Article with Lots of Images",
-        "excerpt":"TeXt Theme - Cover        TeXt Theme - Layouts      Skin: Default      Skin: Dark      Skin: Forest      Skin: Ocean      Skin: Chocolate      Skin: Orange     ","categories": ["No Category"],
+        "excerpt":"package com.example.dynamicmapperscanner;  import org.mybatis.spring.annotation.MapperScan; import org.springframework.boot.SpringApplication; import org.springframework.boot.autoconfigure.SpringBootApplication; import org.springframework.boot.context.properties.EnableConfigurationProperties; import org.springframework.context.annotation.ComponentScan; import org.springframework.context.annotation.ComponentScans; import org.springframework.context.annotation.Configuration;  @SpringBootApplication @Configuration @EnableConfigurationProperties @MapperScan(basePackages = \"com.example.dynamicmapperscanner*\") public class DynamicMapperScannerApplication {    public static void main(String[] args) {     SpringApplication.run(DynamicMapperScannerApplication.class, args);   }  }   ","categories": ["No Category"],
         "tags": ["Test"],
         "url": "https://ysjee141.github.io/blog/no%20category/article-with-lots-images/",
         "teaser": "https://ysjee141.github.io/blog/assets/img/coding.jpg"
