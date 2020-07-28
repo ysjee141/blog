@@ -21,7 +21,7 @@ title_separator          : "-"
 subtitle                 : "심심해서 끄적거리는 낙서장" # site tagline that appears below site title in masthead
 name                     : "HAPPL"
 description              : "An amazing website."
-url                      : "https://ysjee141.github.io/blog/" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+url                      : "https://ysjee141.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "/blog" # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : "/assets/img/coding.jpg" # path of fallback teaser image, e.g. "/assets/images/500x300.png"
