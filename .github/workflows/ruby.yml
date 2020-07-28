@@ -29,8 +29,10 @@ jobs:
         ruby-version: 2.6
     - name: Install dependencies
       run: bundle install
+    - name: Configuration ENV Variable
+      run: export JEKYLL_ENV=production
     - name: Build Jekyll
-      run: bundler exec jekyll build JEKYLL_ENV=production -d ./out --future
+      run: bundler exec jekyll build -d ./out --future
     - name: GH Pages deploy
       uses: Cecilapp/GitHub-Pages-deploy@2.0.1
       env:
