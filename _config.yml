@@ -327,5 +327,5 @@ head_scripts:
   - https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.0/axios.min.js
 #  - /assets/js/vendor/remark-latest.min.js
   - https://unpkg.com/turndown/dist/turndown.js
-  - http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js
   - https://unpkg.com/turndown-plugin-gfm/dist/turndown-plugin-gfm.js
+  - /assets/js/vendor/bluebird.js

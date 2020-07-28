@@ -186,7 +186,16 @@
     text-decoration: none;
     font-size: 18px;
 
-    &:hover {
+    &.hover {
+      font-weight: bold;
+      &:before {
+        -webkit-transform: scaleX(1) !important;
+        -ms-transform: scaleX(1) !important;
+        transform: scaleX(1) !important;
+      }
+    }
+
+    &.hover, &:hover {
       color: #333;
     }
 

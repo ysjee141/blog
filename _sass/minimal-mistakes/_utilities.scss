@@ -627,6 +627,9 @@ a.reversefootnote {
           border-bottom: 1px solid #d9d9d9;
           a {
             font-size: 16px;
+            &:hover {
+              font-weight: bold;
+            }
           }
 
           &.recent-posts {
@@ -635,6 +638,10 @@ a.reversefootnote {
             padding: 0;
             a {
               font-size: 14px;
+              &:hover {
+                text-decoration: underline;
+                font-weight: normal;
+              }
             }
           }
         }
@@ -956,5 +963,11 @@ div#repos-list {
       letter-spacing: .1em;
       font-size: 1.7em;
     }
+  }
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .page__footer {
+    display: none;
   }
 }
