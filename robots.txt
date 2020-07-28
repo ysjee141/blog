@@ -1,1 +1,3 @@
-Sitemap: https://ysjee141.github.io/blog//blog/sitemap.xml
+User-agent: *
+Allow: /
+Sitemap: https://ysjee141.github.io/blog/sitemap.xml
