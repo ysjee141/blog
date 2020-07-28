@@ -153,9 +153,9 @@ exclude:
   - .bundle
   - .jekyll-assets-cache
   - .sass-cache
-  - assets/js/plugins
+#  - assets/js/plugins
   - assets/js/_main.js
-  - assets/js/vendor
+#  - assets/js/vendor
   - Capfile
   - CHANGELOG
   - config
@@ -305,7 +305,7 @@ defaults:
       layout: single
       author_profile: false
       read_time: true
-      comments: # true
+      comments: true
       share: false
       related: true
       classes: wide
@@ -320,3 +320,12 @@ defaults:
       comments: # true
       share: false
       related: true
+
+
+head_scripts:
+  - /assets/js/vendor/jquery/jquery-3.4.1.js
+  - https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.0/axios.min.js
+#  - /assets/js/vendor/remark-latest.min.js
+  - https://unpkg.com/turndown/dist/turndown.js
+  - http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js
+  - https://unpkg.com/turndown-plugin-gfm/dist/turndown-plugin-gfm.js

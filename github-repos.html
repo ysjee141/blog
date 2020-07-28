@@ -1,0 +1,46 @@
+---
+layout: default
+title: GITHUB REPOSITORIES
+---
+
+<h1 id="page-title" class="page__title wide-title">
+    {{ page.title }}
+    <div><a href="https://github.com/ysjee141">https://github.com/ysjee141</a></div>
+</h1>
+
+<div id="main" role="main">
+    <div id="repos-list"></div>
+</div>
+
+<script>
+
+    function toDateParsing(date) {
+        return date.getFullYear() + "-" +
+            (date.getMonth() + 1) + "-" +
+                date.getDate();
+    }
+
+    $(document).ready(function() {
+        axios.get("https://api.github.com/users/ysjee141/repos")
+        .then(function(res) {
+            var _data = res.data;
+            _data.forEach(function(item) {
+                console.log(item);
+                $("#repos-list").append(
+                    $("<ARTICLE></ARTICLE>").addClass("repos-item")
+                        .data("info", item)
+                        .append(
+                            $("<DIV></DIV>").addClass("repos-item-title")
+                                .append(item.name),
+                            $("<DIV></DIV>").addClass("repos-item-desc").text(item.description),
+                            $("<DIV></DIV>").addClass("repos-item-date").text(
+                                "Updated at " + toDateParsing(new Date(item.updated_at))
+                            )
+                        ).click(function() {
+                            window.open($(this).data("info").html_url);
+                    })
+                )
+            })
+        })
+    })
+</script>

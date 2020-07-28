@@ -4,5 +4,7 @@ main:
     url: /
   - title: "Tag"
     url: /tag
+  - title: "Repos"
+    url: /github-repos
   - title: "About"
     url: /about
