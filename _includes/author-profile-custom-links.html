@@ -6,7 +6,9 @@
       {% assign nocategory = site.categories["No Category"] %}
       <ul>
         {% assign url = "/category/no category" | relative_url %}
+        {% if nocategory.size != nil %}
         <li><a href="{{ url }}">미분류({{ nocategory.size }})</a></li>
+        {% endif %}
         {% for tag in site.categories %}
         {% assign url = tag[0] | downcase %}
         {% assign url = "/category/" | append: url | relative_url %}
