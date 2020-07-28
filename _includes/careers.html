@@ -1,5 +1,7 @@
 <ul class="career-list">
-    {% for career in site.data.careers %}
+    {% assign careers = site.data.careers | sort: "date.from" | reverse %}
+
+    {% for career in careers %}
     {% assign index = forloop.index | modulo: 2 %}
     <li>
         <div class="career-item-icon {% if index == 0 %} right {% endif %}">
@@ -7,7 +9,7 @@
         </div>
         <div class="career-item {% if index == 0 %} right {% endif %}">
             <p class="career-company">
-                <a href="{{ career.url }}">{{ career.name }}</a>
+                <a href="{{ career.url }}" target="_blank">{{ career.name }}</a>
                 <span>{{ career.dept }}</span>
             </p>
 

@@ -1,3 +1,21 @@
+- name: 디지털메이트
+  url: http://www.digitalmate.co.kr/
+  dept: 사용성 QA
+  date:
+    from: 2005. 08
+    to: 2009. 02
+  job: 사원
+  desc: Software Testing
+
+- name: 케이인포넷
+  url:
+  dept: 웹솔루션개발팀
+  date:
+    from: 2009. 10
+    to: 2012. 03
+  job: 대리
+  desc: 입시 정보 시스템 개발
+
 - name: Goodcen
   url: http://www.goodcen.com
   dept: 기술연구소

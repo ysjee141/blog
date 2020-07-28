@@ -11,7 +11,7 @@
     <ul class="author__profile__links">
         {% for label in author.links %}
         {% if label.url != nil %}
-        <li><i class="{{ label.icon }}"></i> {{ label.label }}</li>
+            <li><a href="{{ label.url }}" target="_blank"><i class="{{ label.icon }}"></i> {{ label.label }}</a></li>
         {% endif %}
         {% endfor %}
     </ul>
