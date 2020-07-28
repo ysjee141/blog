@@ -190,7 +190,6 @@
         .then(function(res) {
             var _data = res.data;
             _data.forEach(function(item) {
-                console.log(item);
                 $("#repos-list").append(
                     $("<ARTICLE></ARTICLE>").addClass("repos-item")
                         .data("info", item)
