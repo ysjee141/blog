@@ -18,19 +18,19 @@ minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt"
 locale                   : "ko-KR"
 title                    : "happl's Doodle"
 title_separator          : "-"
-subtitle                 : "심심해서 끄적거리는 낙서장" # site tagline that appears below site title in masthead
+subtitle                 : "심심해서 끄적거리는 낙서장"
 name                     : "HAPPL"
 description              : "An amazing website."
-url                      : "https://ysjee141.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
-baseurl                  : "/blog" # the subpath of your site, e.g. "/blog"
-repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
+url                      : "https://ysjee141.github.io"
+baseurl                  : "/blog"
+repository               : ysjee141/blog
 teaser                   : "/assets/img/coding.jpg" # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
 comments:
-  provider               : # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "custom"
+  provider               : "utterances" # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "custom"
   disqus:
     shortname            : # https://help.disqus.com/customer/portal/articles/466208-what-s-a-shortname-
   discourse:
@@ -80,7 +80,7 @@ og_image                 : # Open Graph/Twitter default site image
 # - https://developers.google.com/structured-data/customize/social-profiles
 social:
   type                   : # Person or Organization (defaults to Person)
-  name                   : # If the user or organization name differs from the site's name
+  name                   : "happl" # If the user or organization name differs from the site's name
   links: # An array of links to social media profiles
 
 # Analytics
@@ -138,7 +138,7 @@ footer:
       # url:
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
-      # url:
+      url: "https://instagram.com/ysjee141"
 
 
 # Reading Files

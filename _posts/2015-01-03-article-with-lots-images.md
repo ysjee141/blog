@@ -4,36 +4,27 @@ key: 20150103
 tags: Test
 ---
 
-## TeXt Theme - Cover
+```java
+package com.example.dynamicmapperscanner;
 
-![TeXt Theme](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/TeXt-home.jpg)
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScans;
+import org.springframework.context.annotation.Configuration;
 
-<!--more-->
+@SpringBootApplication
+@Configuration
+@EnableConfigurationProperties
+@MapperScan(basePackages = "com.example.dynamicmapperscanner*")
+public class DynamicMapperScannerApplication {
 
-## TeXt Theme - Layouts
+  public static void main(String[] args) {
+    SpringApplication.run(DynamicMapperScannerApplication.class, args);
+  }
 
-![TeXt Theme Layouts](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/TeXt-layouts.png)
+}
 
-## Skin: Default
-
-![default](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_default.jpg)
-
-## Skin: Dark
-
-![dark](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_dark.jpg)
-
-## Skin: Forest
-
-![forest](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_forest.jpg)
-
-## Skin: Ocean
-
-![ocean](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_ocean.jpg)
-
-## Skin: Chocolate
-
-![chocolate](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_chocolate.jpg)
-
-## Skin: Orange
-
-![orange](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_orange.jpg)
+```
