@@ -21,11 +21,14 @@
 {% endif %}
 
 <div class="{{ include.type | default: "list" }}__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+
     {% if teaser %}
-    <div class="archive__item-teaser">
-      <img src="{{ teaser }}" alt="">
-    </div>
+    <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+      <div class="archive__item-teaser">
+        <img src="{{ teaser }}" alt="">
+      </div>
+    {% else %}
+    <article class="archive__item no-margin" itemscope itemtype="https://schema.org/CreativeWork">
     {% endif %}
     <h3 class="archive__item-title" itemprop="headline">
       {% if post.link %}

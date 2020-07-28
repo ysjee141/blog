@@ -857,7 +857,7 @@ ul.career-list {
 
 div.author__profile {
   position: relative;
-  padding-left: 100px;
+  padding-left: 120px;
 
   &.no-margin {
     padding-left: 0;
@@ -868,8 +868,8 @@ div.author__profile {
     left: 0;
     top: 0;
     background-color: #ddd;
-    width: 80px;
-    height: 80px;
+    width: 96px;
+    height: 96px;
     border-radius: 50%;
     border: 1px solid #d9d9d9;
   }
@@ -963,6 +963,12 @@ div#repos-list {
       letter-spacing: .1em;
       font-size: 1.7em;
     }
+  }
+  &.left {
+    text-align: left;
+    font-size: 1em;
+    padding-left: 350px;
+    letter-spacing: .05em;
   }
 }
 

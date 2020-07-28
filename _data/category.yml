@@ -1,12 +1,14 @@
 - name: no category
   description: 분류되지 않은 포스트
-- name: Server-Side
+- name: server-Side
   description: 서버 개발 이야기
-- name: Front-Side
+- name: front-side
   description: 프론트엔드 개발 이야기
-- name: Quality
+- name: quality
   description: 소프트웨어 품질 이야기
-- name: Database
+- name: database
   description: 데이터베이스 이야기
-- name: My Story
+- name: my story
   description: 나의 소소한 이야기 (낙서)
+- name: technical
+  description: 개발에 필요한 기술 포스팅

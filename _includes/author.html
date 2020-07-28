@@ -8,11 +8,11 @@
         <span>{{ author.location }}</span>
     </p>
     <p class="author__profile__bio">{{ author.bio }}</p>
+    <ul class="author__profile__links">
+        {% for label in author.links %}
+        {% if label.url != nil %}
+        <li><i class="{{ label.icon }}"></i> {{ label.label }}</li>
+        {% endif %}
+        {% endfor %}
+    </ul>
 </div>
-<ul class="author__profile__links">
-    {% for label in author.links %}
-    {% if label.url != nil %}
-    <li><i class="{{ label.icon }}"></i> {{ label.label }}</li>
-    {% endif %}
-    {% endfor %}
-</ul>

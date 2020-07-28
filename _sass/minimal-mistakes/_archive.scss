@@ -29,6 +29,9 @@
 .archive__item {
   position: relative;
   padding-right: 110px;
+  &.no-margin {
+    padding-right: 0 !important;
+  }
   @include breakpoint($large) {
     padding-right: 190px;
     min-height: 120px;

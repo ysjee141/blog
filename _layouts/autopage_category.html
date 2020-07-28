@@ -5,16 +5,18 @@ author_profile: true
 <style>
 
 </style>
-<h1 id="page-title" class="page__title wide-title">
+<h1 id="page-title" class="page__title wide-title left">
   {% assign name = page.autopages.display_name %}
   {% if name == "No Category" %}
-  {% assign name = "미분류" %}
+    {% assign name = "미분류" %}
   {% endif %}
-  CATEGORY: {{ name }}
   {% assign categorydown = page.autopages.display_name | downcase %}
   {% assign desc = site.data.category | where: "name", categorydown | first %}
+
   {% if desc %}
-  | {{ desc.description }}
+    {{ name | append: " | " | append: desc.description  }}
+  {% else %}
+    {{ name | prepend: "CATEGORY: " }}
   {% endif %}
 </h1>
 <div id="main" role="main">
