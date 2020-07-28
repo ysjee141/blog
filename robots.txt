@@ -1,1 +1,1 @@
-Sitemap: /blog/sitemap.xml
+Sitemap: https://ysjee141.github.io/blog//blog/sitemap.xml
