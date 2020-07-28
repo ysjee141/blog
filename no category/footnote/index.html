@@ -95,6 +95,18 @@
 <![endif]-->
 
 
+  
+    <script src="/blog/assets/js/vendor/jquery/jquery-3.4.1.js"></script>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.0/axios.min.js"></script>
+  
+    <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+  
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
+  
+    <script src="https://unpkg.com/turndown-plugin-gfm/dist/turndown-plugin-gfm.js"></script>
+  
+
 
     <!-- start custom head snippets -->
 <meta name="google-site-verification" content="SO-0QxMtMMEgiaV3K59vtKNi2ucxcYXH9gROvXDOke0" />
@@ -133,6 +145,8 @@
               <a href="/blog/">Blog</a>
             </li><li class="masthead__menu-item">
               <a href="/blog/tag">Tag</a>
+            </li><li class="masthead__menu-item">
+              <a href="/blog/github-repos">Repos</a>
             </li><li class="masthead__menu-item">
               <a href="/blog/about">About</a>
             </li></ul>
@@ -449,6 +463,30 @@ kjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadfasdfssdkjlfsdadf...</p>
 
   gtag('config', 'UA-162766344-1');
 </script>
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'ysjee141/blog');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
 
 
 
