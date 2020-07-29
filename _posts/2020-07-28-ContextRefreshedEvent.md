@@ -62,4 +62,3 @@ ContextRefreshedEvent 이벤트의 경우 ApplicationContext가 변경되는 시
 **[참고]**
 * [[Spring] 스프링 시작시점에서 프로그램 동작할 수 있게 하는 방법](https://yuien.tistory.com/entry/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%EC%9E%91%EC%8B%9C%EC%A0%90%EC%97%90%EC%84%9C-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-%EB%8F%99%EC%9E%91%ED%95%A0-%EC%88%98-%EC%9E%88%EA%B2%8C-%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
 * [[Spring] ApplicationEventPublisher를 통한 스프링 이벤트 처리(ApplicationEventPublisher, Spring Event Processing)](https://engkimbs.tistory.com/718)
-* 

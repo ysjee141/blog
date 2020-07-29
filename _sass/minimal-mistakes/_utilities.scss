@@ -719,6 +719,10 @@ ul.page-tag-list {
       padding: 3px 8px;
       font-size: .8em;
       text-decoration: none;
+      &:hover {
+        background-color: #000;
+        color: #fff;
+      }
     }
   }
 }
@@ -1040,6 +1044,11 @@ a.page__meta__tag {
   min-height: 60px;
   margin-top: -5px;
   margin-bottom: 10px;
+
+  &.in__post {
+    margin-bottom: -20px;
+  }
+
   img {
     width: 45px;
     height: 45px;
@@ -1063,4 +1072,41 @@ a.page__meta__tag {
     }
   }
 
+  i.category__link {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    color: #646769;
+    font-size: .75em;
+    a {
+      color: #646769;
+    }
+  }
+}
+
+.page__hero--overlay {
+  .page__meta__author {
+    padding-left: 65px;
+    * {
+      color: #b0b4b7 !important;
+      font-size: .75em;
+    }
+    > img {
+      top: 2px;
+      height: 55px;
+      width: 55px;
+    }
+
+    i.category__link {
+      a {
+        font-size: 1em;
+      }
+    }
+  }
+}
+
+.page__meta {
+  i.category__link {
+    float: right;
+  }
 }

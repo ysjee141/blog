@@ -33,14 +33,30 @@ layout: default
       {% unless page.header.overlay_color or page.header.overlay_image %}
         <header style="padding-bottom: 25px;">
           {% if page.title %}<h1 id="page-title" class="page__title" itemprop="headline">{{ page.title | markdownify | remove: "<p>" | remove: "</p>" }}</h1>{% endif %}
-          {% if page.read_time %}
+          {% if page.author %}
+            {% assign author = site.data.author[page.author] %}
+            <div class="page__meta__author in__post">
+              <img src="{{ "/assets/img/" | append: author.img | relative_url}}" alt="{{ author.name }}">
+              <div class="meta__author__name">{{ author.name }} ({{ page.author }})</div>
+              <div class="meta__author__date">| <i class="far fa-clock" aria-hidden="true"></i> {{ page.date | date: "%Y/%m/%d" }}</div>
+              <div class="meta__author__desc">{{ author.desc }}</div>
+
+              {% assign categoryurl = page.category | downcase %}
+              {% assign categoryurl = "/category/" | append: categoryurl | relative_url %}
+              {% assign categoryname = page.category %}
+              {% if categoryname == "No Category" %}
+              {% assign categoryname = "미분류" %}
+              {% endif %}
+              <i class="category__link">in <a href="{{ categoryurl }}">{{ categoryname }}</a></i>
+            </div>
+          {% else %}
             <p class="page__meta">
               <i class="far fa-clock" aria-hidden="true"></i> {{ page.date | date: "%Y/%m/%d" }}
               {% assign categoryurl = page.category | downcase %}
               {% assign categoryurl = "/category/" | append: categoryurl | relative_url %}
               {% assign categoryname = page.category %}
               {% if categoryname == "No Category" %}
-                {% assign categoryname = "미분류" %}
+              {% assign categoryname = "미분류" %}
               {% endif %}
               <i class="category__link">in <a href="{{ categoryurl }}">{{ categoryname }}</a></i>
             </p>

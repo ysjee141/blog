@@ -26,14 +26,30 @@
           {{ page.title | default: site.title | markdownify | remove: "<p>" | remove: "</p>" }}
         {% endif %}
       </h1>
-      {% if page.tagline %}
-        <p class="page__lead">{{ page.tagline | markdownify | remove: "<p>" | remove: "</p>" }}</p>
-      {% elsif page.header.show_overlay_excerpt != false and page.excerpt %}
-        <p class="page__lead">{{ page.excerpt | markdownify | remove: "<p>" | remove: "</p>" }}</p>
+      {% assign categoryurl = page.category | downcase %}
+      {% assign categoryurl = "/category/" | append: categoryurl | relative_url %}
+      {% assign categoryname = page.category %}
+      {% if categoryname == "No Category" %}
+      {% assign categoryname = "미분류" %}
       {% endif %}
-      {% if page.read_time %}
-        <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> {% include read-time.html %}</p>
+
+      {% if page.author %}
+      {% assign author = site.data.author[page.author] %}
+      <div class="page__meta__author in__post">
+        <img src="{{ "/assets/img/" | append: author.img | relative_url}}" alt="{{ author.name }}">
+        <div class="meta__author__name">{{ author.name }} ({{ page.author }})</div>
+        <div class="meta__author__date">| <i class="far fa-clock" aria-hidden="true"></i> {{ page.date | date: "%Y/%m/%d" }}</div>
+        <div class="meta__author__desc">{{ author.desc }}</div>
+
+        <i class="category__link">Category in <a href="{{ categoryurl }}">{{ categoryname }}</a></i>
+      </div>
+      {% else %}
+      <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> {{ page.date | date: "%Y/%m/%d" }}
+        <i class="category__link">Category in <a href="{{ categoryurl }}">{{ categoryname }}</a></i>
+      </p>
       {% endif %}
+
       {% if page.header.cta_url %}
         <p><a href="{{ page.header.cta_url | relative_url }}" class="btn btn--light-outline btn--large">{{ page.header.cta_label | default: site.data.ui-text[site.locale].more_label | default: "Learn More" }}</a></p>
       {% endif %}
