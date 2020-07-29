@@ -76,6 +76,7 @@
 <!-- For all browsers -->
 <link rel="stylesheet" href="/blog/assets/css/main.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+<link rel="stylesheet" href="/blog/assets/css/syntax.css">
 
 <!--[if IE]>
   <style>
@@ -200,8 +201,7 @@
   
 
 
-<div itemscope itemtype="https://schema.org/Person">
-
+<div itemscope itemtype="https://schema.org/Person" style="margin-bottom: 0;">
   
     <div class="author__avatar">
       
@@ -223,7 +223,7 @@
     
   </div>
 
-  <div class="author__urls-wrapper">
+  <div class="author__urls-wrapper" style="left: -5px;">
     <button class="btn btn--inverse">팔로우</button>
     <ul class="author__urls social-icons">
       
@@ -235,7 +235,7 @@
       
         
           
-            <li><a href="mailto:ysjee141@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+            <li><a href="mailto:ysjee141@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i></a></li>
           
         
           
@@ -245,11 +245,11 @@
           
         
           
-            <li><a href="https://github.com/ysjee141" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+            <li><a href="https://github.com/ysjee141" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i></a></li>
           
         
           
-            <li><a href="https://instagram.com/ysjee141" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+            <li><a href="https://instagram.com/ysjee141" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i></a></li>
           
         
       
@@ -301,12 +301,12 @@
       
 
       
-
-
     </ul>
   </div>
 </div>
-<nav class="category__list">
+<div class="d-day">블로그 개설 D+<span id="d-day-count">5</span></div>
+<div class="is-divider small" style="max-width: none;"></div>
+<nav class="category__list" style="margin-top: 0;">
   <ul class="category__items">
     <li>
       <span class="category__sub-title">Categories</span>
@@ -319,7 +319,13 @@
         
         
         
-        <li><a href="/blog/category/technical">Technical(1)</a></li>
+        <li><a href="/blog/category/technical">Technical(2)</a></li>
+        
+        
+        
+        
+        
+        <li><a href="/blog/category/my%20story">My Story(1)</a></li>
         
         
       </ul>
@@ -333,6 +339,16 @@
       <span class="category__sub-title">Recent Posts</span>
       <div class="is-divider small"></div>
       <ul>
+        
+          
+          
+          <li class="recent-posts">- <a href="/blog/my%20story/my-story/">블로그를 시작하며…
+</a></li>
+        
+          
+          
+          <li class="recent-posts">- <a href="/blog/technical/java-benchmark/">JMH(Java Microbenchmark Harness) 사용법
+</a></li>
         
           
           
@@ -354,17 +370,34 @@
       
       <a class="category__item" href="/blog/tag/springboot">#SpringBoot</a>
       
+      
+      
+      <a class="category__item" href="/blog/tag/java">#Java</a>
+      
+      
+      
+      <a class="category__item" href="/blog/tag/benchmark">#Benchmark</a>
+      
+      
+      
+      <a class="category__item" href="/blog/tag/jmh">#JMH</a>
+      
+      
+      
+      <a class="category__item" href="/blog/tag/my%20story">#My Story</a>
+      
     </li>
   </ul>
 </nav>
+
+
   
   </div>
 
 
-
   <div class="archive">
     
-<!--      <h1 id="page-title" class="page__title">TAG ARCHIVES</h1>-->
+    
     
     
 
@@ -382,6 +415,38 @@
         </li>
       
     
+      
+        <li>
+          <a href="#java">
+            <strong>Java</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#benchmark">
+            <strong>Benchmark</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#jmh">
+            <strong>JMH</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#my-story">
+            <strong>My Story</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
   
 </ul>
 
@@ -390,7 +455,7 @@
     
       <section id="springboot" class="taxonomy__section">
         <h2 class="archive__subtitle">TAG: SpringBoot</h2>
-        <a href="#page-title" class="back-to-top">맨 위로 이동 &uarr;</a>
+        <a href="#page-title" class="back-to-top" onclick="movetop()">맨 위로 이동 &uarr;</a>
         <div class="entries-list">
           
             
@@ -427,6 +492,216 @@
     
     
     <a href="/blog/tag/springboot" class="page__meta__tag">#SpringBoot</a>
+    
+  </article>
+</div>
+
+          
+        </div>
+
+      </section>
+    
+  
+    
+      <section id="java" class="taxonomy__section">
+        <h2 class="archive__subtitle">TAG: Java</h2>
+        <a href="#page-title" class="back-to-top" onclick="movetop()">맨 위로 이동 &uarr;</a>
+        <div class="entries-list">
+          
+            
+  
+    
+  
+
+
+
+
+<div class="list__item">
+
+    
+    <article class="archive__item no-margin" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h3 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/technical/java-benchmark/" rel="permalink">JMH(Java Microbenchmark Harness) 사용법
+</a>
+      
+    </h3>
+    
+    <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> 2020/07/29
+    </p>
+    
+    <p class="archive__item-excerpt" itemprop="description">개발을 진행하다가 보면, 성능문제를 해결해야 하는 경우는 매우 많다.
+</p>
+    
+    
+    
+    <a href="/blog/tag/java" class="page__meta__tag">#Java</a>
+    
+    
+    
+    <a href="/blog/tag/benchmark" class="page__meta__tag">#Benchmark</a>
+    
+    
+    
+    <a href="/blog/tag/jmh" class="page__meta__tag">#JMH</a>
+    
+  </article>
+</div>
+
+          
+        </div>
+
+      </section>
+    
+  
+    
+      <section id="benchmark" class="taxonomy__section">
+        <h2 class="archive__subtitle">TAG: Benchmark</h2>
+        <a href="#page-title" class="back-to-top" onclick="movetop()">맨 위로 이동 &uarr;</a>
+        <div class="entries-list">
+          
+            
+  
+    
+  
+
+
+
+
+<div class="list__item">
+
+    
+    <article class="archive__item no-margin" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h3 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/technical/java-benchmark/" rel="permalink">JMH(Java Microbenchmark Harness) 사용법
+</a>
+      
+    </h3>
+    
+    <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> 2020/07/29
+    </p>
+    
+    <p class="archive__item-excerpt" itemprop="description">개발을 진행하다가 보면, 성능문제를 해결해야 하는 경우는 매우 많다.
+</p>
+    
+    
+    
+    <a href="/blog/tag/java" class="page__meta__tag">#Java</a>
+    
+    
+    
+    <a href="/blog/tag/benchmark" class="page__meta__tag">#Benchmark</a>
+    
+    
+    
+    <a href="/blog/tag/jmh" class="page__meta__tag">#JMH</a>
+    
+  </article>
+</div>
+
+          
+        </div>
+
+      </section>
+    
+  
+    
+      <section id="jmh" class="taxonomy__section">
+        <h2 class="archive__subtitle">TAG: JMH</h2>
+        <a href="#page-title" class="back-to-top" onclick="movetop()">맨 위로 이동 &uarr;</a>
+        <div class="entries-list">
+          
+            
+  
+    
+  
+
+
+
+
+<div class="list__item">
+
+    
+    <article class="archive__item no-margin" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h3 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/technical/java-benchmark/" rel="permalink">JMH(Java Microbenchmark Harness) 사용법
+</a>
+      
+    </h3>
+    
+    <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> 2020/07/29
+    </p>
+    
+    <p class="archive__item-excerpt" itemprop="description">개발을 진행하다가 보면, 성능문제를 해결해야 하는 경우는 매우 많다.
+</p>
+    
+    
+    
+    <a href="/blog/tag/java" class="page__meta__tag">#Java</a>
+    
+    
+    
+    <a href="/blog/tag/benchmark" class="page__meta__tag">#Benchmark</a>
+    
+    
+    
+    <a href="/blog/tag/jmh" class="page__meta__tag">#JMH</a>
+    
+  </article>
+</div>
+
+          
+        </div>
+
+      </section>
+    
+  
+    
+      <section id="my-story" class="taxonomy__section">
+        <h2 class="archive__subtitle">TAG: My Story</h2>
+        <a href="#page-title" class="back-to-top" onclick="movetop()">맨 위로 이동 &uarr;</a>
+        <div class="entries-list">
+          
+            
+  
+    
+  
+
+
+
+
+<div class="list__item">
+
+    
+    <article class="archive__item no-margin" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h3 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/my%20story/my-story/" rel="permalink">블로그를 시작하며…
+</a>
+      
+    </h3>
+    
+    <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> 2020/07/29
+    </p>
+    
+    <p class="archive__item-excerpt" itemprop="description">요즘 개발자들은 누구라 할 것 없이 블로그를 하는 것 같습니다.
+덕분에 참고할 자료가 많아져서 개발하기가 많이 수월해졌고 저 또한 
+이러한 블로그들을 참고하면서 개발을 진행하고, 지식을 습득하고 있습니다.
+</p>
+    
+    
+    
+    <a href="/blog/tag/my%20story" class="page__meta__tag">#My Story</a>
     
   </article>
 </div>
@@ -520,7 +795,7 @@
 
 
 
-
+<script src="/blog/assets/js/_extend.js"></script>
 
   </body>
 </html>
