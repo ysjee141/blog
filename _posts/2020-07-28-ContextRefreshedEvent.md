@@ -8,7 +8,7 @@ tags: [SpringBoot]
 >어플리케이션을 개발하다보니 다중 Data Source의 사용이 필요하다. 
 >
 >먼저 Data Source를 정의하고, Data Source와 연결되는 SessionFactory, SessionTemplate, TransactionManager를
->각각 정의해서 개발환경을 구축하고, 개발을 진행했다.
+>각각 정의해서 개발환경을 구축하고, 개발.page__content을 진행했다.
 >
 >개발을 진행하던 와중에 Data Source를 추가가 필요해서 위 작업을 동일하게 작업을 진행하였다.
 >
