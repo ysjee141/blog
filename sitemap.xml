@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>https://ysjee141.github.io/blog/no%20category/definition/</loc>
+<lastmod>2016-05-05T00:00:00+00:00</lastmod>
+</url>
+<url>
 <loc>https://ysjee141.github.io/blog/technical/ContextRefreshedEvent/</loc>
 <lastmod>2020-07-28T00:00:00+00:00</lastmod>
 </url>
@@ -14,7 +18,13 @@
 <loc>https://ysjee141.github.io/blog/tag/</loc>
 </url>
 <url>
+<loc>https://ysjee141.github.io/blog/tag/jekyll/</loc>
+</url>
+<url>
 <loc>https://ysjee141.github.io/blog/tag/springboot/</loc>
+</url>
+<url>
+<loc>https://ysjee141.github.io/blog/category/no%20category/</loc>
 </url>
 <url>
 <loc>https://ysjee141.github.io/blog/category/technical/</loc>
@@ -24,6 +34,6 @@
 </url>
 <url>
 <loc>https://ysjee141.github.io/blog/googlee035532abcef4ce9.html</loc>
-<lastmod>2020-07-29T00:42:39+00:00</lastmod>
+<lastmod>2020-07-29T02:25:18+00:00</lastmod>
 </url>
 </urlset>
