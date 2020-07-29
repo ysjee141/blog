@@ -608,6 +608,7 @@ a.reversefootnote {
         &.category__item {
           font-size: $type-size-5-5;
           padding: 5px;
+          display: inline-block;
           &:not(:last-child) {
             margin-right: 3px;
           }
@@ -715,8 +716,13 @@ ul.page-tag-list {
     padding: 0;
     margin: 0;
     display: inline-block;
+    &:not(:last-child) {
+      a {
+        margin-right: 5px;
+      }
+    }
     a {
-      padding: 3px 8px;
+      padding: 3px 0;
       font-size: .8em;
       text-decoration: none;
       &:hover {
@@ -1110,3 +1116,45 @@ a.page__meta__tag {
     float: right;
   }
 }
+
+.blog__doodle {
+  border: 1px solid #d9d9d9;
+  padding: 15px;
+  font-size: .75em;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  span {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  div {
+    width: 100%;
+    min-height: 20px;
+    margin-top: 10px;
+    font-size: .9em;
+    a {
+      float: right;
+    }
+  }
+}
+
+.archive__list__title {
+  font-weight: bold;
+  font-size: 1.1em;
+  border-bottom: 2px solid #d9d9d9;
+  padding: 5px 0;
+}
+
+.a-right {
+  float: right;
+}
+
+.d-day {
+  border: 1px solid #d9d9d9;
+  border-radius: 3px;
+  padding: 5px;
+  font-size: .7em;
+  text-align: center;
+}
+

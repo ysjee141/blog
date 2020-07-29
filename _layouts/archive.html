@@ -16,11 +16,22 @@ layout: default
 
 <div id="main" role="main">
   {% include sidebar.html %}
-
   <div class="archive">
-    {% unless page.header.overlay_color or page.header.overlay_image %}
-<!--      <h1 id="page-title" class="page__title">{{ page.title }}</h1>-->
-    {% endunless %}
+    {% assign notify = site.data.notify %}
+    {% if notify and page.dir == "/" %}
+    <div class="blog__doodle">
+      <span>주인장의 주저리...</span>
+      {{ notify.desc }}
+      {% if notify.link %}
+      <div>
+        <a href="{{ notify.link }}">Read More...</a>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+    {% if page.dir == "/" %}
+    <div class="archive__list__title">Posts</div>
+    {% endif %}
     {{ content }}
   </div>
 </div>

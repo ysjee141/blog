@@ -31,7 +31,7 @@
       /* calculate height of nav list
          viewport height - nav height - masthead x-padding
       */
-      max-height: calc(100vh - #{$nav-height} - 2em);
+      //max-height: calc(100vh - #{$nav-height} - 2em);
     }
   }
 
@@ -188,6 +188,7 @@
   z-index: 20;
   position: relative;
   cursor: pointer;
+  min-height: 25px;
 
   li:last-child {
     a {
@@ -301,18 +302,26 @@
 
   li {
     white-space: nowrap;
+    list-style: none;
+    display: inline-block;
+    float: right;
+    &:first-child {
+      float: left;
+    }
   }
 
   a {
     display: block;
     margin-bottom: 5px;
-    padding-right: 5px;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding: 0;
     color: inherit;
     font-size: $type-size-5;
     text-decoration: none;
-
+    i {
+      font-size: 1.3em;
+      position: relative;
+      top: 2px;
+    }
     &:hover {
       text-decoration: underline;
     }
