@@ -393,6 +393,10 @@
       
       
       
+      <a class="category__item" href="/blog/tag/performance">#Performance</a>
+      
+      
+      
       <a class="category__item" href="/blog/tag/my%20story">#My Story</a>
       
     </li>
@@ -431,8 +435,8 @@
         <i class="far fa-clock" aria-hidden="true"></i> 2020/07/29
     </p>
     
-    <p class="archive__item-excerpt" itemprop="description">개발을 진행하다가 보면, 성능문제를 해결해야 하는 경우는 매우 많다.
-</p>
+    <p class="archive__item-excerpt" itemprop="description">개발을 진행하다가 보면, 성능문제를 해결해야 하는 경우는 매우 많다. 성능 문제를 해결하기 위해서는 우선 성능을 측정해야하며, 성능을 측정하는 방법와 도구는 셀수도 없이 많다.
+대부분의 경우 개발환경 또는 운영환경에 어플리케이션이 배포가 되고, Stress Test를 진행하여 성능...</p>
     
     
     
@@ -445,6 +449,10 @@
     
     
     <a href="/blog/tag/jmh" class="page__meta__tag">#JMH</a>
+    
+    
+    
+    <a href="/blog/tag/performance" class="page__meta__tag">#Performance</a>
     
   </article>
 </div>
@@ -574,6 +582,15 @@
 
 
 <script src="/blog/assets/js/_extend.js"></script>
+<script src="/blog/assets/js/vendor/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad:true,
+    theme: "forest",
+    fontFamily: "D2Coding"
+  });
+  mermaid.init(undefined, '.language-mermaid');
+</script>
 
   </body>
 </html>

@@ -10,7 +10,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>JMH(Java Microbenchmark Harness) 사용법 - happl’s Doodle</title>
-<meta name="description" content="개발을 진행하다가 보면, 성능문제를 해결해야 하는 경우는 매우 많다.">
+<meta name="description" content="개발을 진행하다가 보면, 성능문제를 해결해야 하는 경우는 매우 많다. 성능 문제를 해결하기 위해서는 우선 성능을 측정해야하며, 성능을 측정하는 방법와 도구는 셀수도 없이 많다. 대부분의 경우 개발환경 또는 운영환경에 어플리케이션이 배포가 되고, Stress Test를 진행하여 성능을 측정한다. 이러한 방법은 매우 일반적이며 어플리케이션의 성능을 개선하기 위해서는 당연히 수행해야 하는 작업이다.">
 
 
   <meta name="author" content="Yoonseong JI">
@@ -23,7 +23,7 @@
 <meta property="og:url" content="https://ysjee141.github.io/blog/technical/java-benchmark/">
 
 
-  <meta property="og:description" content="개발을 진행하다가 보면, 성능문제를 해결해야 하는 경우는 매우 많다.">
+  <meta property="og:description" content="개발을 진행하다가 보면, 성능문제를 해결해야 하는 경우는 매우 많다. 성능 문제를 해결하기 위해서는 우선 성능을 측정해야하며, 성능을 측정하는 방법와 도구는 셀수도 없이 많다. 대부분의 경우 개발환경 또는 운영환경에 어플리케이션이 배포가 되고, Stress Test를 진행하여 성능을 측정한다. 이러한 방법은 매우 일반적이며 어플리케이션의 성능을 개선하기 위해서는 당연히 수행해야 하는 작업이다.">
 
 
 
@@ -207,7 +207,7 @@
 
   <!--<article class="page" itemscope itemtype="https://schema.org/CreativeWork">-->
     <meta itemprop="headline" content="JMH(Java Microbenchmark Harness) 사용법">
-    <meta itemprop="description" content="개발을 진행하다가 보면, 성능문제를 해결해야 하는 경우는 매우 많다.">
+    <meta itemprop="description" content="개발을 진행하다가 보면, 성능문제를 해결해야 하는 경우는 매우 많다. 성능 문제를 해결하기 위해서는 우선 성능을 측정해야하며, 성능을 측정하는 방법와 도구는 셀수도 없이 많다.대부분의 경우 개발환경 또는 운영환경에 어플리케이션이 배포가 되고, Stress Test를 진행하여 성능을 측정한다.이러한 방법은 매우 일반적이며 어플리케이션의 성능을 개선하기 위해서는 당연히 수행해야 하는 작업이다.">
     <meta itemprop="datePublished" content="2020-07-29T00:00:00+00:00">
     
 
@@ -244,12 +244,13 @@
         
         <li><a href="/blog/tag/jmh">#JMH</a></li>
         
+        
+        <li><a href="/blog/tag/performance">#Performance</a></li>
+        
       </ul>
       <section class="page__content" itemprop="text">
         
-        <p>개발을 진행하다가 보면, 성능문제를 해결해야 하는 경우는 매우 많다.</p>
-
-<p>성능 문제를 해결하기 위해서는 우선 성능을 측정해야하며, 성능을 측정하는 방법와 도구는 셀수도 없이 많다.<br />
+        <p>개발을 진행하다가 보면, 성능문제를 해결해야 하는 경우는 매우 많다. 성능 문제를 해결하기 위해서는 우선 성능을 측정해야하며, 성능을 측정하는 방법와 도구는 셀수도 없이 많다.<br />
 대부분의 경우 개발환경 또는 운영환경에 어플리케이션이 배포가 되고, Stress Test를 진행하여 성능을 측정한다.<br />
 이러한 방법은 매우 일반적이며 어플리케이션의 성능을 개선하기 위해서는 당연히 수행해야 하는 작업이다.</p>
 
@@ -258,6 +259,11 @@
 개발을 하다보면, 특정 코드에 대한 간단한 비교가 필요하기도 하고, 학습을 위해 각 코드에 대한 
 성능을 비교해야 할 경우도 많이 있을 것이다. 이렇듯 코드에 대한 성능측정을 하기 위한 방법을 찾던 중 
 JMH(Java Microbenchmark Harness)란 도구를 알게 되어 사용법을 정리해 본다.</p>
+
+<p>참고로, JMH는 Oracle의 JIT Compiler 개발자가 만든 것이기 때문에 
+타 Benchmark Framework 보다 신뢰할 수 있다는 장점이 존재한다.</p>
+
+<h2 id="maven-프로젝트-생성-및-dependency-설정">Maven 프로젝트 생성 및 Dependency 설정</h2>
 
 <p>JMH를 통해 벤치마킹 테스트를 하기 위해서는 Project를 생성해야 한다. 만약, 이미 만들어진 프로젝트에 
 JMH을 사용하려면 Maven Dependency를 추가하면 된다.</p>
@@ -284,20 +290,39 @@ JMH을 사용하려면 Maven Dependency를 추가하면 된다.</p>
   <span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div></div>
 
-<p>성능 측정을 위해서는 JMH에서 지원하는 Annotation을 사용하여 코드를 작성하면 된다. 예제는 아래와 같다.</p>
+<h2 id="jmh를-통한-benchmark-테스트">JMH를 통한 Benchmark 테스트</h2>
+
+<p>성능 측정을 위해서는 JMH에서 지원하는 Annotation을 사용하여 코드를 작성하면 된다. 예제는 아래와 같다.<br />
+ArrayList에 데이터를 넣은 후 반복문을 돌리는 테스트 코드이다.</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@State</span><span class="o">(</span><span class="nc">Scope</span><span class="o">.</span><span class="na">Thread</span><span class="o">)</span>
 <span class="nd">@BenchmarkMode</span><span class="o">(</span><span class="nc">Mode</span><span class="o">.</span><span class="na">AverageTime</span><span class="o">)</span>
 <span class="nd">@OutputTimeUnit</span><span class="o">(</span><span class="nc">TimeUnit</span><span class="o">.</span><span class="na">MILLISECONDS</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">LoopTest</span> <span class="o">{</span>
+
+    <span class="kd">final</span> <span class="no">LIMIT_COUNT</span> <span class="o">=</span> <span class="mi">10000</span><span class="o">;</span>
+    <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">array</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+
 	<span class="nd">@Setup</span>
 	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
-        <span class="c1">// 성능 측정 전 사전에 필요한 작업		</span>
+        <span class="c1">// 성능 측정 전 사전에 필요한 작업</span>
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">LIMIT_COUNT</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">array</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+        <span class="o">}</span>
 	<span class="o">}</span>
 
 	<span class="nd">@Benchmark</span>
 	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">originLoopWithGetSize</span><span class="o">()</span> <span class="o">{</span>
         <span class="c1">// 성능을 측정할 코드 작성</span>
+        <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">processor</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+        <span class="o">}</span>
 	<span class="o">}</span>
+
+    <span class="nc">Integer</span> <span class="n">temp</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">processor</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+    <span class="o">}</span>
 
     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span><span class="o">,</span> <span class="nc">RunnerException</span> <span class="o">{</span>
         <span class="nc">Options</span> <span class="n">opt</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">OptionsBuilder</span><span class="o">()</span>
@@ -310,6 +335,9 @@ JMH을 사용하려면 Maven Dependency를 추가하면 된다.</p>
     <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>
+<p>SELECT CODE
+FROM TBL_CODE
+GROUP BY CODE</p>
 
 <p>측정이 완료되면 다음과 같은 결과가 출력된다.</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run complete. Total time: 00:01:43</span>
@@ -322,7 +350,296 @@ LoopTest.originLoop             avgt   10  0.634 ± 0.117  ms/op
 LoopTest.originLoopWithGetSize  avgt   10  0.876 ± 0.093  ms/op
 </code></pre></div></div>
 
+<h2 id="annotation-정리">Annotation 정리</h2>
+
+<h3 id="benchmarkmode">@BenchmarkMode</h3>
+<p>JMH는 벤치마크를 다양항 방법을 수행할 수 있으며, 이를 지정하기 위해 @BenchmarkMode를 사용한다. <br />
+사용가능한 방법은 아래 참조</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Throughput</td>
+      <td>초당 작업수 측정, 기본값</td>
+    </tr>
+    <tr>
+      <td>AverageTime</td>
+      <td>작업이 수행되는 평균 시간을 측정</td>
+    </tr>
+    <tr>
+      <td>SampleTime</td>
+      <td>최대, 최소 시간 등 작업이 수행하는데 걸리는 시간을 측정</td>
+    </tr>
+    <tr>
+      <td>SingleShotTime</td>
+      <td>단일 작업 수행 소요 시간 측정, Cold Start(JVM 예열 없이) 수행하는데 적격</td>
+    </tr>
+    <tr>
+      <td>All</td>
+      <td>위 모든 시간을 측정</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>예제 코드(<a href="http://tutorials.jenkov.com/java-performance/jmh.html">http://tutorials.jenkov.com/java-performance/jmh.html</a>)</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyBenchmark</span> <span class="o">{</span>
+
+    <span class="nd">@Benchmark</span> <span class="nd">@BenchmarkMode</span><span class="o">(</span><span class="nc">Mode</span><span class="o">.</span><span class="na">Throughput</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testMethod</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// This is a demo/sample template for building your JMH benchmarks. Edit as needed.</span>
+        <span class="c1">// Put your benchmark code here.</span>
+
+        <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="outputtimeunit">@OutputTimeUnit</h3>
+
+<p>벤치마크 결과를 출력할 시간 단위를 설정할 수 있으며, java.util.concurrent.TimeUnit 열거형을 통해 설정이 가능하다.</p>
+
+<ul>
+  <li>NANOSECONDS(Default)</li>
+  <li>MICROSECONDS</li>
+  <li>MILLISECONDS</li>
+  <li>SECONDS</li>
+  <li>MINUTES</li>
+  <li>HOURS</li>
+  <li>DAYS</li>
+</ul>
+
+<p><strong>예제 코드(<a href="http://tutorials.jenkov.com/java-performance/jmh.html">http://tutorials.jenkov.com/java-performance/jmh.html</a>)</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyBenchmark</span> <span class="o">{</span>
+
+    <span class="nd">@Benchmark</span> <span class="nd">@BenchmarkMode</span><span class="o">(</span><span class="nc">Mode</span><span class="o">.</span><span class="na">Throughput</span><span class="o">)</span> <span class="nd">@OutputTimeUnit</span><span class="o">(</span><span class="nc">TimeUnit</span><span class="o">.</span><span class="na">MINUTES</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testMethod</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// This is a demo/sample template for building your JMH benchmarks. Edit as needed.</span>
+        <span class="c1">// Put your benchmark code here.</span>
+
+        <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="state">@State</h3>
+
+<p>JMH는 벤치마크에 사용되어지는 Argument의 상태를 지정할 수 있다. 벤치마크 테스트를 진행하다보면 상황에 따라
+Argument가 항상 초기화 되어야 할 때도 있고, 값이 항상 유지되어야 할 경우도 있을텐데 이것을 가능하게 하는 것이
+@State Annotation이며, 정의 가능한 Scope는 아래와 같다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Scope</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Thread</td>
+      <td>Thread별로 인스턴스 생성</td>
+    </tr>
+    <tr>
+      <td>Benchmark</td>
+      <td>동일 테스트 내 모든 Thread에서 동일 Instance를 공유 (Multi-Threading 테스트)</td>
+    </tr>
+    <tr>
+      <td>Group</td>
+      <td>Thread 그룹마다 Instance를 생성</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p>@Steate Annotation이 적용되는 클래스는 다음과 같은 규칙을 준수해야 한다.</p>
+  <ul>
+    <li>반드시 Public 클래스로 선언되어야 한다. 만약 중첩 클래스인 경우에는 static로 선언되어야 한다.</li>
+    <li>Argument가 없는 생성자가 반드시 있어야 한다.
+위 규칙을 준수하면 @State Annotation을 클래스에 적용하여 JMH가 인식하도록 할 수 있다.</li>
+  </ul>
+</blockquote>
+
+<p><strong>예제 코드(<a href="http://tutorials.jenkov.com/java-performance/jmh.html">http://tutorials.jenkov.com/java-performance/jmh.html</a>)</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyBenchmark</span> <span class="o">{</span>
+
+    <span class="nd">@State</span><span class="o">(</span><span class="nc">Scope</span><span class="o">.</span><span class="na">Thread</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">MyState</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="n">sum</span> <span class="o">;</span>
+    <span class="o">}</span>
+
+
+    <span class="nd">@Benchmark</span> <span class="nd">@BenchmarkMode</span><span class="o">(</span><span class="nc">Mode</span><span class="o">.</span><span class="na">Throughput</span><span class="o">)</span> <span class="nd">@OutputTimeUnit</span><span class="o">(</span><span class="nc">TimeUnit</span><span class="o">.</span><span class="na">MINUTES</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testMethod</span><span class="o">(</span><span class="nc">MyState</span> <span class="n">state</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">state</span><span class="o">.</span><span class="na">sum</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="na">a</span> <span class="o">+</span> <span class="n">state</span><span class="o">.</span><span class="na">b</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="setup--teardown">@Setup / @TearDown</h3>
+
+<p>@Setup 및 @TearDown Annotation은 상태 클래스의 Method에 적용이 가능하다. @Setup Annotation은 JMH에게 
+벤치마크가 시작되기 전 상태 Object를 설정하기 위해 사용한다. JUnit의 @Before와 같은 역할을 한다고 이해하면 쉽다.
+@TearDown Annotation은 벤치마크가 종료된 이후 상태 Object를 정리하기 위해 사용한다. JUnit의 @After와 같은 역할을 한다고 이해하자.<br />
+@Setup / @TearDown이 적용된 Method의 실행시간은 벤치마크 시간에 포함되지 않는다.</p>
+
+<p>@Setup / @TearDown은 Level Arugement의 설정이 가능하며 설정 가능한 값은 다음과 같다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Level</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Trial</td>
+      <td>벤치마크를 실행할 때 마다 한번씩 호출하며, 실행은 전체 Fork를 의미한다.</td>
+    </tr>
+    <tr>
+      <td>Iteration</td>
+      <td>벤치마크를 반복 할 때마다 한번씩 호출</td>
+    </tr>
+    <tr>
+      <td>Invocation</td>
+      <td>벤치마크를 메소드를 호출 할 때마다 호출</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>예제 코드(<a href="http://tutorials.jenkov.com/java-performance/jmh.html">http://tutorials.jenkov.com/java-performance/jmh.html</a>)</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyBenchmark</span> <span class="o">{</span>
+
+    <span class="nd">@State</span><span class="o">(</span><span class="nc">Scope</span><span class="o">.</span><span class="na">Thread</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">MyState</span> <span class="o">{</span>
+
+        <span class="nd">@Setup</span><span class="o">(</span><span class="nc">Level</span><span class="o">.</span><span class="na">Trial</span><span class="o">)</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSetup</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Do Setup"</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@TearDown</span><span class="o">(</span><span class="nc">Level</span><span class="o">.</span><span class="na">Trial</span><span class="o">)</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doTearDown</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Do TearDown"</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="n">sum</span> <span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Benchmark</span> <span class="nd">@BenchmarkMode</span><span class="o">(</span><span class="nc">Mode</span><span class="o">.</span><span class="na">Throughput</span><span class="o">)</span> <span class="nd">@OutputTimeUnit</span><span class="o">(</span><span class="nc">TimeUnit</span><span class="o">.</span><span class="na">MINUTES</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testMethod</span><span class="o">(</span><span class="nc">MyState</span> <span class="n">state</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">state</span><span class="o">.</span><span class="na">sum</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="na">a</span> <span class="o">+</span> <span class="n">state</span><span class="o">.</span><span class="na">b</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="dead-code를-주의하라">Dead Code를 주의하라</h3>
+
+<p>JVM의 경우 Method 등에서 계산된 결과를 반환하거나, 사용되지 않으면 사용하지 않는 코드라고 인식,
+해당 코드를 제가하는 경우가 있으며, 이를 Dead Code라 한다. 이러한 코드를 벤치마킹시 
+정확한 벤치마킹이 되지 않을 수 있으니 반드시 Dead Code를 작성하지 않도록 주의하자.</p>
+
+<p>Dead Code의 예제는 아래와 같다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyBenchmark</span> <span class="o">{</span>
+
+    <span class="nd">@Benchmark</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testMethod</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>위 코드를 보면 testMethod() 내에서 a + b의 계산이 사용하는 코드가 존재하지 않는다.
+이러한 경우 JVM은 해당 코드를 Dead Code라고 인식하고 해당 코드의 값이 사용되지 않기 
+때문에 선언한 a와 b의 값 또한 사용되지 않는 것이기 때문에 같이 제거가 된다.</p>
+
+<p>결국 벤치마크 코드에는 아무런 코드도 존재하지 않는 것이 되며, 테스터가 이러한 부분을 인식하지 못한다면,
+굉장히 성능이 좋은 코드라고 오해할 소지가 충분하다. 하지만 정작 벤치마크는 실행되지 않은 것과 같다.</p>
+
+<p>이러한 Dead Code를 회피하기 위해서는 아래와 같은 방법을 사용하는 것이 좋다.</p>
+<ul>
+  <li>Method가 결과 값을 Return 하도록 작성하라.</li>
+  <li>계산된 값을 JMH가 제공하는 “Black Hole” 함수를 통해 전달한다.</li>
+</ul>
+
+<h4 id="jmh가-제공하는-black-hole-사용법">JMH가 제공하는 “Black Hole” 사용법</h4>
+
+<p>JMH는 벤치마크 코드에서 계산된 값을 반환하지 않아도 JVM에서 마치 사용하는 것처럼 인식하게 하는 
+Blackhole 방법을 제공하며, 예제는 다음과 같다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyBenchmark</span> <span class="o">{</span>
+
+    <span class="nd">@Benchmark</span>
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testMethod</span><span class="o">(</span><span class="nc">Blackhole</span> <span class="n">blackhole</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">;</span>
+        <span class="n">blackhole</span><span class="o">.</span><span class="na">consume</span><span class="o">(</span><span class="n">sum</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>위 코드에서 보면 벤치마크 Method 내 <code class="language-plaintext highlighter-rouge">blockhole.consume(sum)</code> 코드를 확인할 수 있다. Method에 
+JMH가 제공하는 Blackhole 클래스를 Argument로 받고 해당 코드를 수행하면, Method 내에서 계산된 값을
+넘겨주면 JVM에서는 계산된 값을 사용한 것으로 인식하여 정확한 측정이 가능하다. method 내 여러개의 계산된 값이
+도출된다면 지속적으로 <code class="language-plaintext highlighter-rouge">consume()</code>를 호출하여 값을 전달하면 된다.</p>
+
+<h2 id="정리">정리</h2>
+
+<p>JMH는 특정 클래스 또는 코드에 대한 벤치마크 테스트를 진행하는 것에 매우 좋은 방법으로 생각된다. 다만, 
+테스트해야 할 범위가 크거나 다양한 Action 또는 Step이 필요한 경우에는 적절한 방법은 아닌 것으로 보여지며, 
+이러한 경우에는 APM과 같은 어플리케이션 성능 테스트 솔루션을 활용하는 것이 좋을 것 같다.<br />
+JUnit과 JMH를 조합하여, 코드를 빌드하는 과정에서 사전 테스트를 한다면 좀더 나은 코드 품질을 확보할 수 있지 않을까 생각해본다.</p>
+
         
+
+        
+        <span class="page-divider" style="margin-top: 50px;">
+          <span class="one"></span>
+          <span class="two"></span>
+        </span>
+        <section class="page__refs">
+          <div class="page__refs__title">[참고]</div>
+          <ul>
+            
+              
+                <li><a href="https://medium.com/@devAsterisk/jmh-java-benchmark-tool-4f7a27eb3fa3" target="_blank">https://medium.com/@devAsterisk/jmh-java-benchmark-tool-4f7a27eb3fa3</a></li>
+              
+            
+              
+                <li><a href="http://tutorials.jenkov.com/java-performance/jmh.html#state-scope" target="_blank">http://tutorials.jenkov.com/java-performance/jmh.html#state-scope</a></li>
+              
+            
+          </ul>
+        </section>
+        
+
       </section>
 
       
@@ -345,7 +662,7 @@ LoopTest.originLoopWithGetSize  avgt   10  0.876 ± 0.093  ms/op
       <div class="page__comments">
   
   
-      <h4 class="page__comments-title">댓글남기기</h4>
+      <h4 class="page__comments-title">댓글 남기기</h4>
       <section id="utterances-comments"></section>
     
 </div>
@@ -554,6 +871,15 @@ LoopTest.originLoopWithGetSize  avgt   10  0.876 ± 0.093  ms/op
 
 
 <script src="/blog/assets/js/_extend.js"></script>
+<script src="/blog/assets/js/vendor/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad:true,
+    theme: "forest",
+    fontFamily: "D2Coding"
+  });
+  mermaid.init(undefined, '.language-mermaid');
+</script>
 
   </body>
 </html>
