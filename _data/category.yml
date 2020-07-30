@@ -12,3 +12,5 @@
   description: 나의 소소한 이야기 (낙서)
 - name: technical
   description: 개발에 필요한 기술 포스팅
+- name: server
+  description: 서버 관리 및 운영 이야기

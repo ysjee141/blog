@@ -1,6 +1,6 @@
 ---
 title: Spring Boot Application Context Event
-category: Technical
+category: Server-Side
 tags: [SpringBoot]
 ---
 

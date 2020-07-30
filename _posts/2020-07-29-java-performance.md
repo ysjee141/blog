@@ -1,6 +1,6 @@
 ---
 title: 성능을 생각하는 Java 코딩법
-category: Technical
+category: Quality
 tags: Java
 published: false
 ---

@@ -8,3 +8,16 @@ $(document).ready(function() {
 function movetop() {
     window.scrollTo(0,0);
 }
+
+function slideshow() {
+    console.log($("#raw__content").val());
+    remark.create({
+        ratio: "16:9",
+        highlightLangauge: "java",
+        highlightStyle: "monokai",
+        navigation: {
+            scroll: false,
+            click: true
+        }
+    });
+}

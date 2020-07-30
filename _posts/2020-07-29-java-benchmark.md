@@ -1,6 +1,6 @@
 ---
 title: JMH(Java Microbenchmark Harness) 사용법
-category: Technical
+category: Quality
 tags: [Java, Benchmark, JMH, Performance]
 refs: 
     - https://medium.com/@devAsterisk/jmh-java-benchmark-tool-4f7a27eb3fa3
@@ -19,6 +19,8 @@ JMH(Java Microbenchmark Harness)란 도구를 알게 되어 사용법을 정리�
 
 참고로, JMH는 Oracle의 JIT Compiler 개발자가 만든 것이기 때문에 
 타 Benchmark Framework 보다 신뢰할 수 있다는 장점이 존재한다.
+
+------
 
 ## Maven 프로젝트 생성 및 Dependency 설정
 
