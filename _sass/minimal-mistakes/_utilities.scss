@@ -1173,3 +1173,10 @@ a.page__meta__tag {
     }
   }
 }
+
+
+.grid__item {
+  a.page__meta__tag {
+    display: none;
+  }
+}
