@@ -27,3 +27,12 @@
   {% endfor %}
 {% endif %}
 <script src="{{ '/assets/js/_extend.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/vendor/mermaid.min.js' | relative_url }}"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad:true,
+    theme: "forest",
+    fontFamily: "D2Coding"
+  });
+  mermaid.init(undefined, '.language-mermaid');
+</script>

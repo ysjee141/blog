@@ -85,6 +85,24 @@ layout: default
         {% endif %}
         {{ content }}
         {% if page.link %}<div><a href="{{ page.link }}" class="btn btn--primary">{{ site.data.ui-text[site.locale].ext_link_label | default: "Direct Link" }}</a></div>{% endif %}
+
+        {% if page.refs %}
+        <span class="page-divider" style="margin-top: 50px;">
+          <span class="one"></span>
+          <span class="two"></span>
+        </span>
+        <section class="page__refs">
+          <div class="page__refs__title">[참고]</div>
+          <ul>
+            {% for ref in page.refs %}
+              {% if ref %}
+                <li><a href="{{ ref }}" target="_blank">{{ ref }}</a></li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </section>
+        {% endif %}
+
       </section>
 
       {% if page.share %}{% include social-share.html %}{% endif %}

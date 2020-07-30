@@ -1158,3 +1158,18 @@ a.page__meta__tag {
   text-align: center;
 }
 
+.page__refs {
+  clear: both;
+  * {
+    font-size: 16px;
+  }
+  div.page__refs__title {
+    font-weight: bold;
+  }
+  ul {
+    padding-inline-start: 20px;
+    li {
+      margin-bottom: 0;
+    }
+  }
+}
