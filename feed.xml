@@ -1,4 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://ysjee141.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ysjee141.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-07-30T09:07:34+00:00</updated><id>https://ysjee141.github.io/blog/feed.xml</id><title type="html">happl’s Doodle</title><subtitle>An amazing website.</subtitle><author><name>Yoonseong JI</name></author><entry><title type="html">JMH(Java Microbenchmark Harness) 사용법</title><link href="https://ysjee141.github.io/blog/quality/java-benchmark/" rel="alternate" type="text/html" title="JMH(Java Microbenchmark Harness) 사용법" /><published>2020-07-29T00:00:00+00:00</published><updated>2020-07-29T00:00:00+00:00</updated><id>https://ysjee141.github.io/blog/quality/java-benchmark</id><content type="html" xml:base="https://ysjee141.github.io/blog/quality/java-benchmark/">&lt;p&gt;개발을 진행하다가 보면, 성능문제를 해결해야 하는 경우는 매우 많다. 성능 문제를 해결하기 위해서는 우선 성능을 측정해야하며, 성능을 측정하는 방법와 도구는 셀수도 없이 많다.&lt;br /&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://ysjee141.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ysjee141.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-08-03T13:56:16+00:00</updated><id>https://ysjee141.github.io/blog/feed.xml</id><title type="html">happl’s Doodle</title><subtitle>An amazing website.</subtitle><author><name>Yoonseong JI</name></author><entry><title type="html">BeanDefinitionRegistryPostProcessor의 사용</title><link href="https://ysjee141.github.io/blog/server-side/BeanDefinitionPostProcessor/" rel="alternate" type="text/html" title="BeanDefinitionRegistryPostProcessor의 사용" /><published>2020-08-03T00:00:00+00:00</published><updated>2020-08-03T00:00:00+00:00</updated><id>https://ysjee141.github.io/blog/server-side/BeanDefinitionPostProcessor</id><content type="html" xml:base="https://ysjee141.github.io/blog/server-side/BeanDefinitionPostProcessor/">&lt;p&gt;Spring에서 어플리케이션이 시작될 때 동적으로 Bean을 생성하기 위해서는 다양한 방법이 존재한다.
+앞서에는 Application Context 의 Event Listener를 통해 동적 Bean을 생성하는 방법을 소개한 적이 있는데, 
+이번에는  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BeanDefinitionRegistryPostProcessor&lt;/code&gt;를 통해 동적 Bean을 생성하는 방법을 정리하려 한다.&lt;/p&gt;
+
+&lt;p&gt;좀 더 자세한 이해가 필요하겠지만, 지금까지 내가 이해한 것으로는 Event Listener를 통해 동적 Bean을 생성하는 것과 
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BeanDefinitionRegistryPostProcessor&lt;/code&gt;를 통해 동적 Bean을 생성하는 것의 결정적인 차이는 생성 시점으로 생각된다.&lt;/p&gt;
+
+&lt;p&gt;Application Context의 Event는 생성/갱신/중지/종료 시점에 동작을 하게된다.
+반면에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BeanDefinitionRegistryPostProcessor&lt;/code&gt;는 Spring이 Component Scan을 하기 이전 또는 
+실행하면서 발생하는 것이 아닌가 싶다. 이 부분은 자세한 조사를 통해 다시 정리토록 하겠다.&lt;/p&gt;
+
+&lt;h1 id=&quot;code-sample&quot;&gt;Code Sample&lt;/h1&gt;
+
+&lt;p&gt;본 포스트의 주 목적은 ‘BeanDefinitionRegistryPostProcessor’의 사용이므로, 이 부분에 집중하기로 하자.
+아래 예제를 참고하자&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PostProcessor&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BeanDefinitionRegistryPostProcessor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;postProcessBeanDefinitionRegistry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;BeanDefinitionRegistry&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;beanFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BeansException&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+	&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;postProcessBeanFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;ConfigurableListableBeanFactory&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;configurableListableBeanFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BeansException&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BeanDefinitionRegistryPostProcessor&lt;/code&gt;를 사용하기 위해서는 인터페이스를 통해 구현 클래스를 개발하면 된다.&lt;br /&gt;
+Override되어야 하는 함수는 다음과 같다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;postProcessBeanDefinitionRegistry(BeanDefinitionRegistry beanFactory): BeanFactory를 이용하여 빈 정보를 등록하는 경우 이용&lt;/li&gt;
+  &lt;li&gt;postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory): BeanDefinitionRegistry를 이용하여 빈 정보를 등록하는 경우 이용&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;정리&quot;&gt;정리&lt;/h1&gt;
+
+&lt;p&gt;나의 경우에는 Dynamic Mapper를 구현하는 과정에서 @MapperScan Annotation이 없이 
+Custom Annotation을 통해 Mapper Class 들을 Bean으로 등록하여 사용하고자 하는 것이 목적이였다.
+그런데 Application Context Event를 통해 이를 구현하였더니, ContextRefreshedEvent는 
+이미 Autowired Bean의 등록 및 스캔이 완료된 시점에서 호출이 되는지 @MapperScan이 누락이 되면 
+Autowired 설정한 Class를 찾지 못해 오류가 발생하였다.&lt;/p&gt;
+
+&lt;p&gt;이러한 상황을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BeanDefinitionRegistryPostProcessor&lt;/code&gt;를 통해 구현했더니, 위 문제가 해결되었다.&lt;/p&gt;
+
+&lt;p&gt;Spring에서 Bean이 등록되고 동작되는 방식에 대한 자세한 학습이 필요할 듯하다…&lt;/p&gt;</content><author><name>Yoonseong JI</name></author><category term="Server-Side" /><category term="SpringBoot" /><summary type="html">Spring에서 어플리케이션이 시작될 때 동적으로 Bean을 생성하기 위해서는 다양한 방법이 존재한다. 앞서에는 Application Context 의 Event Listener를 통해 동적 Bean을 생성하는 방법을 소개한 적이 있는데, 이번에는 BeanDefinitionRegistryPostProcessor를 통해 동적 Bean을 생성하는 방법을 정리하려 한다.</summary></entry><entry><title type="html">JMH(Java Microbenchmark Harness) 사용법</title><link href="https://ysjee141.github.io/blog/quality/java-benchmark/" rel="alternate" type="text/html" title="JMH(Java Microbenchmark Harness) 사용법" /><published>2020-07-29T00:00:00+00:00</published><updated>2020-07-29T00:00:00+00:00</updated><id>https://ysjee141.github.io/blog/quality/java-benchmark</id><content type="html" xml:base="https://ysjee141.github.io/blog/quality/java-benchmark/">&lt;p&gt;개발을 진행하다가 보면, 성능문제를 해결해야 하는 경우는 매우 많다. 성능 문제를 해결하기 위해서는 우선 성능을 측정해야하며, 성능을 측정하는 방법와 도구는 셀수도 없이 많다.&lt;br /&gt;
 대부분의 경우 개발환경 또는 운영환경에 어플리케이션이 배포가 되고, Stress Test를 진행하여 성능을 측정한다.&lt;br /&gt;
 이러한 방법은 매우 일반적이며 어플리케이션의 성능을 개선하기 위해서는 당연히 수행해야 하는 작업이다.&lt;/p&gt;
 
@@ -10,8 +55,6 @@ JMH(Java Microbenchmark Harness)란 도구를 알게 되어 사용법을 정리�
 
 &lt;p&gt;참고로, JMH는 Oracle의 JIT Compiler 개발자가 만든 것이기 때문에 
 타 Benchmark Framework 보다 신뢰할 수 있다는 장점이 존재한다.&lt;/p&gt;
-
-&lt;hr /&gt;
 
 &lt;h2 id=&quot;maven-프로젝트-생성-및-dependency-설정&quot;&gt;Maven 프로젝트 생성 및 Dependency 설정&lt;/h2&gt;
 

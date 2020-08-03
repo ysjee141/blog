@@ -196,6 +196,8 @@
       
 
 
+<!--<button type="button" onclick="slideshow('/blog/quality/java-benchmark/')">Slide</button>-->
+<!-- SlideShow Information -->
 
 <textarea id="source" style="display: none">개발을 진행하다가 보면, 성능문제를 해결해야 하는 경우는 매우 많다. 성능 문제를 해결하기 위해서는 우선 성능을 측정해야하며, 성능을 측정하는 방법와 도구는 셀수도 없이 많다.<br>
 대부분의 경우 개발환경 또는 운영환경에 어플리케이션이 배포가 되고, Stress Test를 진행하여 성능을 측정한다.<br>
@@ -209,8 +211,6 @@ JMH(Java Microbenchmark Harness)란 도구를 알게 되어 사용법을 정리�
 
 참고로, JMH는 Oracle의 JIT Compiler 개발자가 만든 것이기 때문에 
 타 Benchmark Framework 보다 신뢰할 수 있다는 장점이 존재한다.
-
-------
 
 ## Maven 프로젝트 생성 및 Dependency 설정
 
@@ -512,7 +512,7 @@ JMH는 특정 클래스 또는 코드에 대한 벤치마크 테스트를 진행
 테스트해야 할 범위가 크거나 다양한 Action 또는 Step이 필요한 경우에는 적절한 방법은 아닌 것으로 보여지며, 
 이러한 경우에는 APM과 같은 어플리케이션 성능 테스트 솔루션을 활용하는 것이 좋을 것 같다.<br>
 JUnit과 JMH를 조합하여, 코드를 빌드하는 과정에서 사전 테스트를 한다면 좀더 나은 코드 품질을 확보할 수 있지 않을까 생각해본다.</textarea>
-
+<!-- // SlideShow Information -->
 <div id="main" role="main">
   
 
@@ -578,8 +578,6 @@ JMH(Java Microbenchmark Harness)란 도구를 알게 되어 사용법을 정리�
 
 <p>참고로, JMH는 Oracle의 JIT Compiler 개발자가 만든 것이기 때문에 
 타 Benchmark Framework 보다 신뢰할 수 있다는 장점이 존재한다.</p>
-
-<hr />
 
 <h2 id="maven-프로젝트-생성-및-dependency-설정">Maven 프로젝트 생성 및 Dependency 설정</h2>
 
@@ -1012,6 +1010,42 @@ JUnit과 JMH를 조합하여, 코드를 빌드하는 과정에서 사전 테스�
     
     <h3 class="archive__item-title" itemprop="headline">
       
+        <a href="/blog/server-side/BeanDefinitionPostProcessor/" rel="permalink">BeanDefinitionRegistryPostProcessor의 사용
+</a>
+      
+    </h3>
+    
+    <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> 2020/08/03
+    </p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Spring에서 어플리케이션이 시작될 때 동적으로 Bean을 생성하기 위해서는 다양한 방법이 존재한다.
+앞서에는 Application Context 의 Event Listener를 통해 동적 Bean을 생성하는 방법을 소개한 적이 있는데, 
+이번에는  BeanDefinitionRe...</p>
+    
+    
+    
+    <a href="/blog/tag/springboot" class="page__meta__tag">#SpringBoot</a>
+    
+  </article>
+</div>
+
+        
+          
+  
+    
+  
+
+
+
+
+<div class="grid__item">
+
+    
+    <article class="archive__item no-margin" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h3 class="archive__item-title" itemprop="headline">
+      
         <a href="/blog/my%20story/my-story/" rel="permalink">블로그를 시작하며…
 </a>
       
@@ -1190,7 +1224,6 @@ JUnit과 JMH를 조합하여, 코드를 빌드하는 과정에서 사전 테스�
 
 <script src="/blog/assets/js/_extend.js"></script>
 <script src="/blog/assets/js/vendor/mermaid.min.js"></script>
-<script src="/blog/assets/js/vendor/remark-latest.min.js"></script>
 <script>
   mermaid.initialize({
     startOnLoad:true,

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="/blog/assets/js/vendor/remark-latest.min.js"></script>
+  <script src="/blog/assets/js/vendor/jquery/jquery-3.4.1.js"></script>
+  <script src="/blog/assets/js/vendor/remark-latest.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.0/axios.min.js"></script>
+  <script>
+    function getUrlVars() {
+      var vars = [], hash;
+      var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+      for (var i = 0; i < hashes.length; i++) {
+        hash = hashes[i].split('=');
+        vars[hash[0]] = hash[1];
+      }
+      return vars;
+    }
+
+    $(document).ready(function () {
+      var query = getUrlVars();
+      axios.get(query.path).then(function (res) {
+        var _title = $("[itemprop='headline'", res.data).attr("content");
+        var _contents = $($(res.data).find("#source")[0]);
+        var _text = _contents.text();
+        _text = "#" + _title + "\n---\n" + _text;
+        _contents.text(_text);
+
+        $("BODY").append(_contents);
+
+        remark.create({
+          ratio: "16:9",
+          highlightLangauge: "java",
+          highlightStyle: "monokai",
+          navigation: {
+            scroll: true,
+            click: true,
+            touch: true
+          }
+        });
+      })
+    })
+  </script>
+</head>
+<body>
+
+</body>
+</html>
