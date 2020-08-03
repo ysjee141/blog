@@ -20,8 +20,6 @@ JMH(Java Microbenchmark Harness)란 도구를 알게 되어 사용법을 정리�
 참고로, JMH는 Oracle의 JIT Compiler 개발자가 만든 것이기 때문에 
 타 Benchmark Framework 보다 신뢰할 수 있다는 장점이 존재한다.
 
-------
-
 ## Maven 프로젝트 생성 및 Dependency 설정
 
 JMH를 통해 벤치마킹 테스트를 하기 위해서는 Project를 생성해야 한다. 만약, 이미 만들어진 프로젝트에 

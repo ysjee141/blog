@@ -13,9 +13,11 @@ layout: default
     {% include breadcrumbs.html %}
   {% endunless %}
 {% endif %}
+<!--<button type="button" onclick="slideshow('{{ page.url | relative_url }}')">Slide</button>-->
+<!-- SlideShow Information -->
 
 <textarea id="source" style="display: none">{{ page.raw_content }}</textarea>
-
+<!-- // SlideShow Information -->
 <div id="main" role="main">
   {% include sidebar.html %}
 
