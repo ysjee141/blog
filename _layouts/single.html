@@ -90,21 +90,36 @@ layout: default
         {{ content }}
         {% if page.link %}<div><a href="{{ page.link }}" class="btn btn--primary">{{ site.data.ui-text[site.locale].ext_link_label | default: "Direct Link" }}</a></div>{% endif %}
 
-        {% if page.refs %}
+        {% if page.source or page.refs %}
         <span class="page-divider" style="margin-top: 50px;">
           <span class="one"></span>
           <span class="two"></span>
         </span>
-        <section class="page__refs">
-          <div class="page__refs__title">[참고]</div>
-          <ul>
-            {% for ref in page.refs %}
-              {% if ref %}
+        <table class="page__meta__additional">
+          {% if page.source %}
+          <tr>
+            <th>예제코드</th>
+            <td>
+              ※ 본 포스팅의 코드는 GitHub에서 확인할 수 있습니다.<br>
+              <a href="{{ page.source }}" class="page__meta__github">{{ page.source }}</a>
+            </td>
+          </tr>
+          {% endif %}
+          {% if page.refs %}
+          <tr>
+            <th>참고자료</th>
+            <td>
+              <ul>
+                {% for ref in page.refs %}
+                {% if ref %}
                 <li><a href="{{ ref }}" target="_blank">{{ ref }}</a></li>
-              {% endif %}
-            {% endfor %}
-          </ul>
-        </section>
+                {% endif %}
+                {% endfor %}
+              </ul>
+            </td>
+          </tr>
+          {% endif %}
+        </table>
         {% endif %}
 
       </section>

@@ -1034,9 +1034,6 @@ a.page__meta__tag {
   padding: 5px;
   cursor: pointer;
   text-decoration: none;
-  &:not(:last-child) {
-    margin-right: 10px;
-  }
   &:hover {
     background-color: #000;
     color: #fff;
@@ -1158,25 +1155,50 @@ a.page__meta__tag {
   text-align: center;
 }
 
-.page__refs {
-  clear: both;
-  * {
-    font-size: 16px;
-  }
-  div.page__refs__title {
-    font-weight: bold;
-  }
-  ul {
-    padding-inline-start: 20px;
-    li {
-      margin-bottom: 0;
-    }
-  }
-}
-
-
 .grid__item {
   a.page__meta__tag {
     display: none;
+  }
+}
+
+.page__meta__additional {
+  width: 100%;
+  display: table;
+  margin-bottom: -1.5em;
+  margin-top: 2em;
+  position: relative;
+  &:before {
+    content: '[추가정보]';
+    font-size: 16px;
+    font-weight: bold;
+    position: absolute;
+    top: -33px;
+    left: 1px;
+  }
+  th, td {
+    border: 1px solid #d9d9d9;
+    padding: 10px;
+    a.page__meta__github {
+      margin-left: 18px;
+    }
+    &:first-child {
+      width: 100px;
+      background-color: #f0f0f9;
+      letter-spacing: 5px;
+      text-align: center;
+    }
+    &:last-child {
+      width: calc(100% - 100px);
+    }
+  }
+  td {
+    ul {
+      padding-inline-start: 20px;
+      margin-block-start: 0;
+      margin-block-end: 0;
+      li {
+        margin-bottom: 0;
+      }
+    }
   }
 }
