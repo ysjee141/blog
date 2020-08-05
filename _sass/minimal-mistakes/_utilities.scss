@@ -637,6 +637,14 @@ a.reversefootnote {
             font-size: 14px;
             border: none;
             padding: 0;
+            word-break: break-all;
+            margin-left: 12px;
+            position: relative;
+            &:before {
+              content: '-';
+              position: absolute;
+              left: -10px;
+            }
             a {
               font-size: 14px;
               &:hover {
@@ -706,11 +714,10 @@ a.reversefootnote {
 }
 
 ul.page-tag-list {
-  margin: 0;
   list-style: none;
-  padding: 0;
-  margin-top: -30px;
-  margin-bottom: 50px;
+  margin: -30px 0 50px;
+  padding: 0 90px 0 0;
+  position: relative;
   li {
     list-style: none;
     padding: 0;
@@ -730,6 +737,10 @@ ul.page-tag-list {
         color: #fff;
       }
     }
+  }
+  a.page__meta__hits {
+    position: absolute;
+    right: 0;
   }
 }
 
@@ -1052,7 +1063,7 @@ a.page__meta__tag {
     margin-bottom: -20px;
   }
 
-  img {
+  img.page__meta__author__img {
     width: 45px;
     height: 45px;
     border-radius: 50%;

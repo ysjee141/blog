@@ -34,7 +34,7 @@
             {% assign title = post.title %}
           {% endif %}
           {% assign url = post.url | relative_url %}
-          <li class="recent-posts">- <a href="{{ url }}">{{ title }}</a></li>
+          <li class="recent-posts"><a href="{{ url }}">{{ title }}</a></li>
         {% endfor %}
       </ul>
     </li>

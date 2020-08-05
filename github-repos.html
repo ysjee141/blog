@@ -14,6 +14,11 @@ title: GITHUB REPOSITORIES
 
 <script>
 
+    var _tags = {
+        DIV: "<DIV></DIV>",
+        ARTICLE: "<ARTICLE></ARTICLE>"
+    }
+
     function toDateParsing(date) {
         return date.getFullYear() + "-" +
             (date.getMonth() + 1) + "-" +
@@ -22,24 +27,29 @@ title: GITHUB REPOSITORIES
 
     $(document).ready(function() {
         axios.get("https://api.github.com/users/ysjee141/repos")
-        .then(function(res) {
-            var _data = res.data;
-            _data.forEach(function(item) {
-                $("#repos-list").append(
-                    $("<ARTICLE></ARTICLE>").addClass("repos-item")
-                        .data("info", item)
-                        .append(
-                            $("<DIV></DIV>").addClass("repos-item-title")
-                                .append(item.name),
-                            $("<DIV></DIV>").addClass("repos-item-desc").text(item.description),
-                            $("<DIV></DIV>").addClass("repos-item-date").text(
-                                "Updated at " + toDateParsing(new Date(item.updated_at))
-                            )
-                        ).click(function() {
-                            window.open($(this).data("info").html_url);
-                    })
-                )
-            })
-        })
+        .then(repositoryProcessor)
     })
+
+    function repositoryProcessor(data) {
+        var _data = data.data;
+        _data.sort(function(current,next) {
+            return (new Date(next.updated_at)) - (new Date(current.updated_at));
+        }).forEach(renderRepository);
+    }
+
+    function renderRepository(item) {
+        $("#repos-list").append(
+            $(_tags.ARTICLE).addClass("repos-item")
+                .data("info", item)
+                .append(
+                    $(_tags.DIV).addClass("repos-item-title").append(item.name),
+                    $(_tags.DIV).addClass("repos-item-desc").text(item.description),
+                    $(_tags.DIV).addClass("repos-item-date").text(
+                        "Updated at " + toDateParsing(new Date(item.updated_at))
+                    )
+                ).click(function() {
+                    window.open($(this).data("info").html_url);
+                })
+        );
+    }
 </script>

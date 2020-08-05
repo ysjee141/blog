@@ -40,7 +40,7 @@ layout: default
           {% if page.author %}
             {% assign author = site.data.author[page.author] %}
             <div class="page__meta__author in__post">
-              <img src="{{ "/assets/img/" | append: author.img | relative_url}}" alt="{{ author.name }}">
+              <img src="{{ "/assets/img/" | append: author.img | relative_url}}" alt="{{ author.name }}" class="page__meta__author__img">
               <div class="meta__author__name">{{ author.name }} ({{ page.author }})</div>
               <div class="meta__author__date">| <i class="far fa-clock" aria-hidden="true"></i> {{ page.date | date: "%Y/%m/%d" }}</div>
               <div class="meta__author__desc">{{ author.desc }}</div>
@@ -77,7 +77,11 @@ layout: default
         {% assign tagurl = tag | downcase | prepend: site.tag_archive.path | relative_url %}
         <li><a href="{{ tagurl }}">#{{ tag }}</a></li>
         {% endfor %}
+          <a href="http://hits.dwyl.com/{{ site.url | remove_first: 'https://' | remove_first: 'http://' }}/{{ page.url | remove_first: '/' | replace: '/', '-' }}" target="_blank" class="page__meta__hits">
+            <img src="http://hits.dwyl.com/{{ site.url | remove_first: 'https://' | remove_first: 'http://' }}/{{ page.url | remove_first: '/' | replace: '/', '-' }}.svg" />
+          </a>
       </ul>
+
       <section class="page__content" itemprop="text">
         {% if page.toc %}
           <aside class="sidebar__right {% if page.toc_sticky %}sticky{% endif %}">
@@ -101,7 +105,7 @@ layout: default
             <th>예제코드</th>
             <td>
               ※ 본 포스팅의 코드는 GitHub에서 확인할 수 있습니다.<br>
-              <a href="{{ page.source }}" class="page__meta__github">{{ page.source }}</a>
+              <a href="{{ page.source }}" class="page__meta__github" target="_blank">{{ page.source }}</a>
             </td>
           </tr>
           {% endif %}
