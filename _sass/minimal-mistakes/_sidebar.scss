@@ -120,6 +120,7 @@
   vertical-align: top;
   width: 36px;
   height: 36px;
+  text-align: center;
 
   @include breakpoint($large) {
     display: block;
@@ -144,6 +145,7 @@
   padding-left: 15px;
   padding-right: 25px;
   line-height: 1;
+  text-align: center;
 
   @include breakpoint($large) {
     display: block;
@@ -169,10 +171,13 @@
 .sidebar .author__name {
   font-family: $kakao-1;
   font-size: $type-size-5-5;
+  text-transform: uppercase;
 }
 
 .author__bio {
   margin: 0;
+  color: #999;
+  font-size: 18px;
 
   @include breakpoint($large) {
     margin-top: 10px;
@@ -186,9 +191,9 @@
   vertical-align: middle;
   font-family: $kakao-1;
   z-index: 20;
-  position: relative;
   cursor: pointer;
   min-height: 25px;
+  font-size: 18px;
 
   li:last-child {
     a {

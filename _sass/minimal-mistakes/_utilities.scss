@@ -1213,3 +1213,54 @@ a.page__meta__tag {
     }
   }
 }
+
+ul.blog-statistics {
+  padding: 0;
+  display: table;
+  width: 100%;
+  margin: 0 0 20px;
+
+  li {
+    list-style: none;
+    padding: 0;
+    width: 33.3%;
+    margin: 0;
+    display: table-cell;
+    border-right: 1px solid #d9d9d9;
+
+    a {
+      text-decoration: none;
+    }
+
+    &:last-child {
+      border-right: none;
+    }
+    div {
+      font-size: 13px;
+      text-align: center;
+
+      &:first-child {
+        color: #222;
+        font-size: 16px;
+        * {
+          font-size: 16px;
+          color: #222;
+          font-weight: bold;
+        }
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      &:last-child {
+        color: #999;
+      }
+    }
+  }
+}
+
+.blog-profile-sidebar {
+  margin-bottom: 0;
+  border: 1px solid #d9d9d9;
+  padding: 10px;
+  border-radius: 3px;
+  margin-top: 11px !important;
+}
