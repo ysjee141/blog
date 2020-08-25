@@ -120,9 +120,8 @@
   /* next/previous buttons */
   &--pager {
     display: block;
-    padding: .3em .3em;
+    padding: .6em 1.3em;
     float: left;
-    width: 100px;
     font-family: $kakao-1;
     font-size: $type-size-6;
     font-weight: bold;
@@ -130,7 +129,7 @@
     text-decoration: none;
     color: $muted-text-color;
     border: 1px solid mix(#000, $border-color, 25%);
-    border-radius: $border-radius;
+    //border-radius: $border-radius;
 
     &:hover {
       @include yiq-contrasted($muted-text-color);
