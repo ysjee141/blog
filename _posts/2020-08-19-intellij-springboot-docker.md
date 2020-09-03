@@ -1,7 +1,7 @@
 ---
 title: Spring Boot를 Docker 환경으로 개발/디버깅 하기
 category: Dev Tools
-tags: [Spring Boot, IntelliJ, Devtools]
+tags: [SpringBoot, IntelliJ, Devtools, Docker]
 refs:
     - https://medium.com/@gaemi/spring-boot-%EA%B3%BC-docker-with-jib-657d32a6b1f0
     - https://imasoftwareengineer.tistory.com/40
