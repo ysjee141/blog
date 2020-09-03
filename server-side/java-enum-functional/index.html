@@ -1,0 +1,1032 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.3 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>enum 보다 잘 활용하기 - happl’s Doodle</title>
+<meta name="description" content="개발을 진행하다보면, 정해진 코드 값이나 패턴 등 정형화된 케이스에 대한 처리가 이루어지는 경우가 많다. 이러한 경우 보통 enum을 활용하는데, 이번 포스트는 이번에 알게되었고, 사용한 enum의 활용법에 이야기 해보려 한다.">
+
+
+  <meta name="author" content="Yoonseong JI">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="happl's Doodle">
+<meta property="og:title" content="enum 보다 잘 활용하기">
+<meta property="og:url" content="https://ysjee141.github.io/blog/server-side/java-enum-functional/">
+
+
+  <meta property="og:description" content="개발을 진행하다보면, 정해진 코드 값이나 패턴 등 정형화된 케이스에 대한 처리가 이루어지는 경우가 많다. 이러한 경우 보통 enum을 활용하는데, 이번 포스트는 이번에 알게되었고, 사용한 enum의 활용법에 이야기 해보려 한다.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-09-03T00:00:00+00:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://ysjee141.github.io/blog/server-side/java-enum-functional/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "happl",
+      "url": "https://ysjee141.github.io/blog/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/blog/feed.xml" type="application/atom+xml" rel="alternate" title="happl's Doodle Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/blog/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+<link rel="stylesheet" href="/blog/assets/css/syntax.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+  
+    <script src="/blog/assets/js/vendor/jquery/jquery-3.4.1.js"></script>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.0/axios.min.js"></script>
+  
+    <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+  
+    <script src="https://unpkg.com/turndown-plugin-gfm/dist/turndown-plugin-gfm.js"></script>
+  
+    <script src="/blog/assets/js/vendor/bluebird.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+<meta name="google-site-verification" content="SO-0QxMtMMEgiaV3K59vtKNi2ucxcYXH9gROvXDOke0" />
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/blog/">
+          happl's Doodle
+          <span class="site-subtitle">심심해서 끄적거리는 낙서장</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              
+              <a data-link="Blog" href="/blog/">Blog</a>
+            </li><li class="masthead__menu-item">
+              
+              <a data-link="Tag" href="/blog/tag">Tag</a>
+            </li><li class="masthead__menu-item">
+              
+              <a data-link="Repos" href="/blog/github-repos">Repos</a>
+            </li><li class="masthead__menu-item">
+              
+              <a data-link="About" href="/blog/about">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">토글 메뉴</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+
+    var _url = window.location.pathname;
+
+    if( _url.indexOf("/tag") > -1 ) {
+      $("[data-link='Tag']").addClass("hover");
+    } else if( _url.indexOf("/github-repos") > -1 ) {
+      $("[data-link='Repos']").addClass("hover");
+    } else if( _url.indexOf("/about") > -1 ) {
+      $("[data-link='About']").addClass("hover");
+    } else {
+      $("[data-link='Blog']").addClass("hover");
+    }
+
+
+  })
+</script>
+
+    <div class="initial-content">
+      
+
+
+<!--<button type="button" onclick="slideshow('/blog/server-side/java-enum-functional/')">Slide</button>-->
+<!-- SlideShow Information -->
+
+<textarea id="source" style="display: none">개발을 진행하다보면, 정해진 코드 값이나 패턴 등 정형화된 케이스에 대한 처리가 이루어지는 경우가 많다.
+이러한 경우 보통 enum을 활용하는데, 이번 포스트는 이번에 알게되었고, 사용한 enum의 활용법에 이야기 해보려 한다.
+
+## enum의 특징
+
+enum을 활용함에 있어 개발상의 이점은 아래와 같이 정리할 수 있다.
+
+* Plain Text와 비교하여, IDE의 적극적 지원이 가능하다. (Class 이기 때문에)
+* 특정 값으로 값을 제한할 수 있어, Human Error를 줄일 수 있다.
+* 값이 추가되더라도 enum의 추가만으로 처리가 가능하다. 다른 코드의 수정은 불필요하다.
+* *JDK 8 이후 Argument로 함수 사용이 가능하여, ENUM 자체로 처리가 가능하다.*
+
+> 여기서 이야기 하려는 부분은 마지막 함수 사용인데, enum의 값을 함수로 만들어 값에 대한 처리를 열거형에 위임하는 방법이다.
+
+## 지금까지 enum을 통한 개발 방법
+
+지금까지 enum을 활용하여 개발할 경우 아래와 같이 개발을 진행했다.
+
+```java
+public enum DisplayNameMethod {
+    FIRST_LAST_TITLE,
+    LAST_FIRST_TITLE,
+    TITLE_LAST_FIRST,
+    TITLE_FIRST_NAME
+}
+
+public class Sample() {
+    private String firstName = "gildong";
+    private String lastName = "hong";
+    private String title = "MR";
+
+    public String getDisplayName(DisplayNameMethod method) {
+        String result = "";
+        switch(method) {
+            case FIRST_LAST_TITLE:
+                result = firstName + " " + lastName + "/" + title;
+                break;
+            case LAST_FIRST_TITLE:
+                result = lastName + " " + firstName + "/" + title;
+                break;
+            case TITLE_LAST_FIRST:
+                result = title + "/" + lastName + " " + firstName;
+                break;
+            case TITLE_FIRST_NAME:
+                result = title + "/" + firstName + " " + lastName;
+                break;
+        }        
+        return result;
+    }
+}
+```
+
+위와 같이 개발을 해도 사실 크게 상관은 없다. enum을 통해 이름을 표시하는 패턴을 정의하고, 그에 맞춰 표시만 하면된다.
+하지만 위와 같이 개발할 경우 enum이 추가되면, enum을 추가하고 그에 따른 처리를 한는 부분을 찾아서 추가된 enum 값에 대한 처리를 직접 추가 및 수정을 해줘야한다.
+
+## enum의 Function화
+
+이를 개선하기 위한 방법은 enum 값 자체가 일종의 함수 역할을 해주면 보다 간결해질 것이다. 특히 위와 같이 행위의 패턴을 의미하는 enum의 경우 이러한 방식의 개발이 가능하다.
+아래의 코드를 살펴보자
+
+```java
+public enum NameDisplayMethod {
+	FIRST_LAST_TITLE(
+			(t, f, l) -> String.format("%s %s/%s", f, l, t)
+	),
+	LAST_FIRST_TITLE(
+			(t, f, l) -> String.format("%s %s/%s", l, f, t)
+	),
+	TITLE_LAST_FIRST(
+			(t, f, l) -> String.format("%s %s/%s", t, l, f)
+
+	),
+	TITLE_FIRST_NAME(
+			(t, f, l) -> String.format("%s %s/%s", t, f, l)
+	);
+
+	private final NameDisplayFunction expression;
+
+	NameDisplayMethod(NameDisplayFunction expression) {
+		this.expression = expression;
+	}
+
+	public String getDisplayName(String title, String firstName, String lastName) {
+		return this.expression.getDisplayName(title, firstName, String lastName);
+	}
+
+	@FunctionalInterface
+	public interface NameDisplayFunction {
+		String getDisplayName(String title, String firstName, String lastName);
+	}
+}
+
+public class Sample() {
+    private String firstName = "gildong";
+    private String lastName = "hong";
+    private String title = "MR";
+
+    public String getDisplayName(DisplayNameMethod method) {        
+        return method.getDisplayName(title, firstName, lastName);
+    }
+}
+```
+
+위 코드를 자세히 살펴보면 다음과 같다.
+
+### Argument로 활용할 Function 정의
+
+```java
+@FunctionalInterface
+public interface NameDisplayFunction {
+    String getDisplayName(String title, String firstName, String lastName);
+}
+```
+
+FunctionalInterface란 구현해야할 추상 메소드가 하나만 정의된 인터페이스를 가르키며, Java Language Specification에는 아래와 같이 정의되어 있다.
+> A functional interface is an interface that has just one abstract method (aside from the methods of Object), and thus represents a single function contract.
+> 
+> Functional Interface는 (Object 클래스의 메소드를 제외하고) 단 하나의 추상 메소드만을 가진 인터페이스를 의미하며, 그런 이유로 단 하나의 기능적 계약을 표상하게 된다.
+
+이는 개발상의 논리이며, 이를 개발하고 검증하는 것은 개발자가 직업해야하나, JDK 8에서는 @FunctionalInterface Annotation을 제공하여, 인터페이스에 Annotation이 적용되면,
+해당 인터페이스가 FunctionalInterface인지를 검증하여 준다.
+
+위와 같은 인터페이스는 다음과 같이 구현될 수 있으며, Lambda의 사용도 가능하다.
+```java
+// 구현체
+public class NameDisplayFunctionImpl implements NameDisplayMethod.NameDisplayFunction {
+	@Override
+	public String getDisplayName(PassengerInfo value, String delimiter) {
+		return null;
+	}
+}
+
+// Inline 표현식
+NameDisplayFunction f = new NameDisplayFunction() {
+    @Override
+    public String getDisplayName(String title, String firstName, String lastName) {
+        return null;
+    }
+}
+
+// Lambda 표현식
+(a, b, c) -> a + b + c
+```
+Functional Interface의 가장 큰 이점은 Lambda로 사용이 가능하다는 점이다. 때문에, enum의 Argument를 Function으로 구현하여 처리가 가능하다.
+
+### enum의 함수화
+
+위의 Functional Interface를 사용하게 되면 아래의 코드와 같이 enum의 값을 Function으로 구현할 수 있다. 
+
+```java
+public enum NameDisplayMethod {
+	FIRST_LAST_TITLE(
+			(t, f, l) -> String.format("%s %s/%s", f, l, t)
+	),
+	(...중략...)
+
+	private final NameDisplayFunction expression;
+
+	NameDisplayMethod(NameDisplayFunction expression) {
+		this.expression = expression;
+	}
+
+	public String getDisplayName(String title, String firstName, String lastName) {
+		return this.expression.getDisplayName(title, firstName, String lastName);
+	}
+
+	@FunctionalInterface
+	public interface NameDisplayFunction {
+		String getDisplayName(String title, String firstName, String lastName);
+	}
+}
+```
+
+JDK 7 이하의 경우 다음과 같이 개발이 가능하다.
+```java
+public enum NameDisplayMethod {
+    FIRST_LAST_TITLE {
+        String getDisplayName(String title, String firstName, String lastName) {
+            return String.format("%s %s/%s", firstName, lastName, title)
+        }
+    },
+    (...중략...)
+
+    abstract String getDisplayName(String title, String firstName, String lastName);
+}
+```
+
+이렇게 개발이 되면, 아래와 같이 열거형의 사용이 가능하다.
+```java
+public String getDisplayName(DisplayNameMethod method) {        
+    return method.getDisplayName(title, firstName, lastName);
+}
+```
+
+## 정리
+
+이번 포스트에서 이야기한 내용을 정리하면 다음과 같다.
+* enum 항목에 직접 코드를 구현하여, 처리 책임을 enum에 위임할 수 있다.
+* FunctionalInterface를 활용하면, enum에 함수를 할당 할 수 있다.
+* FunctionalInterface를 활용하면, Lambda의 사용이 가능하다.
+
+하지만 모든 enum의 구현을 위와 같은 방식으로 하는 것은 부적합할 것이다.
+enum에 따라 처리되어야 하는 패턴이 일정할 경우에는 매우 효과적일 수 있으나, 
+enum 값에 따라 다양한 처리가 이루어지는 경우에는 기존의 방식대로 개발하는 것이 적합할 것이다. 
+따라서 enum을 구현하기 전에 적절한 방법을 고민하고, 상황에 맞춰 개발할 것을 추천한다.
+
+</textarea>
+<!-- // SlideShow Information -->
+<div id="main" role="main">
+  
+
+
+  
+  <article class="page no-author" itemscope itemtype="https://schema.org/CreativeWork">
+  
+
+  <!--<article class="page" itemscope itemtype="https://schema.org/CreativeWork">-->
+    <meta itemprop="headline" content="enum 보다 잘 활용하기">
+    <meta itemprop="description" content="개발을 진행하다보면, 정해진 코드 값이나 패턴 등 정형화된 케이스에 대한 처리가 이루어지는 경우가 많다.이러한 경우 보통 enum을 활용하는데, 이번 포스트는 이번에 알게되었고, 사용한 enum의 활용법에 이야기 해보려 한다.">
+    <meta itemprop="datePublished" content="2020-09-03T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header style="padding-bottom: 25px;">
+          <h1 id="page-title" class="page__title" itemprop="headline">enum 보다 잘 활용하기
+</h1>
+          
+            <p class="page__meta">
+              <i class="far fa-clock" aria-hidden="true"></i> 2020/09/03
+              
+              
+              
+              
+              <i class="category__link">in <a href="/blog/category/server-side">Server-Side</a></i>
+            </p>
+          
+        </header>
+      
+      <span class="page-divider">
+        <span class="one"></span>
+        <span class="two"></span>
+      </span>
+      <ul class="page-tag-list">
+        <strong><i class="fas fa-fw fa-tags" aria-hidden="true" style="font-size: .7em"></i>
+        
+        
+        <li><a href="/blog/tag/java">#Java</a></li>
+        
+          <a href="http://hits.dwyl.com/ysjee141.github.ioserver-sidejava-enum-functional" target="_blank"  class="page__meta__hits">
+            <img src="http://hits.dwyl.com/ysjee141.github.ioserver-sidejava-enum-functional.svg" />
+          </a>
+      </ul>
+
+      <section class="page__content" itemprop="text">
+        
+        <p>개발을 진행하다보면, 정해진 코드 값이나 패턴 등 정형화된 케이스에 대한 처리가 이루어지는 경우가 많다.
+이러한 경우 보통 enum을 활용하는데, 이번 포스트는 이번에 알게되었고, 사용한 enum의 활용법에 이야기 해보려 한다.</p>
+
+<h2 id="enum의-특징">enum의 특징</h2>
+
+<p>enum을 활용함에 있어 개발상의 이점은 아래와 같이 정리할 수 있다.</p>
+
+<ul>
+  <li>Plain Text와 비교하여, IDE의 적극적 지원이 가능하다. (Class 이기 때문에)</li>
+  <li>특정 값으로 값을 제한할 수 있어, Human Error를 줄일 수 있다.</li>
+  <li>값이 추가되더라도 enum의 추가만으로 처리가 가능하다. 다른 코드의 수정은 불필요하다.</li>
+  <li><em>JDK 8 이후 Argument로 함수 사용이 가능하여, ENUM 자체로 처리가 가능하다.</em></li>
+</ul>
+
+<blockquote>
+  <p>여기서 이야기 하려는 부분은 마지막 함수 사용인데, enum의 값을 함수로 만들어 값에 대한 처리를 열거형에 위임하는 방법이다.</p>
+</blockquote>
+
+<h2 id="지금까지-enum을-통한-개발-방법">지금까지 enum을 통한 개발 방법</h2>
+
+<p>지금까지 enum을 활용하여 개발할 경우 아래와 같이 개발을 진행했다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">DisplayNameMethod</span> <span class="o">{</span>
+    <span class="no">FIRST_LAST_TITLE</span><span class="o">,</span>
+    <span class="no">LAST_FIRST_TITLE</span><span class="o">,</span>
+    <span class="no">TITLE_LAST_FIRST</span><span class="o">,</span>
+    <span class="no">TITLE_FIRST_NAME</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nf">Sample</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">firstName</span> <span class="o">=</span> <span class="s">"gildong"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">lastName</span> <span class="o">=</span> <span class="s">"hong"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">title</span> <span class="o">=</span> <span class="s">"MR"</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getDisplayName</span><span class="o">(</span><span class="nc">DisplayNameMethod</span> <span class="n">method</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="n">result</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span>
+        <span class="k">switch</span><span class="o">(</span><span class="n">method</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">case</span> <span class="nl">FIRST_LAST_TITLE:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">firstName</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="n">lastName</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="n">title</span><span class="o">;</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="k">case</span> <span class="nl">LAST_FIRST_TITLE:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">lastName</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="n">firstName</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="n">title</span><span class="o">;</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="k">case</span> <span class="nl">TITLE_LAST_FIRST:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">title</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="n">lastName</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="n">firstName</span><span class="o">;</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="k">case</span> <span class="nl">TITLE_FIRST_NAME:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">title</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="n">firstName</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="n">lastName</span><span class="o">;</span>
+                <span class="k">break</span><span class="o">;</span>
+        <span class="o">}</span>        
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>위와 같이 개발을 해도 사실 크게 상관은 없다. enum을 통해 이름을 표시하는 패턴을 정의하고, 그에 맞춰 표시만 하면된다.
+하지만 위와 같이 개발할 경우 enum이 추가되면, enum을 추가하고 그에 따른 처리를 한는 부분을 찾아서 추가된 enum 값에 대한 처리를 직접 추가 및 수정을 해줘야한다.</p>
+
+<h2 id="enum의-function화">enum의 Function화</h2>
+
+<p>이를 개선하기 위한 방법은 enum 값 자체가 일종의 함수 역할을 해주면 보다 간결해질 것이다. 특히 위와 같이 행위의 패턴을 의미하는 enum의 경우 이러한 방식의 개발이 가능하다.
+아래의 코드를 살펴보자</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">NameDisplayMethod</span> <span class="o">{</span>
+	<span class="no">FIRST_LAST_TITLE</span><span class="o">(</span>
+			<span class="o">(</span><span class="n">t</span><span class="o">,</span> <span class="n">f</span><span class="o">,</span> <span class="n">l</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"%s %s/%s"</span><span class="o">,</span> <span class="n">f</span><span class="o">,</span> <span class="n">l</span><span class="o">,</span> <span class="n">t</span><span class="o">)</span>
+	<span class="o">),</span>
+	<span class="no">LAST_FIRST_TITLE</span><span class="o">(</span>
+			<span class="o">(</span><span class="n">t</span><span class="o">,</span> <span class="n">f</span><span class="o">,</span> <span class="n">l</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"%s %s/%s"</span><span class="o">,</span> <span class="n">l</span><span class="o">,</span> <span class="n">f</span><span class="o">,</span> <span class="n">t</span><span class="o">)</span>
+	<span class="o">),</span>
+	<span class="no">TITLE_LAST_FIRST</span><span class="o">(</span>
+			<span class="o">(</span><span class="n">t</span><span class="o">,</span> <span class="n">f</span><span class="o">,</span> <span class="n">l</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"%s %s/%s"</span><span class="o">,</span> <span class="n">t</span><span class="o">,</span> <span class="n">l</span><span class="o">,</span> <span class="n">f</span><span class="o">)</span>
+
+	<span class="o">),</span>
+	<span class="no">TITLE_FIRST_NAME</span><span class="o">(</span>
+			<span class="o">(</span><span class="n">t</span><span class="o">,</span> <span class="n">f</span><span class="o">,</span> <span class="n">l</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"%s %s/%s"</span><span class="o">,</span> <span class="n">t</span><span class="o">,</span> <span class="n">f</span><span class="o">,</span> <span class="n">l</span><span class="o">)</span>
+	<span class="o">);</span>
+
+	<span class="kd">private</span> <span class="kd">final</span> <span class="nc">NameDisplayFunction</span> <span class="n">expression</span><span class="o">;</span>
+
+	<span class="nc">NameDisplayMethod</span><span class="o">(</span><span class="nc">NameDisplayFunction</span> <span class="n">expression</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">expression</span> <span class="o">=</span> <span class="n">expression</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getDisplayName</span><span class="o">(</span><span class="nc">String</span> <span class="n">title</span><span class="o">,</span> <span class="nc">String</span> <span class="n">firstName</span><span class="o">,</span> <span class="nc">String</span> <span class="n">lastName</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">expression</span><span class="o">.</span><span class="na">getDisplayName</span><span class="o">(</span><span class="n">title</span><span class="o">,</span> <span class="n">firstName</span><span class="o">,</span> <span class="nc">String</span> <span class="n">lastName</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="nd">@FunctionalInterface</span>
+	<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">NameDisplayFunction</span> <span class="o">{</span>
+		<span class="nc">String</span> <span class="nf">getDisplayName</span><span class="o">(</span><span class="nc">String</span> <span class="n">title</span><span class="o">,</span> <span class="nc">String</span> <span class="n">firstName</span><span class="o">,</span> <span class="nc">String</span> <span class="n">lastName</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nf">Sample</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">firstName</span> <span class="o">=</span> <span class="s">"gildong"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">lastName</span> <span class="o">=</span> <span class="s">"hong"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">title</span> <span class="o">=</span> <span class="s">"MR"</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getDisplayName</span><span class="o">(</span><span class="nc">DisplayNameMethod</span> <span class="n">method</span><span class="o">)</span> <span class="o">{</span>        
+        <span class="k">return</span> <span class="n">method</span><span class="o">.</span><span class="na">getDisplayName</span><span class="o">(</span><span class="n">title</span><span class="o">,</span> <span class="n">firstName</span><span class="o">,</span> <span class="n">lastName</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>위 코드를 자세히 살펴보면 다음과 같다.</p>
+
+<h3 id="argument로-활용할-function-정의">Argument로 활용할 Function 정의</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@FunctionalInterface</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">NameDisplayFunction</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="nf">getDisplayName</span><span class="o">(</span><span class="nc">String</span> <span class="n">title</span><span class="o">,</span> <span class="nc">String</span> <span class="n">firstName</span><span class="o">,</span> <span class="nc">String</span> <span class="n">lastName</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>FunctionalInterface란 구현해야할 추상 메소드가 하나만 정의된 인터페이스를 가르키며, Java Language Specification에는 아래와 같이 정의되어 있다.</p>
+<blockquote>
+  <p>A functional interface is an interface that has just one abstract method (aside from the methods of Object), and thus represents a single function contract.</p>
+
+  <p>Functional Interface는 (Object 클래스의 메소드를 제외하고) 단 하나의 추상 메소드만을 가진 인터페이스를 의미하며, 그런 이유로 단 하나의 기능적 계약을 표상하게 된다.</p>
+</blockquote>
+
+<p>이는 개발상의 논리이며, 이를 개발하고 검증하는 것은 개발자가 직업해야하나, JDK 8에서는 @FunctionalInterface Annotation을 제공하여, 인터페이스에 Annotation이 적용되면,
+해당 인터페이스가 FunctionalInterface인지를 검증하여 준다.</p>
+
+<p>위와 같은 인터페이스는 다음과 같이 구현될 수 있으며, Lambda의 사용도 가능하다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 구현체</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">NameDisplayFunctionImpl</span> <span class="kd">implements</span> <span class="nc">NameDisplayMethod</span><span class="o">.</span><span class="na">NameDisplayFunction</span> <span class="o">{</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getDisplayName</span><span class="o">(</span><span class="nc">PassengerInfo</span> <span class="n">value</span><span class="o">,</span> <span class="nc">String</span> <span class="n">delimiter</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// Inline 표현식</span>
+<span class="nc">NameDisplayFunction</span> <span class="n">f</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NameDisplayFunction</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getDisplayName</span><span class="o">(</span><span class="nc">String</span> <span class="n">title</span><span class="o">,</span> <span class="nc">String</span> <span class="n">firstName</span><span class="o">,</span> <span class="nc">String</span> <span class="n">lastName</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// Lambda 표현식</span>
+<span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">c</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">c</span>
+</code></pre></div></div>
+<p>Functional Interface의 가장 큰 이점은 Lambda로 사용이 가능하다는 점이다. 때문에, enum의 Argument를 Function으로 구현하여 처리가 가능하다.</p>
+
+<h3 id="enum의-함수화">enum의 함수화</h3>
+
+<p>위의 Functional Interface를 사용하게 되면 아래의 코드와 같이 enum의 값을 Function으로 구현할 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">NameDisplayMethod</span> <span class="o">{</span>
+	<span class="no">FIRST_LAST_TITLE</span><span class="o">(</span>
+			<span class="o">(</span><span class="n">t</span><span class="o">,</span> <span class="n">f</span><span class="o">,</span> <span class="n">l</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"%s %s/%s"</span><span class="o">,</span> <span class="n">f</span><span class="o">,</span> <span class="n">l</span><span class="o">,</span> <span class="n">t</span><span class="o">)</span>
+	<span class="o">),</span>
+	<span class="o">(...</span><span class="na">중략</span><span class="o">...)</span>
+
+	<span class="kd">private</span> <span class="kd">final</span> <span class="nc">NameDisplayFunction</span> <span class="n">expression</span><span class="o">;</span>
+
+	<span class="nc">NameDisplayMethod</span><span class="o">(</span><span class="nc">NameDisplayFunction</span> <span class="n">expression</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">expression</span> <span class="o">=</span> <span class="n">expression</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getDisplayName</span><span class="o">(</span><span class="nc">String</span> <span class="n">title</span><span class="o">,</span> <span class="nc">String</span> <span class="n">firstName</span><span class="o">,</span> <span class="nc">String</span> <span class="n">lastName</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">expression</span><span class="o">.</span><span class="na">getDisplayName</span><span class="o">(</span><span class="n">title</span><span class="o">,</span> <span class="n">firstName</span><span class="o">,</span> <span class="nc">String</span> <span class="n">lastName</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="nd">@FunctionalInterface</span>
+	<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">NameDisplayFunction</span> <span class="o">{</span>
+		<span class="nc">String</span> <span class="nf">getDisplayName</span><span class="o">(</span><span class="nc">String</span> <span class="n">title</span><span class="o">,</span> <span class="nc">String</span> <span class="n">firstName</span><span class="o">,</span> <span class="nc">String</span> <span class="n">lastName</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>JDK 7 이하의 경우 다음과 같이 개발이 가능하다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">NameDisplayMethod</span> <span class="o">{</span>
+    <span class="no">FIRST_LAST_TITLE</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="nf">getDisplayName</span><span class="o">(</span><span class="nc">String</span> <span class="n">title</span><span class="o">,</span> <span class="nc">String</span> <span class="n">firstName</span><span class="o">,</span> <span class="nc">String</span> <span class="n">lastName</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"%s %s/%s"</span><span class="o">,</span> <span class="n">firstName</span><span class="o">,</span> <span class="n">lastName</span><span class="o">,</span> <span class="n">title</span><span class="o">)</span>
+        <span class="o">}</span>
+    <span class="o">},</span>
+    <span class="o">(...</span><span class="na">중략</span><span class="o">...)</span>
+
+    <span class="kd">abstract</span> <span class="nc">String</span> <span class="nf">getDisplayName</span><span class="o">(</span><span class="nc">String</span> <span class="n">title</span><span class="o">,</span> <span class="nc">String</span> <span class="n">firstName</span><span class="o">,</span> <span class="nc">String</span> <span class="n">lastName</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이렇게 개발이 되면, 아래와 같이 열거형의 사용이 가능하다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nc">String</span> <span class="nf">getDisplayName</span><span class="o">(</span><span class="nc">DisplayNameMethod</span> <span class="n">method</span><span class="o">)</span> <span class="o">{</span>        
+    <span class="k">return</span> <span class="n">method</span><span class="o">.</span><span class="na">getDisplayName</span><span class="o">(</span><span class="n">title</span><span class="o">,</span> <span class="n">firstName</span><span class="o">,</span> <span class="n">lastName</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="정리">정리</h2>
+
+<p>이번 포스트에서 이야기한 내용을 정리하면 다음과 같다.</p>
+<ul>
+  <li>enum 항목에 직접 코드를 구현하여, 처리 책임을 enum에 위임할 수 있다.</li>
+  <li>FunctionalInterface를 활용하면, enum에 함수를 할당 할 수 있다.</li>
+  <li>FunctionalInterface를 활용하면, Lambda의 사용이 가능하다.</li>
+</ul>
+
+<p>하지만 모든 enum의 구현을 위와 같은 방식으로 하는 것은 부적합할 것이다.
+enum에 따라 처리되어야 하는 패턴이 일정할 경우에는 매우 효과적일 수 있으나, 
+enum 값에 따라 다양한 처리가 이루어지는 경우에는 기존의 방식대로 개발하는 것이 적합할 것이다. 
+따라서 enum을 구현하기 전에 적절한 방법을 고민하고, 상황에 맞춰 개발할 것을 추천한다.</p>
+
+
+        
+
+        
+        <span class="page-divider" style="margin-top: 50px;">
+          <span class="one"></span>
+          <span class="two"></span>
+        </span>
+        <table class="page__meta__additional">
+          
+          
+          <tr>
+            <th>참고자료</th>
+            <td>
+              <ul>
+                
+                
+                <li><a href="https://woowabros.github.io/tools/2017/07/10/java-enum-uses.html" target="_blank">https://woowabros.github.io/tools/2017/07/10/java-enum-uses.html</a></li>
+                
+                
+                
+                <li><a href="http://wiki.sys4u.co.kr/pages/viewpage.action?pageId=7766426" target="_blank">http://wiki.sys4u.co.kr/pages/viewpage.action?pageId=7766426</a></li>
+                
+                
+              </ul>
+            </td>
+          </tr>
+          
+        </table>
+        
+
+      </section>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/dev%20tools/intellij-springboot-docker/" class="pagination--pager" title="Spring Boot를 Docker 환경으로 개발/디버깅 하기
+">< PREVIOUS POST</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">NEXT POST ></a>
+    
+  </nav>
+
+    </div>
+
+    
+      <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">댓글 남기기</h4>
+      <section id="utterances-comments"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+    
+      <div class="page__related no-author">
+    
+    <!--<div class="page__related">-->
+      <h4 class="page__related-title">참고</h4>
+      <div class="grid__wrapper">
+        
+          
+  
+    
+    
+      
+      
+    
+      
+      
+        
+  
+
+
+
+
+<div class="grid__item">
+
+    
+    <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+      <div class="archive__item-teaser">
+        <img src="/blog/blog/../assets/post_img/1378050939966400.png" alt="">
+      </div>
+    
+    <h3 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/dev%20tools/intellij-springboot-docker/" rel="permalink">Spring Boot를 Docker 환경으로 개발/디버깅 하기
+</a>
+      
+    </h3>
+    
+    <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> 2020/08/19
+    </p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Spring Boot를 Docker 환경에서 개발 및 디버깅을 하기 위한 방법을 정리한다.
+</p>
+    
+    
+    
+    <a href="/blog/tag/springboot" class="page__meta__tag">#SpringBoot</a>
+    
+    
+    
+    <a href="/blog/tag/intellij" class="page__meta__tag">#IntelliJ</a>
+    
+    
+    
+    <a href="/blog/tag/devtools" class="page__meta__tag">#Devtools</a>
+    
+    
+    
+    <a href="/blog/tag/docker" class="page__meta__tag">#Docker</a>
+    
+  </article>
+</div>
+
+        
+          
+  
+    
+  
+
+
+
+
+<div class="grid__item">
+
+    
+    <article class="archive__item no-margin" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h3 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/server-side/DynamicMyBatisMapperScanner/" rel="permalink">다중 데이터 소스를 통한 동적 MyBatis Mapper Scanner 생성
+</a>
+      
+    </h3>
+    
+    <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> 2020/08/04
+    </p>
+    
+    <p class="archive__item-excerpt" itemprop="description">어플리케이션을 개발하다보면 다중 Data Source를 사용해야 하는 경우가 생각보다 많다.
+일반적으로 MyBatis를 통해 Database 개발을 하기 위해서는 보통은 다음과 같은 절차를 통해 개발을 진행한다.
+
+  Data Source 정의
+  SessionFactory / S...</p>
+    
+    
+    
+    <a href="/blog/tag/springboot" class="page__meta__tag">#SpringBoot</a>
+    
+    
+    
+    <a href="/blog/tag/mybatis" class="page__meta__tag">#MyBatis</a>
+    
+  </article>
+</div>
+
+        
+          
+  
+    
+  
+
+
+
+
+<div class="grid__item">
+
+    
+    <article class="archive__item no-margin" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h3 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/server-side/BeanDefinitionPostProcessor/" rel="permalink">BeanDefinitionRegistryPostProcessor의 사용
+</a>
+      
+    </h3>
+    
+    <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> 2020/08/03
+    </p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Spring에서 어플리케이션이 시작될 때 동적으로 Bean을 생성하기 위해서는 다양한 방법이 존재한다.
+앞서에는 Application Context 의 Event Listener를 통해 동적 Bean을 생성하는 방법을 소개한 적이 있는데, 
+이번에는  BeanDefinitionRe...</p>
+    
+    
+    
+    <a href="/blog/tag/springboot" class="page__meta__tag">#SpringBoot</a>
+    
+  </article>
+</div>
+
+        
+          
+  
+    
+  
+
+
+
+
+<div class="grid__item">
+
+    
+    <article class="archive__item no-margin" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h3 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/my%20story/my-story/" rel="permalink">블로그를 시작하며…
+</a>
+      
+    </h3>
+    
+    <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> 2020/07/29
+    </p>
+    
+    <p class="archive__item-excerpt" itemprop="description">요즘 개발자들은 누구라 할 것 없이 블로그를 하는 것 같습니다.
+덕분에 참고할 자료가 많아져서 개발하기가 많이 수월해졌고 저 또한 
+이러한 블로그들을 참고하면서 개발을 진행하고, 지식을 습득하고 있습니다.
+</p>
+    
+    
+    
+    <a href="/blog/tag/my%20story" class="page__meta__tag">#My Story</a>
+    
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="검색어를 입력하세요..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow" style="display: inline-block">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/ysjee141" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://instagram.com/ysjee141" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    <li><a href="/blog/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright" style="display: inline-block">&copy; 2020 HAPPL. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/blog/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/blog/assets/js/lunr/lunr.min.js"></script>
+<script src="/blog/assets/js/lunr/lunr-store.js"></script>
+<script src="/blog/assets/js/lunr/lunr-en.js"></script>
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-162766344-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-162766344-1');
+</script>
+
+
+    <style>
+    .utterances {
+        width: 100%;
+        max-width: none;
+    }
+</style>
+<script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'ysjee141/blog');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+<script src="/blog/assets/js/_extend.js"></script>
+<script src="/blog/assets/js/vendor/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad:true,
+    theme: "forest",
+    fontFamily: "D2Coding"
+  });
+  mermaid.init(undefined, '.language-mermaid');
+</script>
+
+  </body>
+</html>
