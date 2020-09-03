@@ -77,8 +77,8 @@ layout: default
         {% assign tagurl = tag | downcase | prepend: site.tag_archive.path | relative_url %}
         <li><a href="{{ tagurl }}">#{{ tag }}</a></li>
         {% endfor %}
-          <a href="http://hits.dwyl.com/{{ site.url | remove_first: 'https://' | remove_first: 'http://' }}{{ page.url | replace: '/','' }}" target="_blank"  class="page__meta__hits">
-            <img src="http://hits.dwyl.com/{{ site.url | remove_first: 'https://' | remove_first: 'http://' }}{{ page.url  | replace: '/','' }}.svg" />
+          <a class="page__meta__hits">
+            <img src="https://hitcounter.pythonanywhere.com/count/tag.svg?url={{ site.url | remove_first: 'https://' | remove_first: 'http://' }}{{ page.url  | replace: '/','' }}" alt="Hits">
           </a>
       </ul>
 

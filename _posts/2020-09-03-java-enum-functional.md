@@ -2,6 +2,7 @@
 title: enum 보다 잘 활용하기
 category: Server-Side 
 tags: [Java]
+source: https://gist.github.com/ysjee141/70b30b3426fbbf01563dcea45c6dc95e
 refs: 
     - https://woowabros.github.io/tools/2017/07/10/java-enum-uses.html
     - http://wiki.sys4u.co.kr/pages/viewpage.action?pageId=7766426
