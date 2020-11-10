@@ -1,0 +1,742 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.3 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Java HashMap 동작 원리 - happl’s Doodle</title>
+<meta name="description" content="Java를 통해 개발을 할 경우 HashMap을 자주 사용하게 된다. 이에 HashMap의 동작 원리 및 Hash 충돌해결에 대해 정리할 에정이다.">
+
+
+  <meta name="author" content="Yoonseong JI">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="happl's Doodle">
+<meta property="og:title" content="Java HashMap 동작 원리">
+<meta property="og:url" content="https://ysjee141.github.io/blog/jdk/java-hashmap/">
+
+
+  <meta property="og:description" content="Java를 통해 개발을 할 경우 HashMap을 자주 사용하게 된다. 이에 HashMap의 동작 원리 및 Hash 충돌해결에 대해 정리할 에정이다.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-11-10T00:00:00+00:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://ysjee141.github.io/blog/jdk/java-hashmap/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "happl",
+      "url": "https://ysjee141.github.io/blog/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/blog/feed.xml" type="application/atom+xml" rel="alternate" title="happl's Doodle Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/blog/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+<link rel="stylesheet" href="/blog/assets/css/syntax.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+  
+    <script src="/blog/assets/js/vendor/jquery/jquery-3.4.1.js"></script>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.0/axios.min.js"></script>
+  
+    <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+  
+    <script src="https://unpkg.com/turndown-plugin-gfm/dist/turndown-plugin-gfm.js"></script>
+  
+    <script src="/blog/assets/js/vendor/bluebird.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+<meta name="google-site-verification" content="SO-0QxMtMMEgiaV3K59vtKNi2ucxcYXH9gROvXDOke0" />
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/blog/">
+          happl's Doodle
+          <span class="site-subtitle">심심해서 끄적거리는 낙서장</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              
+              <a data-link="Blog" href="/blog/">Blog</a>
+            </li><li class="masthead__menu-item">
+              
+              <a data-link="Tag" href="/blog/tag">Tag</a>
+            </li><li class="masthead__menu-item">
+              
+              <a data-link="Repos" href="/blog/github-repos">Repos</a>
+            </li><li class="masthead__menu-item">
+              
+              <a data-link="About" href="/blog/about">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">토글 메뉴</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+
+    var _url = window.location.pathname;
+
+    if( _url.indexOf("/tag") > -1 ) {
+      $("[data-link='Tag']").addClass("hover");
+    } else if( _url.indexOf("/github-repos") > -1 ) {
+      $("[data-link='Repos']").addClass("hover");
+    } else if( _url.indexOf("/about") > -1 ) {
+      $("[data-link='About']").addClass("hover");
+    } else {
+      $("[data-link='Blog']").addClass("hover");
+    }
+
+
+  })
+</script>
+
+    <div class="initial-content">
+      
+
+
+<!--<button type="button" onclick="slideshow('/blog/jdk/java-hashmap/')">Slide</button>-->
+<!-- SlideShow Information -->
+
+<textarea id="source" style="display: none">Java를 통해 개발을 할 경우 HashMap을 자주 사용하게 된다. 이에 HashMap의 동작 원리 및 Hash 충돌해결에 대해 정리할 에정이다.
+
+## 개념
+
+HashMap은 Key-Value가 1:1로 Mapping 되는 자료구조이며, Mapping으로 인해 삽입, 삭제, 검색이 평균적으로 O(1)인 자료구조이다.
+Key는 중복을 허용하지 않지만, Value는 중복을 허용한다.
+
+HashMap의 내부구조는 배열로 되어 있고, Key는 직접 내부 배열의 인덱스가 될 수 있으며, 이를 버킷이라 한다.
+인덱스를 구하기 위해서는 해시 함수를 사용하는데 해시 함수는 hashcode() % M 으로 산출할 수 있으나, 동일한 값이 발생할 수 있따.
+이를 해시 충돌이라 하며, 이를 방지하기 위한 방법으로 Open Addressing 방식과 Separate Chaning 방식이 있으며, Java의 HashMap의 경우
+Separate Chaning 방식을 사용하고 있다.
+
+> Open Addressing: 해시충돌 발생시 인접 인덱스 값을 새로 구해서 해시충돌을 우회
+> Separate Chaning: 동일한 해시값이 있을 경우 LinkedList로 관리하고, 8개 이상인 경우 Tree로 변경하여 관리한다.
+
+Hash 함수를 사용할 때 해시 버킷이 적다면 메모리를  절약할 수 있는 반면 해시충돌의 발생 빈도가 높아진다. 따라서 특정 수치가 넘어가면
+해시 버킷을 2배로 확장한다. 해시함수를 구할 때 소수(float)로 되어 있다면 충돌 빈도를 낮출 수 있으나 Java의 경우 int로 되어 있
+어, 충돌 빈도가 높고 이를 해결하기 위해 보조 해시 함수를 사용하여 해시 값을 변형한다.
+
+## 원리
+
+Java HashMap의 Key는 Object 형을 지원하기 때문에 완전한 해시 함수(perfect hash function)가 아니다.
+(hashCode() 결과 자료형은 int - 32비트 정수 자료형으로 2의 32승까지 표현 가능하나, Object의 경우 더 많은 경우의 수를 포함)
+아래와 같이 hasing으로 hash 값을 가공한다.
+```java
+// http://hg.openjdk.java.net/jdk8/jdk8/jdk/file/687fd7c7986d/src/share/classes/java/util/HashMap.java#l336
+static final int hash(Object key) {
+	int h;
+	return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+}
+```
+
+해시충돌을 해결하기 위해 내부적으로 Node 형의 2차원 배열 Table이 존재한다.
+```java
+// http://hg.openjdk.java.net/jdk8/jdk8/jdk/file/687fd7c7986d/src/share/classes/java/util/HashMap.java#l395
+transient Node<K,V>[] table;
+```
+
+Java HashMap의 경우 해시충돌시, Seperate Chainning 방법을 사용하며, 현재 Value의 다음 Value를 연결하는 방식으로 해결한다.
+```java
+// http://hg.openjdk.java.net/jdk8/jdk8/jdk/file/687fd7c7986d/src/share/classes/java/util/HashMap.java#l641
+if (p.hash == hash && ((k = p.key) == key || (key != null && key.equals(k))))
+	e = p;
+else if (p instanceof TreeNode)
+	e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
+else {
+	for (int binCount = 0; ; ++binCount) {
+		if ((e = p.next) == null) {
+			p.next = newNode(hash, key, value, null); // 새로운 Node 생성해 연결
+			if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
+				treeifyBin(tab, hash);
+			break;
+		}
+		if (e.hash == hash && ((k = e.key) == key || (key != null && key.equals(k))))
+			break;
+		p = e;
+	}
+}
+``` 
+위 코드에서 중요한 코도는 `if (binCount >= TREEIFY_THRESHOLD - 1) treeifyBin(tab, hash);`인데,
+해시버킷의 개수가 일정 수준을 넘어가게 되면 버킷의 관리를 Tree 형태로 전환하여 관리한다는 것이다. 반대로 버킷의 개수가
+일정 수준으로 내려가게 되면 Tree 형태에서 LinkedList 형태로 변경하여 관리한다. 이는 해시충돌의 빈도를 낮추기 위한 조치이며,
+메모리를 효율적으로 사용하기 위해서는 버킷의 개수를 사전에 예상할 수 있다면, 변경 기준을 사전에 정의하여 주는 것이 좋다.</textarea>
+<!-- // SlideShow Information -->
+<div id="main" role="main">
+  
+
+
+  
+  <article class="page no-author" itemscope itemtype="https://schema.org/CreativeWork">
+  
+
+  <!--<article class="page" itemscope itemtype="https://schema.org/CreativeWork">-->
+    <meta itemprop="headline" content="Java HashMap 동작 원리">
+    <meta itemprop="description" content="Java를 통해 개발을 할 경우 HashMap을 자주 사용하게 된다. 이에 HashMap의 동작 원리 및 Hash 충돌해결에 대해 정리할 에정이다.">
+    <meta itemprop="datePublished" content="2020-11-10T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header style="padding-bottom: 25px;">
+          <h1 id="page-title" class="page__title" itemprop="headline">Java HashMap 동작 원리
+</h1>
+          
+            <p class="page__meta">
+              <i class="far fa-clock" aria-hidden="true"></i> 2020/11/10
+              
+              
+              
+              
+              <i class="category__link">in <a href="/blog/category/jdk">JDK</a></i>
+            </p>
+          
+        </header>
+      
+      <span class="page-divider">
+        <span class="one"></span>
+        <span class="two"></span>
+      </span>
+      <ul class="page-tag-list">
+        <strong><i class="fas fa-fw fa-tags" aria-hidden="true" style="font-size: .7em"></i>
+        
+        
+        <li><a href="/blog/tag/java">#Java</a></li>
+        
+          <a class="page__meta__hits">
+            <img src="https://hitcounter.pythonanywhere.com/count/tag.svg?url=ysjee141.github.iojdkjava-hashmap" alt="Hits">
+          </a>
+      </ul>
+
+      <section class="page__content" itemprop="text">
+        
+        <p>Java를 통해 개발을 할 경우 HashMap을 자주 사용하게 된다. 이에 HashMap의 동작 원리 및 Hash 충돌해결에 대해 정리할 에정이다.</p>
+
+<h2 id="개념">개념</h2>
+
+<p>HashMap은 Key-Value가 1:1로 Mapping 되는 자료구조이며, Mapping으로 인해 삽입, 삭제, 검색이 평균적으로 O(1)인 자료구조이다.
+Key는 중복을 허용하지 않지만, Value는 중복을 허용한다.</p>
+
+<p>HashMap의 내부구조는 배열로 되어 있고, Key는 직접 내부 배열의 인덱스가 될 수 있으며, 이를 버킷이라 한다.
+인덱스를 구하기 위해서는 해시 함수를 사용하는데 해시 함수는 hashcode() % M 으로 산출할 수 있으나, 동일한 값이 발생할 수 있따.
+이를 해시 충돌이라 하며, 이를 방지하기 위한 방법으로 Open Addressing 방식과 Separate Chaning 방식이 있으며, Java의 HashMap의 경우
+Separate Chaning 방식을 사용하고 있다.</p>
+
+<blockquote>
+  <p>Open Addressing: 해시충돌 발생시 인접 인덱스 값을 새로 구해서 해시충돌을 우회
+Separate Chaning: 동일한 해시값이 있을 경우 LinkedList로 관리하고, 8개 이상인 경우 Tree로 변경하여 관리한다.</p>
+</blockquote>
+
+<p>Hash 함수를 사용할 때 해시 버킷이 적다면 메모리를  절약할 수 있는 반면 해시충돌의 발생 빈도가 높아진다. 따라서 특정 수치가 넘어가면
+해시 버킷을 2배로 확장한다. 해시함수를 구할 때 소수(float)로 되어 있다면 충돌 빈도를 낮출 수 있으나 Java의 경우 int로 되어 있
+어, 충돌 빈도가 높고 이를 해결하기 위해 보조 해시 함수를 사용하여 해시 값을 변형한다.</p>
+
+<h2 id="원리">원리</h2>
+
+<p>Java HashMap의 Key는 Object 형을 지원하기 때문에 완전한 해시 함수(perfect hash function)가 아니다.
+(hashCode() 결과 자료형은 int - 32비트 정수 자료형으로 2의 32승까지 표현 가능하나, Object의 경우 더 많은 경우의 수를 포함)
+아래와 같이 hasing으로 hash 값을 가공한다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// http://hg.openjdk.java.net/jdk8/jdk8/jdk/file/687fd7c7986d/src/share/classes/java/util/HashMap.java#l336</span>
+<span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="nf">hash</span><span class="o">(</span><span class="nc">Object</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kt">int</span> <span class="n">h</span><span class="o">;</span>
+	<span class="k">return</span> <span class="o">(</span><span class="n">key</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="o">(</span><span class="n">h</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="na">hashCode</span><span class="o">())</span> <span class="o">^</span> <span class="o">(</span><span class="n">h</span> <span class="o">&gt;&gt;&gt;</span> <span class="mi">16</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>해시충돌을 해결하기 위해 내부적으로 Node 형의 2차원 배열 Table이 존재한다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// http://hg.openjdk.java.net/jdk8/jdk8/jdk/file/687fd7c7986d/src/share/classes/java/util/HashMap.java#l395</span>
+<span class="kd">transient</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;[]</span> <span class="n">table</span><span class="o">;</span>
+</code></pre></div></div>
+
+<p>Java HashMap의 경우 해시충돌시, Seperate Chainning 방법을 사용하며, 현재 Value의 다음 Value를 연결하는 방식으로 해결한다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// http://hg.openjdk.java.net/jdk8/jdk8/jdk/file/687fd7c7986d/src/share/classes/java/util/HashMap.java#l641</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="na">hash</span> <span class="o">==</span> <span class="n">hash</span> <span class="o">&amp;&amp;</span> <span class="o">((</span><span class="n">k</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">key</span><span class="o">)</span> <span class="o">==</span> <span class="n">key</span> <span class="o">||</span> <span class="o">(</span><span class="n">key</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">key</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">k</span><span class="o">))))</span>
+	<span class="n">e</span> <span class="o">=</span> <span class="n">p</span><span class="o">;</span>
+<span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">p</span> <span class="k">instanceof</span> <span class="nc">TreeNode</span><span class="o">)</span>
+	<span class="n">e</span> <span class="o">=</span> <span class="o">((</span><span class="nc">TreeNode</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;)</span><span class="n">p</span><span class="o">).</span><span class="na">putTreeVal</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">tab</span><span class="o">,</span> <span class="n">hash</span><span class="o">,</span> <span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+<span class="k">else</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">binCount</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="o">;</span> <span class="o">++</span><span class="n">binCount</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">((</span><span class="n">e</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">next</span><span class="o">)</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">p</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">(</span><span class="n">hash</span><span class="o">,</span> <span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span> <span class="c1">// 새로운 Node 생성해 연결</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">binCount</span> <span class="o">&gt;=</span> <span class="no">TREEIFY_THRESHOLD</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="c1">// -1 for 1st</span>
+				<span class="n">treeifyBin</span><span class="o">(</span><span class="n">tab</span><span class="o">,</span> <span class="n">hash</span><span class="o">);</span>
+			<span class="k">break</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">hash</span> <span class="o">==</span> <span class="n">hash</span> <span class="o">&amp;&amp;</span> <span class="o">((</span><span class="n">k</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">key</span><span class="o">)</span> <span class="o">==</span> <span class="n">key</span> <span class="o">||</span> <span class="o">(</span><span class="n">key</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">key</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">k</span><span class="o">))))</span>
+			<span class="k">break</span><span class="o">;</span>
+		<span class="n">p</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>위 코드에서 중요한 코도는 <code class="language-plaintext highlighter-rouge">if (binCount &gt;= TREEIFY_THRESHOLD - 1) treeifyBin(tab, hash);</code>인데,
+해시버킷의 개수가 일정 수준을 넘어가게 되면 버킷의 관리를 Tree 형태로 전환하여 관리한다는 것이다. 반대로 버킷의 개수가
+일정 수준으로 내려가게 되면 Tree 형태에서 LinkedList 형태로 변경하여 관리한다. 이는 해시충돌의 빈도를 낮추기 위한 조치이며,
+메모리를 효율적으로 사용하기 위해서는 버킷의 개수를 사전에 예상할 수 있다면, 변경 기준을 사전에 정의하여 주는 것이 좋다.</p>
+
+        
+
+        
+        <span class="page-divider" style="margin-top: 50px;">
+          <span class="one"></span>
+          <span class="two"></span>
+        </span>
+        <table class="page__meta__additional">
+          
+          
+          <tr>
+            <th>참고자료</th>
+            <td>
+              <ul>
+                
+                
+                <li><a href="https://backdoosaan.tistory.com/13" target="_blank">https://backdoosaan.tistory.com/13</a></li>
+                
+                
+                
+                <li><a href="https://heepie.me/448" target="_blank">https://heepie.me/448</a></li>
+                
+                
+              </ul>
+            </td>
+          </tr>
+          
+        </table>
+        
+
+      </section>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/server-side/java-enum-functional/" class="pagination--pager" title="enum 보다 잘 활용하기
+">< PREVIOUS POST</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">NEXT POST ></a>
+    
+  </nav>
+
+    </div>
+
+    
+      <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">댓글 남기기</h4>
+      <section id="utterances-comments"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+    
+      <div class="page__related no-author">
+    
+    <!--<div class="page__related">-->
+      <h4 class="page__related-title">참고</h4>
+      <div class="grid__wrapper">
+        
+          
+  
+    
+  
+
+
+
+
+<div class="grid__item">
+
+    
+    <article class="archive__item no-margin" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h3 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/server-side/java-enum-functional/" rel="permalink">enum 보다 잘 활용하기
+</a>
+      
+    </h3>
+    
+    <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> 2020/09/03
+    </p>
+    
+    <p class="archive__item-excerpt" itemprop="description">개발을 진행하다보면, 정해진 코드 값이나 패턴 등 정형화된 케이스에 대한 처리가 이루어지는 경우가 많다.
+이러한 경우 보통 enum을 활용하는데, 이번 포스트는 이번에 알게되었고, 사용한 enum의 활용법에 이야기 해보려 한다.
+</p>
+    
+    
+    
+    <a href="/blog/tag/java" class="page__meta__tag">#Java</a>
+    
+  </article>
+</div>
+
+        
+          
+  
+    
+    
+      
+      
+    
+      
+      
+        
+  
+
+
+
+
+<div class="grid__item">
+
+    
+    <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+      <div class="archive__item-teaser">
+        <img src="/blog/blog/../assets/post_img/1378050939966400.png" alt="">
+      </div>
+    
+    <h3 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/dev%20tools/intellij-springboot-docker/" rel="permalink">Spring Boot를 Docker 환경으로 개발/디버깅 하기
+</a>
+      
+    </h3>
+    
+    <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> 2020/08/19
+    </p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Spring Boot를 Docker 환경에서 개발 및 디버깅을 하기 위한 방법을 정리한다.
+</p>
+    
+    
+    
+    <a href="/blog/tag/springboot" class="page__meta__tag">#SpringBoot</a>
+    
+    
+    
+    <a href="/blog/tag/intellij" class="page__meta__tag">#IntelliJ</a>
+    
+    
+    
+    <a href="/blog/tag/devtools" class="page__meta__tag">#Devtools</a>
+    
+    
+    
+    <a href="/blog/tag/docker" class="page__meta__tag">#Docker</a>
+    
+  </article>
+</div>
+
+        
+          
+  
+    
+  
+
+
+
+
+<div class="grid__item">
+
+    
+    <article class="archive__item no-margin" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h3 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/server-side/DynamicMyBatisMapperScanner/" rel="permalink">다중 데이터 소스를 통한 동적 MyBatis Mapper Scanner 생성
+</a>
+      
+    </h3>
+    
+    <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> 2020/08/04
+    </p>
+    
+    <p class="archive__item-excerpt" itemprop="description">어플리케이션을 개발하다보면 다중 Data Source를 사용해야 하는 경우가 생각보다 많다.
+일반적으로 MyBatis를 통해 Database 개발을 하기 위해서는 보통은 다음과 같은 절차를 통해 개발을 진행한다.
+
+  Data Source 정의
+  SessionFactory / S...</p>
+    
+    
+    
+    <a href="/blog/tag/springboot" class="page__meta__tag">#SpringBoot</a>
+    
+    
+    
+    <a href="/blog/tag/mybatis" class="page__meta__tag">#MyBatis</a>
+    
+  </article>
+</div>
+
+        
+          
+  
+    
+  
+
+
+
+
+<div class="grid__item">
+
+    
+    <article class="archive__item no-margin" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h3 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/server-side/BeanDefinitionPostProcessor/" rel="permalink">BeanDefinitionRegistryPostProcessor의 사용
+</a>
+      
+    </h3>
+    
+    <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> 2020/08/03
+    </p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Spring에서 어플리케이션이 시작될 때 동적으로 Bean을 생성하기 위해서는 다양한 방법이 존재한다.
+앞서에는 Application Context 의 Event Listener를 통해 동적 Bean을 생성하는 방법을 소개한 적이 있는데, 
+이번에는  BeanDefinitionRe...</p>
+    
+    
+    
+    <a href="/blog/tag/springboot" class="page__meta__tag">#SpringBoot</a>
+    
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="검색어를 입력하세요..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow" style="display: inline-block">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/ysjee141" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://instagram.com/ysjee141" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    <li><a href="/blog/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright" style="display: inline-block">&copy; 2020 HAPPL. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/blog/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/blog/assets/js/lunr/lunr.min.js"></script>
+<script src="/blog/assets/js/lunr/lunr-store.js"></script>
+<script src="/blog/assets/js/lunr/lunr-en.js"></script>
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-162766344-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-162766344-1');
+</script>
+
+
+    <style>
+    .utterances {
+        width: 100%;
+        max-width: none;
+    }
+</style>
+<script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'ysjee141/blog');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+<script src="/blog/assets/js/_extend.js"></script>
+<script src="/blog/assets/js/vendor/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad:true,
+    theme: "forest",
+    fontFamily: "D2Coding"
+  });
+  mermaid.init(undefined, '.language-mermaid');
+</script>
+
+  </body>
+</html>
