@@ -30,6 +30,7 @@ pre.highlight {
   color: #f8f8f2;
   background-color: #272822;
   font-size: 15px;
+  border-radius: 3px;
 }
 .highlight .err {
   color: #272822;

@@ -140,6 +140,24 @@ a {
   }
 }
 
+.page__content {
+  a {
+    color: $link-color-blue;
+    &:focus {
+      @extend %tab-focus;
+    }
+
+    &:visited {
+      color: $link-color-blue-hover;
+    }
+
+    &:hover {
+      color: $link-color-blue-visited;
+      outline: 0;
+    }
+  }
+}
+
 /* buttons */
 
 button:focus {
