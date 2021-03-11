@@ -1,0 +1,730 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.3 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Cache-Control에 대하여 - happl’s Doodle</title>
+<meta name="description" content="어플리케이션을 개발하다보면 성능이 중요한 경우가 많다. 성능을 개선하기 위해서는 다양한 방법이 존재하는데, 그 중 가장 쉽게 적용할 수 있으며, 효율이 높은 방법 중에 하나는 캐시(Cache)일 것이다.">
+
+
+  <meta name="author" content="Yoonseong JI">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="happl's Doodle">
+<meta property="og:title" content="Cache-Control에 대하여">
+<meta property="og:url" content="https://ysjee141.github.io/blog/http/Cache-Control/">
+
+
+  <meta property="og:description" content="어플리케이션을 개발하다보면 성능이 중요한 경우가 많다. 성능을 개선하기 위해서는 다양한 방법이 존재하는데, 그 중 가장 쉽게 적용할 수 있으며, 효율이 높은 방법 중에 하나는 캐시(Cache)일 것이다.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-12-10T00:00:00+00:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://ysjee141.github.io/blog/http/Cache-Control/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "happl",
+      "url": "https://ysjee141.github.io/blog/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/blog/feed.xml" type="application/atom+xml" rel="alternate" title="happl's Doodle Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/blog/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+<link rel="stylesheet" href="/blog/assets/css/syntax.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+  
+    <script src="/blog/assets/js/vendor/jquery/jquery-3.4.1.js"></script>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.0/axios.min.js"></script>
+  
+    <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+  
+    <script src="https://unpkg.com/turndown-plugin-gfm/dist/turndown-plugin-gfm.js"></script>
+  
+    <script src="/blog/assets/js/vendor/bluebird.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+<meta name="google-site-verification" content="SO-0QxMtMMEgiaV3K59vtKNi2ucxcYXH9gROvXDOke0" />
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/blog/">
+          happl's Doodle
+          <span class="site-subtitle">심심해서 끄적거리는 낙서장</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              
+              <a data-link="Blog" href="/blog/">Blog</a>
+            </li><li class="masthead__menu-item">
+              
+              <a data-link="Tag" href="/blog/tag">Tag</a>
+            </li><li class="masthead__menu-item">
+              
+              <a data-link="Repos" href="/blog/github-repos">Repos</a>
+            </li><li class="masthead__menu-item">
+              
+              <a data-link="About" href="/blog/about">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">토글 메뉴</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+
+    var _url = window.location.pathname;
+
+    if( _url.indexOf("/tag") > -1 ) {
+      $("[data-link='Tag']").addClass("hover");
+    } else if( _url.indexOf("/github-repos") > -1 ) {
+      $("[data-link='Repos']").addClass("hover");
+    } else if( _url.indexOf("/about") > -1 ) {
+      $("[data-link='About']").addClass("hover");
+    } else {
+      $("[data-link='Blog']").addClass("hover");
+    }
+
+
+  })
+</script>
+
+    <div class="initial-content">
+      
+
+
+<!--<button type="button" onclick="slideshow('/blog/http/Cache-Control/')">Slide</button>-->
+<!-- SlideShow Information -->
+
+<textarea id="source" style="display: none">어플리케이션을 개발하다보면 성능이 중요한 경우가 많다. 성능을 개선하기 위해서는 다양한 방법이 존재하는데,
+그 중 가장 쉽게 적용할 수 있으며, 효율이 높은 방법 중에 하나는 캐시(Cache)일 것이다.
+
+다양한 캐시 적용법이 있지만, 본 포스트에서는 클라이언트 브라우저에 대한 캐시 이야기를 해보려 한다.
+
+HTTP Header 중에는 [Cache-Control](https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/Cache-Control) 이라는 것이 있다.
+MDN의 Cache-Control Guide에는 다음과 같이 정의 되어 있다.
+> The Cache-Control HTTP header holds directives (instructions) for caching in both requests and responses. A given directive in a request does not mean the same directive should be in the response.
+>
+> 'Cache-Control' HTTP 헤더는 요청과 응답 모두에게 캐싱하기 위한 지시문을 의미합니다. 요청에 지정된 지시문이 응답에 동일한 지시문이 있어야 함을 의미하지는 않습니다.
+
+이를 보면 Cache-Control을 통한 브라우저에 대한 캐시를 적용할 수 있다고 볼 수 있으며, 요청에 대해서는 별도의 처리가 불필요하기 때문에,
+응답 측면에서만 적용하는 것으로 Cache를 적용할 수 있다는 의미가 된다. 즉, 사용자(또는 클라이언트) 입장에서는 별도의 처리가 불필요하고,
+서비스를 제공하는 측면에서 Cache를 적용함으로써 사용자에게 체감적 성능을 향상 시킬 수 있다고 생각된다.
+
+Cache-Control은 HTTP/1.1에서 추가된 기능으로, 다양한 캐시 정책을 제공하고 있고 여기에서는 자주 사용되는 정책들에 대해 정리한다.
+자세한 내용은 [MDN | HTTP - Cache-Control](https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/Cache-Control) 에서 확인이 가능하다.
+
+## Syntax
+
+### Request
+```
+Cache-Control: max-age=<seconds>
+Cache-Control: max-stale[=<seconds>]
+Cache-Control: min-fresh=<seconds>
+Cache-control: no-cache 
+Cache-control: no-store
+Cache-control: no-transform
+Cache-control: only-if-cached
+```
+요청시 Cache-Control을 많이 사용하는 것 중의 하나가 `no-cache` 일 수 있다. 
+HTML 또는 유사 문법을 통해 페이지를 작성시 아래와 같은 코드를 작성하는 경우가 종종 있다.
+```html
+<META http-equiv="Cache-Control" content="No-Cache">
+```
+위 문법은 브라우저가 서버로 페이지를 호출할 경우 Cache를 사용하지 않겠다는 것을 정의하고 호출을 한다는 의미이다.
+이는 위에 Request 문법에도 표시가 되어 있는데, no-cache, no-store 모두 동일한 결과를 보여주지만, 내부 동작 방식이 다르다.
+
+* no-cache는 캐시를 저장은 하지만, 캐시가 매번 유효한지 서버에 질의를 하는 것이다.
+* no-store는 캐시 자체를 저장하지 않는 것이다.
+
+
+### Response
+```
+Cache-control: must-revalidate
+Cache-control: no-cache
+Cache-control: no-store
+Cache-control: no-transform
+Cache-control: public
+Cache-control: private
+Cache-control: proxy-revalidate
+Cache-Control: max-age=<seconds>
+Cache-control: s-maxage=<seconds>
+```</textarea>
+<!-- // SlideShow Information -->
+<div id="main" role="main">
+  
+
+
+  
+  <article class="page no-author" itemscope itemtype="https://schema.org/CreativeWork">
+  
+
+  <!--<article class="page" itemscope itemtype="https://schema.org/CreativeWork">-->
+    <meta itemprop="headline" content="Cache-Control에 대하여">
+    <meta itemprop="description" content="어플리케이션을 개발하다보면 성능이 중요한 경우가 많다. 성능을 개선하기 위해서는 다양한 방법이 존재하는데,그 중 가장 쉽게 적용할 수 있으며, 효율이 높은 방법 중에 하나는 캐시(Cache)일 것이다.">
+    <meta itemprop="datePublished" content="2020-12-10T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header style="padding-bottom: 25px;">
+          <h1 id="page-title" class="page__title" itemprop="headline">Cache-Control에 대하여
+</h1>
+          
+            <p class="page__meta">
+              <i class="far fa-clock" aria-hidden="true"></i> 2020/12/10
+              
+              
+              
+              
+              <i class="category__link">in <a href="/blog/category/http">HTTP</a></i>
+            </p>
+          
+        </header>
+      
+      <span class="page-divider">
+        <span class="one"></span>
+        <span class="two"></span>
+      </span>
+      <ul class="page-tag-list">
+        <strong><i class="fas fa-fw fa-tags" aria-hidden="true" style="font-size: .7em"></i>
+        
+        
+        <li><a href="/blog/tag/http">#HTTP</a></li>
+        
+        
+        <li><a href="/blog/tag/cache">#Cache</a></li>
+        
+          <a class="page__meta__hits">
+            <img src="https://hitcounter.pythonanywhere.com/count/tag.svg?url=ysjee141.github.iohttpCache-Control" alt="Hits">
+          </a>
+      </ul>
+
+      <section class="page__content" itemprop="text">
+        
+        <p>어플리케이션을 개발하다보면 성능이 중요한 경우가 많다. 성능을 개선하기 위해서는 다양한 방법이 존재하는데,
+그 중 가장 쉽게 적용할 수 있으며, 효율이 높은 방법 중에 하나는 캐시(Cache)일 것이다.</p>
+
+<p>다양한 캐시 적용법이 있지만, 본 포스트에서는 클라이언트 브라우저에 대한 캐시 이야기를 해보려 한다.</p>
+
+<p>HTTP Header 중에는 <a href="https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/Cache-Control">Cache-Control</a> 이라는 것이 있다.
+MDN의 Cache-Control Guide에는 다음과 같이 정의 되어 있다.</p>
+<blockquote>
+  <p>The Cache-Control HTTP header holds directives (instructions) for caching in both requests and responses. A given directive in a request does not mean the same directive should be in the response.</p>
+
+  <p>‘Cache-Control’ HTTP 헤더는 요청과 응답 모두에게 캐싱하기 위한 지시문을 의미합니다. 요청에 지정된 지시문이 응답에 동일한 지시문이 있어야 함을 의미하지는 않습니다.</p>
+</blockquote>
+
+<p>이를 보면 Cache-Control을 통한 브라우저에 대한 캐시를 적용할 수 있다고 볼 수 있으며, 요청에 대해서는 별도의 처리가 불필요하기 때문에,
+응답 측면에서만 적용하는 것으로 Cache를 적용할 수 있다는 의미가 된다. 즉, 사용자(또는 클라이언트) 입장에서는 별도의 처리가 불필요하고,
+서비스를 제공하는 측면에서 Cache를 적용함으로써 사용자에게 체감적 성능을 향상 시킬 수 있다고 생각된다.</p>
+
+<p>Cache-Control은 HTTP/1.1에서 추가된 기능으로, 다양한 캐시 정책을 제공하고 있고 여기에서는 자주 사용되는 정책들에 대해 정리한다.
+자세한 내용은 <a href="https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/Cache-Control">MDN | HTTP - Cache-Control</a> 에서 확인이 가능하다.</p>
+
+<h2 id="syntax">Syntax</h2>
+
+<h3 id="request">Request</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cache-Control: max-age=&lt;seconds&gt;
+Cache-Control: max-stale[=&lt;seconds&gt;]
+Cache-Control: min-fresh=&lt;seconds&gt;
+Cache-control: no-cache 
+Cache-control: no-store
+Cache-control: no-transform
+Cache-control: only-if-cached
+</code></pre></div></div>
+<p>요청시 Cache-Control을 많이 사용하는 것 중의 하나가 <code class="language-plaintext highlighter-rouge">no-cache</code> 일 수 있다. 
+HTML 또는 유사 문법을 통해 페이지를 작성시 아래와 같은 코드를 작성하는 경우가 종종 있다.</p>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;META</span> <span class="na">http-equiv=</span><span class="s">"Cache-Control"</span> <span class="na">content=</span><span class="s">"No-Cache"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+<p>위 문법은 브라우저가 서버로 페이지를 호출할 경우 Cache를 사용하지 않겠다는 것을 정의하고 호출을 한다는 의미이다.
+이는 위에 Request 문법에도 표시가 되어 있는데, no-cache, no-store 모두 동일한 결과를 보여주지만, 내부 동작 방식이 다르다.</p>
+
+<ul>
+  <li>no-cache는 캐시를 저장은 하지만, 캐시가 매번 유효한지 서버에 질의를 하는 것이다.</li>
+  <li>no-store는 캐시 자체를 저장하지 않는 것이다.</li>
+</ul>
+
+<h3 id="response">Response</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cache-control: must-revalidate
+Cache-control: no-cache
+Cache-control: no-store
+Cache-control: no-transform
+Cache-control: public
+Cache-control: private
+Cache-control: proxy-revalidate
+Cache-Control: max-age=&lt;seconds&gt;
+Cache-control: s-maxage=&lt;seconds&gt;
+</code></pre></div></div>
+
+        
+
+        
+        <span class="page-divider" style="margin-top: 50px;">
+          <span class="one"></span>
+          <span class="two"></span>
+        </span>
+        <table class="page__meta__additional">
+          
+          
+          <tr>
+            <th>참고자료</th>
+            <td>
+              <ul>
+                
+                
+                <li><a href="https://www.huskyhoochu.com/cache-control/" target="_blank">https://www.huskyhoochu.com/cache-control/</a></li>
+                
+                
+                
+                <li><a href="https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/Cache-Control" target="_blank">https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/Cache-Control</a></li>
+                
+                
+              </ul>
+            </td>
+          </tr>
+          
+        </table>
+        
+
+      </section>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/jdk/java-hashmap/" class="pagination--pager" title="Java HashMap 동작 원리
+">< PREVIOUS POST</a>
+    
+    
+      <a href="/blog/spring/SpringIoC/" class="pagination--pager" title="Spring Framework IoC, DI란
+">NEXT POST ></a>
+    
+  </nav>
+
+    </div>
+
+    
+      <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">댓글 남기기</h4>
+      <section id="utterances-comments"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+    
+      <div class="page__related no-author">
+    
+    <!--<div class="page__related">-->
+      <h4 class="page__related-title">참고</h4>
+      <div class="grid__wrapper">
+        
+          
+  
+    
+  
+
+
+
+
+<div class="grid__item">
+
+    
+    <article class="archive__item no-margin" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h3 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/spring/SpringIoC/" rel="permalink">Spring Framework IoC, DI란
+</a>
+      
+    </h3>
+    
+    <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> 2020/12/10
+    </p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Spring 을 사용하다보면 필연적으로 IoC와 DI란 용어를 접하게 된다. 
+그러나 IoC와 DI를 제대로 이해하고 사용하는가에 대해 물어본다면 사실 그렇지 않다라고 대부분의 개발자는 이야기할 것이다.
+본 포스트에서는 이러한 Spring 의 IoC와 DI의 개념과 동작방식을 설명...</p>
+    
+    
+    
+    <a href="/blog/tag/spring" class="page__meta__tag">#Spring</a>
+    
+    
+    
+    <a href="/blog/tag/ioc" class="page__meta__tag">#IoC</a>
+    
+    
+    
+    <a href="/blog/tag/di" class="page__meta__tag">#DI</a>
+    
+  </article>
+</div>
+
+        
+          
+  
+    
+  
+
+
+
+
+<div class="grid__item">
+
+    
+    <article class="archive__item no-margin" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h3 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/jdk/java-hashmap/" rel="permalink">Java HashMap 동작 원리
+</a>
+      
+    </h3>
+    
+    <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> 2020/11/10
+    </p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Java를 통해 개발을 할 경우 HashMap을 자주 사용하게 된다. 이에 HashMap의 동작 원리 및 Hash 충돌해결에 대해 정리할 에정이다.
+</p>
+    
+    
+    
+    <a href="/blog/tag/java" class="page__meta__tag">#Java</a>
+    
+  </article>
+</div>
+
+        
+          
+  
+    
+  
+
+
+
+
+<div class="grid__item">
+
+    
+    <article class="archive__item no-margin" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h3 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/server-side/java-enum-functional/" rel="permalink">enum 보다 잘 활용하기
+</a>
+      
+    </h3>
+    
+    <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> 2020/09/03
+    </p>
+    
+    <p class="archive__item-excerpt" itemprop="description">개발을 진행하다보면, 정해진 코드 값이나 패턴 등 정형화된 케이스에 대한 처리가 이루어지는 경우가 많다.
+이러한 경우 보통 enum을 활용하는데, 이번 포스트는 이번에 알게되었고, 사용한 enum의 활용법에 이야기 해보려 한다.
+</p>
+    
+    
+    
+    <a href="/blog/tag/java" class="page__meta__tag">#Java</a>
+    
+  </article>
+</div>
+
+        
+          
+  
+    
+    
+      
+      
+    
+      
+      
+        
+  
+
+
+
+
+<div class="grid__item">
+
+    
+    <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+      <div class="archive__item-teaser">
+        <img src="/blog/blog/../assets/post_img/1378050939966400.png" alt="">
+      </div>
+    
+    <h3 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/dev%20tools/intellij-springboot-docker/" rel="permalink">Spring Boot를 Docker 환경으로 개발/디버깅 하기
+</a>
+      
+    </h3>
+    
+    <p class="page__meta">
+        <i class="far fa-clock" aria-hidden="true"></i> 2020/08/19
+    </p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Spring Boot를 Docker 환경에서 개발 및 디버깅을 하기 위한 방법을 정리한다.
+</p>
+    
+    
+    
+    <a href="/blog/tag/springboot" class="page__meta__tag">#SpringBoot</a>
+    
+    
+    
+    <a href="/blog/tag/intellij" class="page__meta__tag">#IntelliJ</a>
+    
+    
+    
+    <a href="/blog/tag/devtools" class="page__meta__tag">#Devtools</a>
+    
+    
+    
+    <a href="/blog/tag/docker" class="page__meta__tag">#Docker</a>
+    
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="검색어를 입력하세요..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow" style="display: inline-block">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/ysjee141" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://instagram.com/ysjee141" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    <li><a href="/blog/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright" style="display: inline-block">&copy; 2021 HAPPL. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/blog/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/blog/assets/js/lunr/lunr.min.js"></script>
+<script src="/blog/assets/js/lunr/lunr-store.js"></script>
+<script src="/blog/assets/js/lunr/lunr-en.js"></script>
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-162766344-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-162766344-1');
+</script>
+
+
+    <style>
+    .utterances {
+        width: 100%;
+        max-width: none;
+    }
+</style>
+<script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'ysjee141/blog');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+<script src="/blog/assets/js/_extend.js"></script>
+<script src="/blog/assets/js/vendor/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad:true,
+    theme: "forest",
+    fontFamily: "D2Coding"
+  });
+  mermaid.init(undefined, '.language-mermaid');
+</script>
+
+  </body>
+</html>
