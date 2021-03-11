@@ -25,7 +25,7 @@
   job: 대리
   desc: 입시 정보 시스템 개발
 
-- name: Goodcen
+- name: (주)굿센
   url: http://www.goodcen.com
   dept: 기술연구소
   date:
@@ -34,7 +34,7 @@
   job: 과장
   desc: 아키텍트 / 메일 모듈 개발
 
-- name: Covision
+- name: 코비젼
   url: https://www.covision.co.kr/
   dept: 기술연구소 연구 4팀
   date:
@@ -43,10 +43,19 @@
   job: 차장 / 팀장
   desc: 아키텍트 / 메일 모듈 개발
 
-- name: TIDESQUARE
+- name: 타이드스퀘어
   url: http://www.tidesquare.com/
   dept: 항공플랫폼실
   date:
     from: 2020. 02
+    to: 2021. 02
   job: 차장
   desc: Back Office Product Manager
+
+- name: Interpark
+  url: https://www.interpark.com
+  dept: 프론트엔드개발실 투어티켓웹개발팀
+  date:
+    from: 2020. 03
+  job: 차장
+  desc: 인터파크 티켓 Front-End 개발
