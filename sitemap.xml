@@ -41,6 +41,10 @@
 <lastmod>2020-12-10T00:00:00+00:00</lastmod>
 </url>
 <url>
+<loc>https://ysjee141.github.io/blog/spring/AnnotationAttributeInjection/</loc>
+<lastmod>2021-07-07T00:00:00+00:00</lastmod>
+</url>
+<url>
 <loc>https://ysjee141.github.io/blog/about/</loc>
 </url>
 <url>
@@ -98,6 +102,12 @@
 <loc>https://ysjee141.github.io/blog/tag/di/</loc>
 </url>
 <url>
+<loc>https://ysjee141.github.io/blog/tag/annotation/</loc>
+</url>
+<url>
+<loc>https://ysjee141.github.io/blog/tag/invocation/</loc>
+</url>
+<url>
 <loc>https://ysjee141.github.io/blog/category/server-side/</loc>
 </url>
 <url>
@@ -129,6 +139,6 @@
 </url>
 <url>
 <loc>https://ysjee141.github.io/blog/googlee035532abcef4ce9.html</loc>
-<lastmod>2021-03-11T08:02:25+00:00</lastmod>
+<lastmod>2021-07-07T08:04:34+00:00</lastmod>
 </url>
 </urlset>
